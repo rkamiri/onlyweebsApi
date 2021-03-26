@@ -22,10 +22,10 @@ public class UserController {
 
     @GetMapping("/current")
     public Users getCurrentUser() throws NoUserFoundException {
-        return this.usersService.findOneByLogin(this.getCurrentUserLogin());
+        return this.usersService.findOneByLogin(getCurrentUserLogin());
     }
 
-    public String getCurrentUserLogin() {
+    public static String getCurrentUserLogin() {
         org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         String login = null;
