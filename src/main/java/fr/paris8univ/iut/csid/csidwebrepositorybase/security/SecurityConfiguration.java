@@ -70,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 HttpMethod.DELETE.name()
         ));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+	configuration.setAllowedOrigins(Collections.singletonList("http://onlyweebs.csid.agilitejoviale.fr"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
         return source;
