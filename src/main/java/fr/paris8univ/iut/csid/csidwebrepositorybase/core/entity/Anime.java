@@ -11,7 +11,7 @@ public class Anime {
     public Anime(AnimeEntity animeEntity) {
         this.id=animeEntity.getId();
         this.title = animeEntity.getTitle();
-        this.internationalTitle = animeEntity.getInternational_title();
+        this.internationalTitle = animeEntity.getInternationalTitle();
         this.synopsis = animeEntity.getSynopsis();
         this.cover = animeEntity.getCover();
         this.ranking = animeEntity.getRanking();

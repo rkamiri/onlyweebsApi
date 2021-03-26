@@ -24,4 +24,8 @@ public class AnimeService {
     public Anime getOneAnime(Long id) throws PasAnimeException {
         return this.animeRepository.findOneAnime(id).orElseThrow(PasAnimeException::new);
     }
+
+    public List<Anime> researchAnimes(String research) {
+        return this.animeRepository.researchAnimes(research);
+    }
 }
