@@ -28,4 +28,8 @@ public class RatingService {
     public double getAnimeGlobalRating(Long animeid) {
         return this.ratingRepository.getAnimeGlobalRating(animeid);
     }
+
+    public Long getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) throws NoUserFoundException, PasRatingException {
+        return this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).orElseThrow(PasRatingException::new).getRate();
+    }
 }
