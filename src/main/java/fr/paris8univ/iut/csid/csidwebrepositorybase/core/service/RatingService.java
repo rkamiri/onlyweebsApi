@@ -1,8 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Rating;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoRatingException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Rating;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.RatingRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class RatingService {
         return this.ratingRepository.getAnimeGlobalRating(animeid);
     }
 
-    public Long getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) throws NoUserFoundException, PasRatingException {
-        return this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).orElseThrow(PasRatingException::new).getRate();
+    public Long getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) throws NoUserFoundException, NoRatingException {
+        return this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).orElseThrow(NoRatingException::new).getRate();
     }
 }

@@ -1,9 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.RatingDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Rating;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Rating;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingId;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

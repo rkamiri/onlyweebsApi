@@ -1,4 +1,6 @@
-package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
+package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
+
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
 
 public class Rating {
 

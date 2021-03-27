@@ -1,12 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

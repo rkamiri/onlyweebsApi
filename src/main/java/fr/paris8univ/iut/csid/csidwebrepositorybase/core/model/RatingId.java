@@ -1,4 +1,4 @@
-package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
+package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
 import java.io.Serializable;
 import java.util.Objects;

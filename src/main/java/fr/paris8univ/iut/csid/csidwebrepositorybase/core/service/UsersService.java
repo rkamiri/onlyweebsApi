@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Users;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import org.springframework.stereotype.Service;
 

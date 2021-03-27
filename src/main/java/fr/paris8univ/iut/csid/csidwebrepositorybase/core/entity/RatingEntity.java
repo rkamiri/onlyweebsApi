@@ -1,5 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingId;
+
 import javax.persistence.*;
 import java.util.Objects;
 
