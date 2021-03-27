@@ -30,7 +30,11 @@ public class RatingService {
         return this.ratingRepository.getAnimeGlobalRating(animeid);
     }
 
-    public Long getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) throws NoUserFoundException, NoRatingException {
-        return this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).orElseThrow(NoRatingException::new).getRate();
+    public Long getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) throws NoUserFoundException {
+        if (this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).isPresent()) {
+            return this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).get().getRate();
+        } else {
+            return 666L;
+        }
     }
 }
