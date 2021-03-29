@@ -29,4 +29,9 @@ public class AnimeController {
     public Anime getOneAnime(@PathVariable(value = "id", required = true) Long idAnime) throws NoAnimeException {
         return this.animeService.getOneAnime(idAnime);
     }
+
+    @GetMapping("/research/{research}")
+    public List<Anime> researchAnimes(@PathVariable(value = "research", required = true) String research) {
+        return this.animeService.researchAnimes(research);
+    }
 }

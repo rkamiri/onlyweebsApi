@@ -28,4 +28,8 @@ public class AnimeRepository {
     public Optional<Anime> findOneAnime(Long id) {
         return this.animeDao.findById(id).map(Anime::new);
     }
+
+    public List<Anime> researchAnimes(String research) {
+        return this.animeDao.findByInternationalTitleStartingWithOrTitleStartingWith(research, research).stream().map(Anime::new).collect(Collectors.toList());
+    }
 }
