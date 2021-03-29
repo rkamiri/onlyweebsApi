@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>csid-web-repository-base</name>
     <description>CSID Web Repository base project</description>
+    <packaging>war</packaging>
 
     <properties>
         <java.version>11</java.version>
