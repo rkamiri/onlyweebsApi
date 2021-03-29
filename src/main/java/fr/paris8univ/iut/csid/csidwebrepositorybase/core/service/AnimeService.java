@@ -1,12 +1,12 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AnimeService {
@@ -21,7 +21,11 @@ public class AnimeService {
         return this.animeRepository.findAllAnime();
     }
 
-    public Anime getOneAnime(Long id) throws PasAnimeException {
-        return this.animeRepository.findOneAnime(id).orElseThrow(PasAnimeException::new);
+    public Anime getOneAnime(Long id) throws NoAnimeException {
+        return this.animeRepository.findOneAnime(id).orElseThrow(NoAnimeException::new);
+    }
+
+    public List<Anime> researchAnimes(String research) {
+        return this.animeRepository.researchAnimes(research);
     }
 }

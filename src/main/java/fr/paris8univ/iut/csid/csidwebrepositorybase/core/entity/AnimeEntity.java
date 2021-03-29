@@ -15,7 +15,7 @@ public class AnimeEntity {
     private String title;
 
     @Column(name = "international_title")
-    private String international_title;
+    private String internationalTitle;
 
     @Column(name = "synopsis")
     private String synopsis;
@@ -30,7 +30,7 @@ public class AnimeEntity {
 
     public AnimeEntity(String title, String international_title, String synopsis, String cover, int ranking) {
         this.title = title;
-        this.international_title = international_title;
+        this.internationalTitle = international_title;
         this.synopsis = synopsis;
         this.cover = cover;
         this.ranking = ranking;
@@ -52,12 +52,12 @@ public class AnimeEntity {
         this.title = title;
     }
 
-    public String getInternational_title() {
-        return international_title;
+    public String getInternationalTitle() {
+        return internationalTitle;
     }
 
-    public void setInternational_title(String international_title) {
-        this.international_title = international_title;
+    public void setInternationalTitle(String international_title) {
+        this.internationalTitle = international_title;
     }
 
     public String getSynopsis() {

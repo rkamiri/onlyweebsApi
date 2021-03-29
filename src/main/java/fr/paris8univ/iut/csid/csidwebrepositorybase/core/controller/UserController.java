@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Users;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,10 +22,10 @@ public class UserController {
 
     @GetMapping("/current")
     public Users getCurrentUser() throws NoUserFoundException {
-        return this.usersService.findOneByLogin(this.getCurrentUserLogin());
+        return this.usersService.findOneByLogin(getCurrentUserLogin());
     }
 
-    public String getCurrentUserLogin() {
+    public static String getCurrentUserLogin() {
         org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         String login = null;
