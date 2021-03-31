@@ -5,6 +5,8 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundEx
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UsersService {
 
@@ -14,7 +16,7 @@ public class UsersService {
         this.ur = ur;
     }
 
-    public Users findOneByLogin(String currentUserLogin) throws NoUserFoundException {
+    public Optional<Users> findOneByLogin(String currentUserLogin) throws NoUserFoundException {
         return this.ur.findByUsername(currentUserLogin);
     }
 

@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -21,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public Users getCurrentUser() throws NoUserFoundException {
+    public Optional<Users> getCurrentUser() throws NoUserFoundException {
         return this.usersService.findOneByLogin(getCurrentUserLogin());
     }
 

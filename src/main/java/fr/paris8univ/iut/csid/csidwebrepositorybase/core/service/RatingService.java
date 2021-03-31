@@ -8,6 +8,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.RatingReposi
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RatingService {
@@ -30,11 +31,11 @@ public class RatingService {
         return this.ratingRepository.getAnimeGlobalRating(animeid);
     }
 
-    public Long getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) throws NoUserFoundException {
-        if (this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).isPresent()) {
-            return this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).get().getRate();
-        } else {
+    public Long getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) {
+        if (this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).equals(Optional.empty())) {
             return 666L;
+        } else {
+            return this.ratingRepository.getCurrentUserRatingForASelectAnime(currentUserLogin, animeid).get().getRate();
         }
     }
 }

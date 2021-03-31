@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Repository
@@ -25,8 +26,8 @@ public class UsersRepository {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public Users findByUsername(String username) throws NoUserFoundException {
-        return new Users(this.usersDao.findByUsername(username).orElseThrow(NoUserFoundException::new));
+    public Optional<Users> findByUsername(String username) {
+        return this.usersDao.findByUsername(username).map(Users::new);
     }
 
     public Users updateCurrentUser(Users updatedUser) throws NoUserFoundException {
