@@ -47,7 +47,11 @@ public class RatingRepository {
         return ratingDao;
     }
 
-    public Optional<Rating> getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) throws NoUserFoundException {
-        return this.ratingDao.findById(new RatingId(ur.findByUsername(currentUserLogin).getId(), animeid)).map(Rating::new);
+    public Optional<Rating> getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) {
+        if (ur.findByUsername(currentUserLogin).isPresent()) {
+            return this.ratingDao.findById(new RatingId(ur.findByUsername(currentUserLogin).get().getId(), animeid)).map(Rating::new);
+        } else {
+            return Optional.empty();
+        }
     }
 }
