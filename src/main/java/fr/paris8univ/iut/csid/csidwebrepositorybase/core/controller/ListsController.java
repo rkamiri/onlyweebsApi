@@ -30,19 +30,19 @@ public class ListsController {
     }
 
     @GetMapping("/{id}")
-    public Lists getOneList(@PathVariable(value = "id", required = true) Long listId) throws NoListException {
+    public Lists getOneList(@PathVariable(value = "id") Long listId) throws NoListException {
         return this.listService.getOneById(listId);
     }
 
     @GetMapping("/{id}/content")
-    public List<Anime> getAnimesInList(@PathVariable(value = "id", required = true) Long listId) throws NoAnimeException {
+    public List<Anime> getAnimesInList(@PathVariable(value = "id") Long listId) throws NoAnimeException {
         return this.listService.findAnimeOfList(listId);
     }
 
     @PostMapping
     public ResponseEntity<Lists> createList(@RequestBody Lists list) throws URISyntaxException {
         listService.createList(list);
-        URI location = new URI("/create-list/" + list.getName());
+        URI location = new URI("/create-list/" + list.getName().replaceAll(" ", "_").toLowerCase());
         return ResponseEntity.created(location).build();
     }
 }

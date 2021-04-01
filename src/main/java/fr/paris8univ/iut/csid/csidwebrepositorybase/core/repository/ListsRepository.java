@@ -8,6 +8,8 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,7 @@ public class ListsRepository {
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
     private final AnimeRepository animeRepository;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository) {
@@ -39,7 +42,7 @@ public class ListsRepository {
     public List<Optional<Anime>> findAnimeOfList(Long listId) {
         List<Optional<Anime>> al = new ArrayList<>();
         List<IsListedInEntity> x = this.listedInDao.findAll();
-        for ( IsListedInEntity s : x) {
+        for (IsListedInEntity s : x) {
             if (s.getList_id().equals(listId)) {
                 al.add(this.animeRepository.findOneAnime(s.getAnime_id()));
             }
@@ -48,12 +51,7 @@ public class ListsRepository {
     }
 
     public void createList(Lists list) {
-        this.listsDao.save(
-                new ListsEntity(
-                        list.getName(),
-                        list.getDescription(),
-                        list.getCreationDate()
-                )
-        );
+        LocalDateTime now = LocalDateTime.now();
+        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription()));
     }
 }
