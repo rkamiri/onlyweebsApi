@@ -44,4 +44,14 @@ public class ListsRepository {
         }
         return al;
     }
+
+    public void createList(Lists list) {
+        this.listsDao.save(
+                new ListsEntity(
+                        list.getName(),
+                        list.getDescription(),
+                        list.getCreationDate()
+                )
+        );
+    }
 }

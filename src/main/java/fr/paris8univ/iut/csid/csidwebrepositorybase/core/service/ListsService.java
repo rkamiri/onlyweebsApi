@@ -2,6 +2,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Lists;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ListsRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,9 @@ public class ListsService {
             realAnimeList.add(fakeAnime.orElseThrow(PasAnimeException::new));
         }
         return realAnimeList;
+    }
+
+    public void createList(Lists list) {
+        this.listsRepository.createList(list);
     }
  }
