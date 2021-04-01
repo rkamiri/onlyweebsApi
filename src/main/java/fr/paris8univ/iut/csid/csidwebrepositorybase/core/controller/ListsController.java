@@ -1,8 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Anime;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Lists;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Users;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
