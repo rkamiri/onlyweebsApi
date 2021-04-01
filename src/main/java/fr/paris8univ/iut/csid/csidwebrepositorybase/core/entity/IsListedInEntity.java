@@ -19,6 +19,11 @@ public class IsListedInEntity {
 
     public IsListedInEntity() {}
 
+    public IsListedInEntity(Long listId, Long animeId) {
+        this.list_id = listId;
+        this.anime_id = animeId;
+    }
+
     public Long getId() {
         return id;
     }
