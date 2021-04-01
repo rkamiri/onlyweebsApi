@@ -8,6 +8,15 @@ public class Lists {
     private String creationDate;
     private String description;
 
+    public Lists() { }
+
+    public Lists(Long id, String name, String creationDate, String description) {
+        this.id = id;
+        this.name = name;
+        this.creationDate = creationDate;
+        this.description = description;
+    }
+
     public Lists(ListsEntity listsEntity) {
         this.id = listsEntity.getId();
         this.name = listsEntity.getName();

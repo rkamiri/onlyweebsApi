@@ -36,4 +36,8 @@ public class ListsService {
         }
         return realAnimeList;
     }
+
+    public void createList(Lists list) {
+        this.listsRepository.createList(list);
+    }
  }
