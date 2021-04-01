@@ -1,4 +1,6 @@
-package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
+package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
+
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 
 public class Anime {
     private Long id;
@@ -11,7 +13,7 @@ public class Anime {
     public Anime(AnimeEntity animeEntity) {
         this.id=animeEntity.getId();
         this.title = animeEntity.getTitle();
-        this.internationalTitle = animeEntity.getInternational_title();
+        this.internationalTitle = animeEntity.getInternationalTitle();
         this.synopsis = animeEntity.getSynopsis();
         this.cover = animeEntity.getCover();
         this.ranking = animeEntity.getRanking();

@@ -3,7 +3,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AuthDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AuthEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Users;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

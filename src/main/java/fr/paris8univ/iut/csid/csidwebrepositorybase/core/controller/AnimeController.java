@@ -1,10 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.PasAnimeException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
@@ -27,7 +26,12 @@ public class AnimeController {
     }
 
     @GetMapping("/{id}")
-    public Anime getOneAnime(@PathVariable(value = "id", required = true) Long idAnime) throws PasAnimeException {
+    public Anime getOneAnime(@PathVariable(value = "id", required = true) Long idAnime) throws NoAnimeException {
         return this.animeService.getOneAnime(idAnime);
+    }
+
+    @GetMapping("/research/{research}")
+    public List<Anime> researchAnimes(@PathVariable(value = "research", required = true) String research) {
+        return this.animeService.researchAnimes(research);
     }
 }
