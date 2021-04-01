@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
 
-   List<AnimeEntity> findByInternationalTitleStartingWithOrTitleStartingWith(String researchInternationalTitle, String researchTitle);
+   List<AnimeEntity> findByInternationalTitleContainingOrTitleContaining(String researchInternationalTitle, String researchTitle);
 }

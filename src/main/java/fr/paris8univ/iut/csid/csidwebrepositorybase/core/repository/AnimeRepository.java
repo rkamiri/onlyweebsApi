@@ -30,6 +30,6 @@ public class AnimeRepository {
     }
 
     public List<Anime> researchAnimes(String research) {
-        return this.animeDao.findByInternationalTitleStartingWithOrTitleStartingWith(research, research).stream().map(Anime::new).collect(Collectors.toList());
+        return this.animeDao.findByInternationalTitleContainingOrTitleContaining(research, research).stream().map(Anime::new).collect(Collectors.toList());
     }
 }
