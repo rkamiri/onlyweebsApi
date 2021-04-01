@@ -40,4 +40,12 @@ public class ListsService {
     public void createList(Lists list) {
         this.listsRepository.createList(list);
     }
- }
+
+    public void putAnimeInList(Long animeId, Long listId) {
+        this.listsRepository.putAnimeInList(animeId, listId);
+    }
+
+    public Lists getNewestList() {
+        return this.listsRepository.getNewestList();
+    }
+}

@@ -1,6 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedIn;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
@@ -25,7 +26,7 @@ public class ListsController {
     }
 
     @GetMapping
-    public List<Lists>getLists() {
+    public List<Lists> getLists() {
         return this.listService.getLists();
     }
 
@@ -44,5 +45,17 @@ public class ListsController {
         listService.createList(list);
         URI location = new URI("/create-list/" + list.getName().replaceAll(" ", "_").toLowerCase());
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Lists> putAnimeInList(@RequestBody IsListedIn ili) throws URISyntaxException {
+        listService.putAnimeInList(ili.getAnime_id(), ili.getList_id());
+        URI location = new URI("/put-in-list/" + ili.getAnime_id() + "_" + ili.getList_id());
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/getlastlist")
+    public Lists getNewestList() {
+        return this.listService.getNewestList();
     }
 }

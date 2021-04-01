@@ -4,8 +4,10 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.IsListedInDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedIn;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -53,5 +55,30 @@ public class ListsRepository {
     public void createList(Lists list) {
         LocalDateTime now = LocalDateTime.now();
         this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription()));
+    }
+
+    public void putAnimeInList(Long animeId, Long listId) {
+        if (this.animeRepository.findOneAnime(animeId).isPresent() && this.findListById(listId).isPresent()) {
+            boolean isInList = false;
+            for(IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
+                if (isListedInEntity.getList_id().equals(listId) && isListedInEntity.getAnime_id().equals(animeId)) {
+                    isInList = true;
+                    break;
+                }
+            }
+            if (!isInList) {
+                this.listedInDao.save(new IsListedInEntity(listId, animeId));
+            }
+        }
+    }
+
+    public Lists getNewestList() {
+        Long i = -2L;
+        for (ListsEntity le : this.listsDao.findAll()) {
+            if(le.getId()>i) {
+                i = le.getId();
+            }
+        }
+        return this.findListById(i).get();
     }
 }
