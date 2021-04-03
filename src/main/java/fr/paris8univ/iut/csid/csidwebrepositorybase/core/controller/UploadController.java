@@ -1,6 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import org.springframework.http.ResponseEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UploadService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -15,7 +16,21 @@ import java.util.Iterator;
 @RequestMapping(value = "/upload")
 public class UploadController {
 
+    public final UploadService uploadService;
+
+    @Autowired
+    public UploadController(UploadService uploadService) {
+        this.uploadService = uploadService;
+    }
+
     @PostMapping("/image")
+    public void UploadFile(MultipartHttpServletRequest request) throws IOException {
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile file = request.getFile(itr.next());
+        this.uploadService.saveImage(file);
+    }
+
+    /*@PostMapping("/image")
     public void UploadFile(MultipartHttpServletRequest request) throws IOException {
         Iterator<String> itr = request.getFileNames();
         MultipartFile file = request.getFile(itr.next());
@@ -26,6 +41,7 @@ public class UploadController {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
             stream.write(file.getBytes());
             stream.close();
+            this.uploadService.saveImage(serverFile);
         }
-    }
+    }*/
 }
