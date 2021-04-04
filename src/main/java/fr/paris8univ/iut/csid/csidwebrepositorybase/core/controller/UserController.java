@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
@@ -16,10 +17,14 @@ import java.util.Optional;
 public class UserController {
 
     private final UsersService usersService;
+    private final UploadController uploadController;
+    private final HasImageController hasImageController;
 
     @Autowired
-    public UserController(UsersService usersService) {
+    public UserController(UsersService usersService, UploadController uploadController, HasImageController hasImageController) {
         this.usersService = usersService;
+        this.uploadController = uploadController;
+        this.hasImageController = hasImageController;
     }
 
     @GetMapping("/current")
@@ -44,5 +49,10 @@ public class UserController {
     public Users updateCurrentUser(@RequestBody Users updatedUser) throws NoUserFoundException {
         System.out.println("here");
         return this.usersService.updateCurrentUser(updatedUser);
+    }
+
+    @GetMapping("/profilepicture/{id}")
+    public Image getUserProfilePicture(@PathVariable Long id) {
+        return uploadController.downloadImage(hasImageController.getImageId(id));
     }
 }
