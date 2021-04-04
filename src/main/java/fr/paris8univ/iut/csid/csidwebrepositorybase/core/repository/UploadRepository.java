@@ -2,12 +2,14 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ImageDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ImageEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Optional;
 
 @Repository
 public class UploadRepository {
@@ -38,5 +40,9 @@ public class UploadRepository {
             }
         }
         return bytes;
+    }
+
+    public ImageEntity findById(Long imageId) {
+        return this.imageDao.findById(imageId).orElseGet(ImageEntity::new);
     }
 }
