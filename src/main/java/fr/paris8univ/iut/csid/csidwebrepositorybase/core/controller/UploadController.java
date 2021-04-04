@@ -1,14 +1,15 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -28,6 +29,14 @@ public class UploadController {
         Iterator<String> itr = request.getFileNames();
         MultipartFile file = request.getFile(itr.next());
         this.uploadService.saveImage(file);
+    }
+
+    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE, path = "/image/{id}")
+    //public Resource downloadImage(@PathVariable(value = "id") Long imageId) {
+    public Image downloadImage(@PathVariable(value = "id") Long imageId) {
+        return uploadService.findById(imageId);
+        //byte[] image = uploadService.findById(imageId).getContent();
+        //return new ByteArrayResource(image);
     }
 
     /*@PostMapping("/image")
