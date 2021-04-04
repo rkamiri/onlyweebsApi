@@ -23,6 +23,12 @@ public class ImageEntity {
         this.name = name;
     }
 
+    public ImageEntity(Long id, byte[] content, String name) {
+        this.id = id;
+        this.content = content;
+        this.name = name;
+    }
+
     public ImageEntity() {}
 
     public Long getId() {

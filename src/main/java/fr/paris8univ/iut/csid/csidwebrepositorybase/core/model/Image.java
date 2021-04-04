@@ -8,6 +8,8 @@ public class Image {
     private byte[] content;
     private String name;
 
+    public Image() {}
+
     public Image(ImageEntity ie) {
         this.id = ie.getId();
         this.content = ie.getContent();
