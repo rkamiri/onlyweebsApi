@@ -41,13 +41,11 @@ public class UserController {
                 login = ((UserDetails) authentication.getPrincipal()).getUsername();
             else if (authentication.getPrincipal() instanceof String)
                 login = (String) authentication.getPrincipal();
-        System.out.println(login);
         return login;
     }
 
     @PutMapping("/update")
     public Users updateCurrentUser(@RequestBody Users updatedUser) throws NoUserFoundException {
-        System.out.println("here");
         return this.usersService.updateCurrentUser(updatedUser);
     }
 

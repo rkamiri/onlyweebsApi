@@ -28,7 +28,6 @@ public class RatingController {
 
     @PutMapping
     public Long putARating(@RequestBody Rating rating) {
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         this.ratingService.putARating(rating);
         return rating.getRate();
     }
