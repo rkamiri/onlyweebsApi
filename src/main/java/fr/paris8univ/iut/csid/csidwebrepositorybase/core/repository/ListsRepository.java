@@ -72,6 +72,14 @@ public class ListsRepository {
         }
     }
 
+    public void deleteAnimeInList(Long anime_id, Long list_id) {
+        if (this.animeRepository.findOneAnime(anime_id).isPresent() && this.findListById(list_id).isPresent()) {
+            List<IsListedInEntity> ilel = this.listedInDao.findAll();
+            ilel.removeIf(e -> !e.getAnime_id().equals(anime_id) || !e.getList_id().equals(list_id));
+            this.listedInDao.delete(ilel.get(0));
+        }
+    }
+
     public Lists getNewestList() {
         Long i = -2L;
         for (ListsEntity le : this.listsDao.findAll()) {
@@ -79,6 +87,6 @@ public class ListsRepository {
                 i = le.getId();
             }
         }
-        return this.findListById(i).get();
+        return this.findListById(i).orElseGet(Lists::new);
     }
 }

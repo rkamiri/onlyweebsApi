@@ -45,6 +45,10 @@ public class ListsService {
         this.listsRepository.putAnimeInList(animeId, listId);
     }
 
+    public void deleteAnimeInList(Long anime_id, Long list_id) {
+        this.listsRepository.deleteAnimeInList(anime_id, list_id);
+    }
+
     public Lists getNewestList() {
         return this.listsRepository.getNewestList();
     }
