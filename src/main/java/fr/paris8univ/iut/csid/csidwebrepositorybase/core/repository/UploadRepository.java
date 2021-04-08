@@ -25,16 +25,24 @@ public class UploadRepository {
     }
 
     public void saveImage(MultipartFile serverFile, Long userid) throws IOException {
-        ImageEntity ie = new ImageEntity();
-        List<ImageEntity> entityList = this.imageDao.findAll();
-        ie.setContent(scale(serverFile.getBytes(), 150, 150));
-        ie.setName(serverFile.getOriginalFilename());
-        this.imageDao.save(ie);
-        Long imageId = entityList.get(entityList.size()-1).getId()+1;
-        while (this.imageDao.findById(imageId).isEmpty()) { imageId++; }
-        HasImageEntity hie = this.hasImageDao.findById(userid).orElseGet(HasImageEntity::new);
-        hie.setImageid(imageId);
-        this.hasImageDao.save(hie);
+        Long imageId = this.hasImageDao.getOne(userid).getImageid();
+        if (imageId!=1 && imageId!=2 && imageId!=3) {
+            ImageEntity ie = this.imageDao.getOne(imageId);
+            ie.setContent(scale(serverFile.getBytes(), 150, 150));
+            ie.setName(serverFile.getOriginalFilename());
+            this.imageDao.save(ie);
+        } else {
+            ImageEntity ie = new ImageEntity();
+            List<ImageEntity> entityList = this.imageDao.findAll();
+            ie.setContent(scale(serverFile.getBytes(), 150, 150));
+            ie.setName(serverFile.getOriginalFilename());
+            this.imageDao.save(ie);
+            Long newImageId = entityList.get(entityList.size()-1).getId()+1;
+            while (this.imageDao.findById(newImageId).isEmpty()) { newImageId++; }
+            HasImageEntity hie = this.hasImageDao.findById(userid).orElseGet(HasImageEntity::new);
+            hie.setImageid(newImageId);
+            this.hasImageDao.save(hie);
+        }
     }
 
     public ImageEntity findById(Long imageId) {
