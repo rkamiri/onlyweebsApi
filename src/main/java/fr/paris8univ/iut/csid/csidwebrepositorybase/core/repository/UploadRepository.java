@@ -31,11 +31,10 @@ public class UploadRepository {
         ie.setName(serverFile.getOriginalFilename());
         this.imageDao.save(ie);
         Long imageId = entityList.get(entityList.size()-1).getId()+1;
-        if (this.hasImageDao.findById(userid).isPresent()) {
-            HasImageEntity hie = this.hasImageDao.findById(userid).get();
-            hie.setImageid(imageId);
-            this.hasImageDao.save(hie);
-        }
+        while (this.imageDao.findById(imageId).isEmpty()) { imageId++; }
+        HasImageEntity hie = this.hasImageDao.findById(userid).orElseGet(HasImageEntity::new);
+        hie.setImageid(imageId);
+        this.hasImageDao.save(hie);
     }
 
     public ImageEntity findById(Long imageId) {
@@ -53,7 +52,7 @@ public class UploadRepository {
             ImageIO.write(imageBuff, "jpg", buffer);
             return buffer.toByteArray();
         } catch (IOException e) {
-            return new byte[10];
+            return new byte[0];
         }
     }
 }
