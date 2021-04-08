@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public class UploadRepository {
@@ -26,14 +26,11 @@ public class UploadRepository {
 
     public void saveImage(MultipartFile serverFile, Long userid) throws IOException {
         ImageEntity ie = new ImageEntity();
+        List<ImageEntity> entityList = this.imageDao.findAll();
         ie.setContent(scale(serverFile.getBytes(), 150, 150));
         ie.setName(serverFile.getOriginalFilename());
         this.imageDao.save(ie);
-        Long imageId = 0L;
-        for (ImageEntity e:this.imageDao.findAll()) {
-            if (e.getId()>imageId)
-                imageId = e.getId();
-        }
+        Long imageId = entityList.get(entityList.size()-1).getId()+1;
         if (this.hasImageDao.findById(userid).isPresent()) {
             HasImageEntity hie = this.hasImageDao.findById(userid).get();
             hie.setImageid(imageId);
@@ -55,7 +52,8 @@ public class UploadRepository {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             ImageIO.write(imageBuff, "jpg", buffer);
             return buffer.toByteArray();
-        } catch (IOException e) {}
-        return new byte[10];
+        } catch (IOException e) {
+            return new byte[10];
+        }
     }
 }
