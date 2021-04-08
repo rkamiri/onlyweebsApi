@@ -54,6 +54,11 @@ public class ListsController {
         return ResponseEntity.created(location).build();
     }
 
+    @DeleteMapping("/{listId}/{animeId}")
+    public void deleteAnimeFromList(@PathVariable long animeId, @PathVariable long listId) {
+        listService.deleteAnimeInList(animeId,listId);
+    }
+
     @GetMapping("/getlastlist")
     public Lists getNewestList() {
         return this.listService.getNewestList();
