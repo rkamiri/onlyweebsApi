@@ -26,7 +26,7 @@ public class AnimeCommentRepository {
         this.animeCommentDao.save(new AnimeCommentEntity(comment.getUserId(), comment.getAnimeId(), comment.getComment()));
     }
 
-    public List<AnimeCommentEntity> getAllCommentsByAnimeId(Long animeid) {
+    public List<AnimeCommentEntity> getAllCommentsByAnimeId(long animeid) {
         List<AnimeCommentEntity> comments = this.animeCommentDao.findAll();
         comments.removeIf(entity -> !entity.getAnime_id().equals(animeid));
         return comments;
