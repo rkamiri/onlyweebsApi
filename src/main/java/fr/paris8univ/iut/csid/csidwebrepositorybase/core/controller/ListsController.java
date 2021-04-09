@@ -30,6 +30,11 @@ public class ListsController {
         return this.listService.getLists();
     }
 
+    @GetMapping("/user/{id}")
+    public List<Lists> getMyLists(@PathVariable long id) {
+        return this.listService.getMyLists(id);
+    }
+
     @GetMapping("/{id}")
     public Lists getOneList(@PathVariable(value = "id") Long listId) throws NoListException {
         return this.listService.getOneById(listId);

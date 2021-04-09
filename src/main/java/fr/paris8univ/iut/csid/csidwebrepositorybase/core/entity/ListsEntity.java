@@ -20,12 +20,16 @@ public class ListsEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "is_owned_by")
+    private Long is_owned_by;
+
     public ListsEntity() {}
 
-    public ListsEntity(String name, String date, String description) {
+    public ListsEntity(String name, String date, String description, Long is_owned_by) {
         this.name = name;
         this.date = date;
         this.description = description;
+        this.is_owned_by = is_owned_by;
     }
 
     public Long getId() {
@@ -54,5 +58,13 @@ public class ListsEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getIs_owned_by() {
+        return is_owned_by;
+    }
+
+    public void setIs_owned_by(Long is_owned_by) {
+        this.is_owned_by = is_owned_by;
     }
 }

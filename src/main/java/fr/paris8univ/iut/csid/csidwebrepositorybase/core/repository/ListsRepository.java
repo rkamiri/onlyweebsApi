@@ -54,13 +54,13 @@ public class ListsRepository {
 
     public void createList(Lists list) {
         LocalDateTime now = LocalDateTime.now();
-        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription()));
+        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription(), list.getIsOwnedBy()));
     }
 
     public void putAnimeInList(Long animeId, Long listId) {
         if (this.animeRepository.findOneAnime(animeId).isPresent() && this.findListById(listId).isPresent()) {
             boolean isInList = false;
-            for(IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
+            for (IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
                 if (isListedInEntity.getList_id().equals(listId) && isListedInEntity.getAnime_id().equals(animeId)) {
                     isInList = true;
                     break;
@@ -83,10 +83,16 @@ public class ListsRepository {
     public Lists getNewestList() {
         Long i = -2L;
         for (ListsEntity le : this.listsDao.findAll()) {
-            if(le.getId()>i) {
+            if (le.getId() > i) {
                 i = le.getId();
             }
         }
         return this.findListById(i).orElseGet(Lists::new);
+    }
+
+    public List<Lists> getMyLists(long id) {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 }
