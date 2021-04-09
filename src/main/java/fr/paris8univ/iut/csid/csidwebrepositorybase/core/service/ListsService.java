@@ -24,6 +24,10 @@ public class ListsService {
         return this.listsRepository.getLists();
     }
 
+    public List<Lists> getMyLists(long id) {
+        return this.listsRepository.getMyLists(id);
+    }
+
     public Lists getOneById(Long id) throws NoListException {
         return this.listsRepository.findListById(id).orElseThrow(NoListException::new);
     }

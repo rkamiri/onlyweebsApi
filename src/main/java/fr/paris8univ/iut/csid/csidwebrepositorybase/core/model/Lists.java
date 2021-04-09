@@ -7,21 +7,16 @@ public class Lists {
     private String name;
     private String creationDate;
     private String description;
+    private Long isOwnedBy;
 
     public Lists() { }
-
-    public Lists(Long id, String name, String creationDate, String description) {
-        this.id = id;
-        this.name = name;
-        this.creationDate = creationDate;
-        this.description = description;
-    }
 
     public Lists(ListsEntity listsEntity) {
         this.id = listsEntity.getId();
         this.name = listsEntity.getName();
         this.creationDate = listsEntity.getDate();
         this.description = listsEntity.getDescription();
+        this.isOwnedBy = listsEntity.getIs_owned_by();
     }
 
     public Long getId() {
@@ -54,5 +49,13 @@ public class Lists {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getIsOwnedBy() {
+        return isOwnedBy;
+    }
+
+    public void setIsOwnedBy(Long isOwnedBy) {
+        this.isOwnedBy = isOwnedBy;
     }
 }
