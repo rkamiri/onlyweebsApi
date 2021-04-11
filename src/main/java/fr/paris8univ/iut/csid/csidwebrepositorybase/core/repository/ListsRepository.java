@@ -95,8 +95,20 @@ public class ListsRepository {
         return this.findListById(i).orElseGet(Lists::new);
     }
 
-    public List<Lists> getMyLists(long id) {
+    public List<Lists> getMyCustomLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getName().equals("Watched") ||
+                e.getName().equals("Currently watching") ||
+                e.getName().equals("Plan to watch"));
+        ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+    }
+
+    public List<Lists> getMyDefaultLists(long id) {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> !(e.getName().equals("Watched") ||
+                e.getName().equals("Currently watching") ||
+                e.getName().equals("Plan to watch")));
         ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }

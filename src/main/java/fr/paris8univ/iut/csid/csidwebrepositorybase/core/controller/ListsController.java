@@ -30,9 +30,14 @@ public class ListsController {
         return this.listService.getLists();
     }
 
-    @GetMapping("/user/{id}")
-    public List<Lists> getMyLists(@PathVariable long id) {
-        return this.listService.getMyLists(id);
+    @GetMapping("/user/default/{id}")
+    public List<Lists> getMyDefaultLists(@PathVariable long id) {
+        return this.listService.getMyDefaultLists(id);
+    }
+
+    @GetMapping("/user/custom/{id}")
+    public List<Lists> getMyCustomLists(@PathVariable long id) {
+        return this.listService.getMyCustomLists(id);
     }
 
     @GetMapping("/{id}")
