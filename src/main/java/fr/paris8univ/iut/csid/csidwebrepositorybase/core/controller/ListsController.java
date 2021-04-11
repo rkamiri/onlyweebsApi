@@ -68,4 +68,9 @@ public class ListsController {
     public Lists getNewestList() {
         return this.listService.getNewestList();
     }
+
+    @GetMapping("/{user_id}/{list_name}")
+    public Lists findListByNameAndUserId(@PathVariable String list_name, @PathVariable long user_id) {
+        return this.listService.findListByNameAndUserId(list_name, user_id);
+    }
 }

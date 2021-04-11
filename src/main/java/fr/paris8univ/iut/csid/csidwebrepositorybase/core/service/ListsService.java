@@ -56,4 +56,8 @@ public class ListsService {
     public Lists getNewestList() {
         return this.listsRepository.getNewestList();
     }
+
+    public Lists findListByNameAndUserId(String name, long userid) {
+        return this.listsRepository.findListByNameAndUserId(name, userid);
+    }
 }
