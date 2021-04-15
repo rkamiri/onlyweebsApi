@@ -51,9 +51,9 @@ public class RegisterRepository {
                 )
         );
         long userid = usersDao.findByUsername(user.getUsername()).orElseGet(UsersEntity::new).getId();
-        this.listsDao.save(new ListsEntity("Watched", dtf.format(now), "All the animes you watched", userid));
-        this.listsDao.save(new ListsEntity("Currently watching", dtf.format(now), "All the animes your are currently watching", userid));
-        this.listsDao.save(new ListsEntity("Plan to watch", dtf.format(now), "All the animes your are planning to watch", userid));
+        this.listsDao.save(new ListsEntity("Watched", dtf.format(now), "All the animes you watched", userid, 1));
+        this.listsDao.save(new ListsEntity("Currently watching", dtf.format(now), "All the animes your are currently watching", userid, 1));
+        this.listsDao.save(new ListsEntity("Plan to watch", dtf.format(now), "All the animes your are planning to watch", userid, 1));
         switch (user.getGender()) {
             case "M": defaultImageId = 1L;
                 break;

@@ -78,4 +78,9 @@ public class ListsController {
     public Lists findListByNameAndUserId(@PathVariable String list_name, @PathVariable long user_id) {
         return this.listService.findListByNameAndUserId(list_name, user_id);
     }
+
+    @GetMapping("/custom")
+    public List<Lists> getCustomLists() {
+        return this.listService.getCustomLists();
+    }
 }

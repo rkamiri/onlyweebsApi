@@ -64,4 +64,8 @@ public class ListsService {
     public Lists findListByNameAndUserId(String name, long userid) {
         return this.listsRepository.findListByNameAndUserId(name, userid);
     }
+
+    public List<Lists> getCustomLists() {
+        return this.listsRepository.getCustomLists();
+    }
 }

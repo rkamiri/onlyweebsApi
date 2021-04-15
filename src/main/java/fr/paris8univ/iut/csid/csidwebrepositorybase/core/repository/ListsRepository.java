@@ -59,7 +59,7 @@ public class ListsRepository {
 
     public void createList(Lists list) {
         LocalDateTime now = LocalDateTime.now();
-        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription(), list.getIsOwnedBy()));
+        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription(), list.getIsOwnedBy(), 0));
     }
 
     public void putAnimeInList(Long animeId, Long listId) {
@@ -97,19 +97,21 @@ public class ListsRepository {
 
     public List<Lists> getMyCustomLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
-        ilel.removeIf(e -> e.getName().equals("Watched") ||
-                e.getName().equals("Currently watching") ||
-                e.getName().equals("Plan to watch"));
+        ilel.removeIf(e -> e.getIs_default() == 1);
         ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 
     public List<Lists> getMyDefaultLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
-        ilel.removeIf(e -> !(e.getName().equals("Watched") ||
-                e.getName().equals("Currently watching") ||
-                e.getName().equals("Plan to watch")));
+        ilel.removeIf(e -> e.getIs_default()== 0);
         ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+    }
+
+    public List<Lists> getCustomLists() {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default() == 1);
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 }
