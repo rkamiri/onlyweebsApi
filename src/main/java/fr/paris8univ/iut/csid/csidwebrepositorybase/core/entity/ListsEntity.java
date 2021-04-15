@@ -23,13 +23,25 @@ public class ListsEntity {
     @Column(name = "is_owned_by")
     private Long is_owned_by;
 
+    @Column(name = "is_default")
+    private int is_default;
+
     public ListsEntity() {}
 
-    public ListsEntity(String name, String date, String description, Long is_owned_by) {
+    public ListsEntity(String name, String date, String description, Long is_owned_by, int is_default) {
         this.name = name;
         this.date = date;
         this.description = description;
         this.is_owned_by = is_owned_by;
+        this.is_default = is_default;
+    }
+
+    public int getIs_default() {
+        return is_default;
+    }
+
+    public void setIs_default(int is_default) {
+        this.is_default = is_default;
     }
 
     public Long getId() {
