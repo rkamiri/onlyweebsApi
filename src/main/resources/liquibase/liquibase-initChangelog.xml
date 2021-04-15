@@ -1,24 +1,40 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-    <changeSet author="loick (generated)" id="1617978525174-1">
+    <changeSet author="naelm (generated)" id="1618488980686-1">
         <createTable tableName="anime">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="title" type="VARCHAR(512)">
+            <column name="title" type="VARCHAR(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="international_title" type="VARCHAR(512)"/>
             <column name="synopsis" type="TEXT">
                 <constraints nullable="false"/>
             </column>
-            <column name="cover" type="VARCHAR(512)"/>
+            <column name="cover" type="VARCHAR(64)"/>
             <column name="ranking" type="INT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-2">
+    <changeSet author="naelm (generated)" id="1618488980686-2">
+        <createTable tableName="anime_comment">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="anime_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-3">
         <createTable tableName="authorities">
             <column name="username" type="VARCHAR(50)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -28,7 +44,30 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-3">
+    <changeSet author="naelm (generated)" id="1618488980686-4">
+        <createTable tableName="has_image">
+            <column name="userid" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="imageid" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-5">
+        <createTable tableName="imagesuploaded">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="content" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-6">
         <createTable tableName="islistedin">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -41,7 +80,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-4">
+    <changeSet author="naelm (generated)" id="1618488980686-7">
         <createTable tableName="list">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -51,9 +90,12 @@
             </column>
             <column name="date" type="date"/>
             <column name="description" type="VARCHAR(2056)"/>
+            <column name="is_owned_by" type="INT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-5">
+    <changeSet author="naelm (generated)" id="1618488980686-8">
         <createTable tableName="rating">
             <column name="user_id" type="INT">
                 <constraints nullable="false"/>
@@ -61,10 +103,10 @@
             <column name="anime_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="rate" type="INT"/>
+            <column name="rate" type="DOUBLE"/>
         </createTable>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-6">
+    <changeSet author="naelm (generated)" id="1618488980686-9">
         <createTable tableName="users">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -89,37 +131,56 @@
             <column name="bio" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-7">
+    <changeSet author="naelm (generated)" id="1618488980686-10">
         <addPrimaryKey columnNames="anime_id, user_id" constraintName="PRIMARY" tableName="rating"/>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-8">
+    <changeSet author="naelm (generated)" id="1618488980686-11">
+        <createIndex indexName="has_image_imagesuploaded_id_fk" tableName="has_image">
+            <column name="imageid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-12">
         <createIndex indexName="isListedIn_Anime_FK" tableName="islistedin">
             <column name="anime_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-9">
+    <changeSet author="naelm (generated)" id="1618488980686-13">
         <createIndex indexName="isListedIn_List0_FK" tableName="islistedin">
             <column name="list_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-10">
+    <changeSet author="naelm (generated)" id="1618488980686-14">
+        <createIndex indexName="list_users_id_fk" tableName="list">
+            <column name="is_owned_by"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-15">
         <createIndex indexName="rating_users_id_fk" tableName="rating">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-11">
+    <changeSet author="naelm (generated)" id="1618488980686-16">
         <addForeignKeyConstraint baseColumnNames="username" baseTableName="authorities" constraintName="authorities_users_username_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="username" referencedTableName="users" validate="true"/>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-12">
+    <changeSet author="naelm (generated)" id="1618488980686-17">
+        <addForeignKeyConstraint baseColumnNames="imageid" baseTableName="has_image" constraintName="has_image_imagesuploaded_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="imagesuploaded" validate="true"/>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-18">
+        <addForeignKeyConstraint baseColumnNames="userid" baseTableName="has_image" constraintName="has_image_users_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-19">
         <addForeignKeyConstraint baseColumnNames="anime_id" baseTableName="islistedin" constraintName="isListedIn_Anime_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="anime" validate="true"/>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-13">
+    <changeSet author="naelm (generated)" id="1618488980686-20">
         <addForeignKeyConstraint baseColumnNames="list_id" baseTableName="islistedin" constraintName="isListedIn_List0_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="list" validate="true"/>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-14">
+    <changeSet author="naelm (generated)" id="1618488980686-21">
+        <addForeignKeyConstraint baseColumnNames="is_owned_by" baseTableName="list" constraintName="list_users_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="naelm (generated)" id="1618488980686-22">
         <addForeignKeyConstraint baseColumnNames="anime_id" baseTableName="rating" constraintName="rating_anime_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="anime" validate="true"/>
     </changeSet>
-    <changeSet author="loick (generated)" id="1617978525174-15">
+    <changeSet author="naelm (generated)" id="1618488980686-23">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="rating" constraintName="rating_users_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
     </changeSet>
 </databaseChangeLog>
