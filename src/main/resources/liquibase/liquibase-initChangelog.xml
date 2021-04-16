@@ -181,7 +181,4 @@
             <column name="bio" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-21">
-        <addForeignKeyConstraint baseColumnNames="is_owned_by" baseTableName="list" constraintName="list_users_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
-    </changeSet>
 </databaseChangeLog>
