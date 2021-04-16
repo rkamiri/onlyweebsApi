@@ -30,9 +30,14 @@ public class ListsController {
         return this.listService.getLists();
     }
 
-    @GetMapping("/user/{id}")
-    public List<Lists> getMyLists(@PathVariable long id) {
-        return this.listService.getMyLists(id);
+    @GetMapping("/user/default/{id}")
+    public List<Lists> getMyDefaultLists(@PathVariable long id) {
+        return this.listService.getMyDefaultLists(id);
+    }
+
+    @GetMapping("/user/custom/{id}")
+    public List<Lists> getMyCustomLists(@PathVariable long id) {
+        return this.listService.getMyCustomLists(id);
     }
 
     @GetMapping("/{id}")
@@ -67,5 +72,15 @@ public class ListsController {
     @GetMapping("/getlastlist")
     public Lists getNewestList() {
         return this.listService.getNewestList();
+    }
+
+    @GetMapping("/{user_id}/{list_name}")
+    public Lists findListByNameAndUserId(@PathVariable String list_name, @PathVariable long user_id) {
+        return this.listService.findListByNameAndUserId(list_name, user_id);
+    }
+
+    @GetMapping("/custom")
+    public List<Lists> getCustomLists() {
+        return this.listService.getCustomLists();
     }
 }
