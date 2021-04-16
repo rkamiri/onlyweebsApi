@@ -84,7 +84,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 HttpMethod.POST.name(),
                 HttpMethod.DELETE.name()
         ));
-        configuration.setAllowCredentials(true);
         String[] origins = {"http://localhost:4200", "https://onlyweebs.csid.agilitejoviale.fr"};
         configuration.setAllowedOrigins(new ArrayList<>(Arrays.asList(origins)));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
