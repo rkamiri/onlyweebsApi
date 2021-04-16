@@ -24,6 +24,14 @@ public class ListsService {
         return this.listsRepository.getLists();
     }
 
+    public List<Lists> getMyDefaultLists(long id) {
+        return this.listsRepository.getMyDefaultLists(id);
+    }
+
+    public List<Lists> getMyCustomLists(long id) {
+        return this.listsRepository.getMyCustomLists(id);
+    }
+
     public Lists getOneById(Long id) throws NoListException {
         return this.listsRepository.findListById(id).orElseThrow(NoListException::new);
     }
@@ -51,5 +59,13 @@ public class ListsService {
 
     public Lists getNewestList() {
         return this.listsRepository.getNewestList();
+    }
+
+    public Lists findListByNameAndUserId(String name, long userid) {
+        return this.listsRepository.findListByNameAndUserId(name, userid);
+    }
+
+    public List<Lists> getCustomLists() {
+        return this.listsRepository.getCustomLists();
     }
 }
