@@ -4,6 +4,11 @@
                    xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
     <changeSet author="naelm (generated)" id="1618566302362-1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anime"/>
+            </not>
+        </preConditions>
         <createTable tableName="anime">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -22,6 +27,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-2">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anime_comment"/>
+            </not>
+        </preConditions>
         <createTable tableName="anime_comment">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -39,6 +49,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-3">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="authorities"/>
+            </not>
+        </preConditions>
         <createTable tableName="authorities">
             <column name="username" type="VARCHAR(50)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -49,6 +64,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-4">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="has_image"/>
+            </not>
+        </preConditions>
         <createTable tableName="has_image">
             <column name="userid" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -59,6 +79,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-5">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="imagesuploaded"/>
+            </not>
+        </preConditions>
         <createTable tableName="imagesuploaded">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true" unique="true"/>
@@ -72,6 +97,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-6">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="islistedin"/>
+            </not>
+        </preConditions>
         <createTable tableName="islistedin">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -85,6 +115,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-7">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="list"/>
+            </not>
+        </preConditions>
         <createTable tableName="list">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -101,6 +136,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-8">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="rating"/>
+            </not>
+        </preConditions>
         <createTable tableName="rating">
             <column name="user_id" type="INT">
                 <constraints nullable="false"/>
@@ -112,6 +152,11 @@
         </createTable>
     </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-9">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
         <createTable tableName="users">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
