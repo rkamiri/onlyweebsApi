@@ -40,3 +40,4 @@ application.properties
 src\main\resources\liquibase\liquibase.properties
 src/main/resources/liquibase/liquibase.properties
 /src/main/resources/liquibase/liquibase.properties
+liquibase.properties
