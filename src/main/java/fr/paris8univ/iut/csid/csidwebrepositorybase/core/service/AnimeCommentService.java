@@ -25,15 +25,16 @@ public class AnimeCommentService {
         this.animeCommentRepository.putAComment(comment);
     }
 
-    public List<AnimeCommentEntity> getAnimeComments(Long animeid) {
+    public List<AnimeCommentEntity> getAnimeComments(long animeid) {
         return this.animeCommentRepository.getAllCommentsByAnimeId(animeid);
     }
 
-    public String getCurrentUserCommentForASelectAnime(String currentUserLogin, Long animeid) {
+    public String getCurrentUserCommentForASelectAnime(String currentUserLogin, long animeid) {
         if (this.animeCommentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeid).equals(Optional.empty())) {
             return "666";
         } else {
             return this.animeCommentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeid).get().getComment();
         }
     }
+
 }

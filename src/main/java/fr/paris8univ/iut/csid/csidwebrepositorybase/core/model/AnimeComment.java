@@ -4,37 +4,51 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeCommentEnti
 
 public class AnimeComment {
 
-    private Long userId;
-    private Long animeId;
+    private Long user_id;
+    private Long anime_id;
     private String comment;
+    private String date;
 
     public AnimeComment() {
     }
 
     public AnimeComment(AnimeCommentEntity re) {
-        this.userId = re.getUser_id();
-        this.animeId = re.getAnime_id();
+        this.user_id = re.getUser_id();
+        this.anime_id = re.getAnime_id();
         this.comment = re.getComment();
+        this.comment = re.getDate();
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
-    public Long getAnimeId() {
-        return animeId;
+    public Long getAnime_id() {
+        return anime_id;
     }
 
-    public void setAnimeId(Long animeId) {
-        this.animeId = animeId;
+    public void setAnime_id(Long anime_id) {
+        this.anime_id = anime_id;
     }
 
     public String getComment() {
         return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setRate(String comment) {
