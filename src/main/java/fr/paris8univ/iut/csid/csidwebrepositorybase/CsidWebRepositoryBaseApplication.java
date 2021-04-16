@@ -38,7 +38,7 @@ public class CsidWebRepositoryBaseApplication extends SpringBootServletInitializ
     @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("liquibase/liquibase-changeLog.xml");
+        liquibase.setChangeLog("target/classes/liquibase/liquibase-changeLog.xml");
         liquibase.setDataSource(dataSource());
         return liquibase;
     }
