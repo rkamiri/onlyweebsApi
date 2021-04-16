@@ -4,10 +4,8 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.IsListedInDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedIn;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -23,7 +21,7 @@ public class ListsRepository {
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
     private final AnimeRepository animeRepository;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository) {
@@ -41,6 +39,12 @@ public class ListsRepository {
         return this.listsDao.findById(id).map(Lists::new);
     }
 
+    public Lists findListByNameAndUserId(String name, long userid) {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> !e.getName().equals(name) || !e.getIs_owned_by().equals(userid));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList()).get(0);
+    }
+
     public List<Optional<Anime>> findAnimeOfList(Long listId) {
         List<Optional<Anime>> al = new ArrayList<>();
         List<IsListedInEntity> x = this.listedInDao.findAll();
@@ -54,13 +58,13 @@ public class ListsRepository {
 
     public void createList(Lists list) {
         LocalDateTime now = LocalDateTime.now();
-        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription()));
+        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription(), list.getIsOwnedBy(), 0));
     }
 
     public void putAnimeInList(Long animeId, Long listId) {
         if (this.animeRepository.findOneAnime(animeId).isPresent() && this.findListById(listId).isPresent()) {
             boolean isInList = false;
-            for(IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
+            for (IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
                 if (isListedInEntity.getList_id().equals(listId) && isListedInEntity.getAnime_id().equals(animeId)) {
                     isInList = true;
                     break;
@@ -83,10 +87,30 @@ public class ListsRepository {
     public Lists getNewestList() {
         Long i = -2L;
         for (ListsEntity le : this.listsDao.findAll()) {
-            if(le.getId()>i) {
+            if (le.getId() > i) {
                 i = le.getId();
             }
         }
         return this.findListById(i).orElseGet(Lists::new);
+    }
+
+    public List<Lists> getMyCustomLists(long id) {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default() == 1);
+        ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+    }
+
+    public List<Lists> getMyDefaultLists(long id) {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default()== 0);
+        ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+    }
+
+    public List<Lists> getCustomLists() {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default() == 1);
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 }
