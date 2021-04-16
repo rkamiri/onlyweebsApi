@@ -8,6 +8,7 @@ public class Lists {
     private String creationDate;
     private String description;
     private Long isOwnedBy;
+    private int isDefault;
 
     public Lists() { }
 
@@ -17,6 +18,7 @@ public class Lists {
         this.creationDate = listsEntity.getDate();
         this.description = listsEntity.getDescription();
         this.isOwnedBy = listsEntity.getIs_owned_by();
+        this.isDefault = listsEntity.getIs_default();
     }
 
     public Long getId() {
@@ -57,5 +59,13 @@ public class Lists {
 
     public void setIsOwnedBy(Long isOwnedBy) {
         this.isOwnedBy = isOwnedBy;
+    }
+
+    public int getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(int isDefault) {
+        this.isDefault = isDefault;
     }
 }

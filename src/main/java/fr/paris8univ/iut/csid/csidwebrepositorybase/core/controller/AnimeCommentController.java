@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import com.fasterxml.jackson.databind.JsonSerializable;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeCommentEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoRatingException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/animeComment")
+@RequestMapping(value = "/anime-comment")
 public class AnimeCommentController {
 
     private final AnimeCommentService animeCommentService;
@@ -21,19 +22,16 @@ public class AnimeCommentController {
         this.animeCommentService = animeCommentService;
     }
 
-    @GetMapping
-    public List<AnimeCommentEntity> getComments() {
-        return this.animeCommentService.getComments();
-    }
+    @GetMapping("/{id}")
+    public List<AnimeCommentEntity> getCommentsForAnime(@PathVariable(value = "id")long animeid) {return this.animeCommentService.getAnimeComments(animeid);}
 
     @PutMapping
-    public String putAComment(@RequestBody AnimeComment comment) {
+    public void putAComment(@RequestBody AnimeComment comment) {
         this.animeCommentService.putAComment(comment);
-        return comment.getComment();
     }
 
     @GetMapping("/user/{id}")
-    public String getCurrentUserCommentForASelectAnime(@PathVariable(value = "id")Long animeid) throws NoRatingException, NoUserFoundException {
+    public String getCurrentUserCommentForASelectAnime(@PathVariable(value = "id")long animeid) {
         return this.animeCommentService.getCurrentUserCommentForASelectAnime(UserController.getCurrentUserLogin(), animeid);
     }
 }

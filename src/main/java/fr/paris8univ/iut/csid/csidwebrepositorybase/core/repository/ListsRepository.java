@@ -23,7 +23,7 @@ public class ListsRepository {
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
     private final AnimeRepository animeRepository;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository) {
@@ -41,6 +41,12 @@ public class ListsRepository {
         return this.listsDao.findById(id).map(Lists::new);
     }
 
+    public Lists findListByNameAndUserId(String name, long userid) {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> !e.getName().equals(name) || !e.getIs_owned_by().equals(userid));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList()).get(0);
+    }
+
     public List<Optional<Anime>> findAnimeOfList(Long listId) {
         List<Optional<Anime>> al = new ArrayList<>();
         List<IsListedInEntity> x = this.listedInDao.findAll();
@@ -54,7 +60,7 @@ public class ListsRepository {
 
     public void createList(Lists list) {
         LocalDateTime now = LocalDateTime.now();
-        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription(), list.getIsOwnedBy()));
+        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription(), list.getIsOwnedBy(), 0));
     }
 
     public void putAnimeInList(Long animeId, Long listId) {
@@ -90,9 +96,23 @@ public class ListsRepository {
         return this.findListById(i).orElseGet(Lists::new);
     }
 
-    public List<Lists> getMyLists(long id) {
+    public List<Lists> getMyCustomLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default() == 1);
         ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+    }
+
+    public List<Lists> getMyDefaultLists(long id) {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default()== 0);
+        ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+    }
+
+    public List<Lists> getCustomLists() {
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default() == 1);
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 }
