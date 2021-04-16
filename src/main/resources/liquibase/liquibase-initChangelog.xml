@@ -181,56 +181,12 @@
             <column name="bio" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-10">
-        <addPrimaryKey columnNames="anime_id, user_id" constraintName="PRIMARY" tableName="rating"/>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-11">
-        <createIndex indexName="has_image_imagesuploaded_id_fk" tableName="has_image">
-            <column name="imageid"/>
-        </createIndex>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-12">
-        <createIndex indexName="isListedIn_Anime_FK" tableName="islistedin">
-            <column name="anime_id"/>
-        </createIndex>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-13">
-        <createIndex indexName="isListedIn_List0_FK" tableName="islistedin">
-            <column name="list_id"/>
-        </createIndex>
-    </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-14">
         <createIndex indexName="list_users_id_fk" tableName="list">
             <column name="is_owned_by"/>
         </createIndex>
     </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-15">
-        <createIndex indexName="rating_users_id_fk" tableName="rating">
-            <column name="user_id"/>
-        </createIndex>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-16">
-        <addForeignKeyConstraint baseColumnNames="username" baseTableName="authorities" constraintName="authorities_users_username_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="username" referencedTableName="users" validate="true"/>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-17">
-        <addForeignKeyConstraint baseColumnNames="imageid" baseTableName="has_image" constraintName="has_image_imagesuploaded_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="imagesuploaded" validate="true"/>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-18">
-        <addForeignKeyConstraint baseColumnNames="userid" baseTableName="has_image" constraintName="has_image_users_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-19">
-        <addForeignKeyConstraint baseColumnNames="anime_id" baseTableName="islistedin" constraintName="isListedIn_Anime_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="anime" validate="true"/>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-20">
-        <addForeignKeyConstraint baseColumnNames="list_id" baseTableName="islistedin" constraintName="isListedIn_List0_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="list" validate="true"/>
-    </changeSet>
     <changeSet author="naelm (generated)" id="1618566302362-21">
         <addForeignKeyConstraint baseColumnNames="is_owned_by" baseTableName="list" constraintName="list_users_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-22">
-        <addForeignKeyConstraint baseColumnNames="anime_id" baseTableName="rating" constraintName="rating_anime_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="anime" validate="true"/>
-    </changeSet>
-    <changeSet author="naelm (generated)" id="1618566302362-23">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="rating" constraintName="rating_users_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
     </changeSet>
 </databaseChangeLog>
