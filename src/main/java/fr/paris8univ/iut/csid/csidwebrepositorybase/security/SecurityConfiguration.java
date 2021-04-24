@@ -37,23 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.csrf().disable();
         http.cors().configurationSource(corsConfigurationSource());
-        http.authorizeRequests().antMatchers(
-                "/login",
-                "/#/login",
-                "/logout",
-                "/register",
-                "/#/register",
-                "/animes",
-                "/animes/**",
-                "/animes/*",
-                "/lists",
-                "/lists/*",
-                "/rating/*",
-                "/rating/**",
-                "/users/*",
-                "/anime-comment/",
-                "/anime-comment/*",
-                "/anime-comment/**").permitAll()
+        http.authorizeRequests().antMatchers("/login", "/logout", "/register", "/animes", "/animes/**", "/lists", "/lists/**", "/rating", "/rating/**", "/users/*", "/anime-comment/",  "/anime-comment/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -84,6 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 HttpMethod.POST.name(),
                 HttpMethod.DELETE.name()
         ));
+        configuration.setAllowCredentials(true);
         String[] origins = {"http://localhost:4200", "https://onlyweebs.csid.agilitejoviale.fr"};
         configuration.setAllowedOrigins(new ArrayList<>(Arrays.asList(origins)));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
