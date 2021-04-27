@@ -21,8 +21,7 @@ public class ListsRepository {
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
     private final AnimeRepository animeRepository;
-    private final
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository) {
