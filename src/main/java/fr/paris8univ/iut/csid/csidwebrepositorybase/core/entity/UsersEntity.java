@@ -32,9 +32,6 @@ public class UsersEntity {
     @Column(name = "bio")
     private String bio;
 
-    @OneToOne(mappedBy = "article")
-    private ArticleEntity articleEntity;
-
     public UsersEntity() {}
 
     public UsersEntity(String username, String password, String firstname, String lastname, String email , String gender, String bio) {
@@ -104,12 +101,4 @@ public class UsersEntity {
     }
 
     public void setBio(String bio) { this.bio = bio; }
-
-    public ArticleEntity getArticleEntity() {
-        return articleEntity;
-    }
-
-    public void setArticleEntity(ArticleEntity articleEntity) {
-        this.articleEntity = articleEntity;
-    }
 }
