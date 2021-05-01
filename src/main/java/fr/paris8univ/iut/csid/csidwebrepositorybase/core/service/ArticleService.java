@@ -18,4 +18,8 @@ public class ArticleService {
     public List<Article> findAllArticles() {
         return this.articleRepository.findAllArticles();
     }
+
+    public Article getArticle(long id) {
+        return this.articleRepository.getArticle(id);
+    }
 }

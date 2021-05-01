@@ -25,4 +25,8 @@ public class ArticleRepository {
         List<ArticleEntity> entities = this.articleDao.findAll();
         return entities.stream().map(Article::new).collect(Collectors.toList());
     }
+
+    public Article getArticle(long id) {
+        return new Article(this.articleDao.getOne(id));
+    }
 }
