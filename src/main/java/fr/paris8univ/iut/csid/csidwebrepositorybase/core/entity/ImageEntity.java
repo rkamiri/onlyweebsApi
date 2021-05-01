@@ -18,6 +18,9 @@ public class ImageEntity {
     @Column(name = "name")
     String name;
 
+    @OneToOne(mappedBy = "article")
+    private ArticleEntity articleEntity;
+
     public ImageEntity(byte[] content, String name) {
         this.content = content;
         this.name = name;
@@ -53,5 +56,13 @@ public class ImageEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ArticleEntity getArticleEntity() {
+        return articleEntity;
+    }
+
+    public void setArticleEntity(ArticleEntity articleEntity) {
+        this.articleEntity = articleEntity;
     }
 }
