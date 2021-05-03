@@ -32,9 +32,13 @@ public class UsersEntity {
     @Column(name = "bio")
     private String bio;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private ImageEntity image;
+
     public UsersEntity() {}
 
-    public UsersEntity(String username, String password, String firstname, String lastname, String email , String gender, String bio) {
+    public UsersEntity(String username, String password, String firstname, String lastname, String email , String gender, String bio, ImageEntity ie) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
@@ -42,6 +46,7 @@ public class UsersEntity {
         this.email = email;
         this.gender = gender;
         this.bio = bio;
+        this.image = ie;
     }
 
     public Long getId() {
@@ -101,4 +106,12 @@ public class UsersEntity {
     }
 
     public void setBio(String bio) { this.bio = bio; }
+
+    public ImageEntity getImage() {
+        return image;
+    }
+
+    public void setImage(ImageEntity image) {
+        this.image = image;
+    }
 }

@@ -1,9 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.HasImageDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ImageDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.HasImageEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ImageEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,38 +11,27 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.List;
 
 @Repository
 public class UploadRepository {
 
     private final ImageDao imageDao;
-    private final HasImageDao hasImageDao;
+    private final UsersDao usersDao;
 
-    public UploadRepository(ImageDao imageDao, HasImageDao hasImageDao) {
+    public UploadRepository(ImageDao imageDao, UsersDao usersDao) {
         this.imageDao = imageDao;
-        this.hasImageDao = hasImageDao;
+        this.usersDao = usersDao;
     }
 
     public void saveImage(MultipartFile serverFile, Long userid) throws IOException {
-        Long imageId = this.hasImageDao.getOne(userid).getImageid();
-        if (imageId!=1 && imageId!=2 && imageId!=3) {
-            ImageEntity ie = this.imageDao.getOne(imageId);
-            ie.setContent(scale(serverFile.getBytes(), 150, 150));
-            ie.setName(serverFile.getOriginalFilename());
-            this.imageDao.save(ie);
-        } else {
-            ImageEntity ie = new ImageEntity();
-            List<ImageEntity> entityList = this.imageDao.findAll();
-            ie.setContent(scale(serverFile.getBytes(), 150, 150));
-            ie.setName(serverFile.getOriginalFilename());
-            this.imageDao.save(ie);
-            Long newImageId = entityList.get(entityList.size()-1).getId()+1;
-            while (this.imageDao.findById(newImageId).isEmpty()) { newImageId++; }
-            HasImageEntity hie = this.hasImageDao.findById(userid).orElseGet(HasImageEntity::new);
-            hie.setImageid(newImageId);
-            this.hasImageDao.save(hie);
-        }
+        UsersEntity user = this.usersDao.getOne(userid);
+        ImageEntity imageEntity = user.getImage();
+        if (!(imageEntity.getId() != 1 && imageEntity.getId() != 2 && imageEntity.getId() != 3))
+            imageEntity = new ImageEntity();
+        imageEntity.setContent(scale(serverFile.getBytes(), 150, 150));
+        imageEntity.setName(serverFile.getOriginalFilename());
+        user.setImage(imageEntity);
+        this.usersDao.save(user);
     }
 
     public ImageEntity findById(Long imageId) {
@@ -55,7 +44,7 @@ public class UploadRepository {
             BufferedImage img = ImageIO.read(in);
             Image scaledImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             BufferedImage imageBuff = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            imageBuff.getGraphics().drawImage(scaledImage, 0, 0, new Color(0,0,0), null);
+            imageBuff.getGraphics().drawImage(scaledImage, 0, 0, new Color(0, 0, 0), null);
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             ImageIO.write(imageBuff, "jpg", buffer);
             return buffer.toByteArray();

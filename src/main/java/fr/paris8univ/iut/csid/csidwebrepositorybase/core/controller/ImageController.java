@@ -12,12 +12,12 @@ import java.util.Iterator;
 
 @RestController
 @RequestMapping(value = "/upload")
-public class UploadController {
+public class ImageController {
 
     public final UploadService uploadService;
 
     @Autowired
-    public UploadController(UploadService uploadService) {
+    public ImageController(UploadService uploadService) {
         this.uploadService = uploadService;
     }
 
