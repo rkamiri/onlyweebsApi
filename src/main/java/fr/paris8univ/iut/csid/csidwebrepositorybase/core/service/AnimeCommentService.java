@@ -17,23 +17,19 @@ public class AnimeCommentService {
         this.animeCommentRepository = animeCommentRepository;
     }
 
-    public List<AnimeCommentEntity> getComments() {
-        return this.animeCommentRepository.getAnimeCommentDao().findAll();
-    }
-
     public void putAComment(AnimeComment comment)  {
         this.animeCommentRepository.putAComment(comment);
     }
 
-    public List<AnimeCommentEntity> getAnimeComments(long animeid) {
-        return this.animeCommentRepository.getAllCommentsByAnimeId(animeid);
+    public List<AnimeCommentEntity> getAnimeComments(long animeId) {
+        return this.animeCommentRepository.getAllCommentsByAnimeId(animeId);
     }
 
-    public String getCurrentUserCommentForASelectAnime(String currentUserLogin, long animeid) {
-        if (this.animeCommentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeid).equals(Optional.empty())) {
+    public String getCurrentUserCommentForASelectAnime(String currentUserLogin, long animeId) {
+        if (this.animeCommentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeId).equals(Optional.empty())) {
             return "666";
         } else {
-            return this.animeCommentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeid).get().getComment();
+            return this.animeCommentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeId).orElseThrow().getComment();
         }
     }
 

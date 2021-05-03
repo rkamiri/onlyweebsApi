@@ -1,9 +1,12 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UsersEntity {
 
     @Id

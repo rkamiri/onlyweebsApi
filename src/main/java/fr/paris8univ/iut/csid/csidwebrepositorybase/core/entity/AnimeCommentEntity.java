@@ -12,8 +12,9 @@ public class AnimeCommentEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long user_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UsersEntity usersEntity;
 
     @Column(name = "anime_id", nullable = false)
     private Long anime_id;
@@ -27,8 +28,8 @@ public class AnimeCommentEntity {
     public AnimeCommentEntity() {
     }
 
-    public AnimeCommentEntity(Long user_id, Long anime_id, String comment, String date) {
-        this.user_id = user_id;
+    public AnimeCommentEntity(UsersEntity ue, Long anime_id, String comment, String date) {
+        this.usersEntity = ue;
         this.anime_id = anime_id;
         this.comment = comment;
         this.date = date;
@@ -42,12 +43,12 @@ public class AnimeCommentEntity {
         this.id = id;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public UsersEntity getUsersEntity() {
+        return usersEntity;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUsersEntity(UsersEntity usersEntity) {
+        this.usersEntity = usersEntity;
     }
 
     public Long getAnime_id() {
@@ -75,28 +76,26 @@ public class AnimeCommentEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnimeCommentEntity that = (AnimeCommentEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(usersEntity, that.usersEntity) && Objects.equals(anime_id, that.anime_id) && Objects.equals(comment, that.comment) && Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, usersEntity, anime_id, comment, date);
+    }
+
+    @Override
     public String toString() {
         return "AnimeCommentEntity{" +
                 "id=" + id +
-                ", user_id=" + user_id +
+                ", usersEntity=" + usersEntity +
                 ", anime_id=" + anime_id +
                 ", comment='" + comment + '\'' +
                 ", date='" + date + '\'' +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AnimeCommentEntity that = (AnimeCommentEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(user_id, that.user_id) && Objects.equals(anime_id, that.anime_id) && Objects.equals(comment, that.comment) && Objects.equals(date, that.date);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user_id, anime_id, comment, date);
-    }
-
-
 }
