@@ -23,7 +23,7 @@ public class AnimeCommentController {
     }
 
     @GetMapping("/{id}")
-    public List<AnimeCommentEntity> getCommentsForAnime(@PathVariable(value = "id")long animeid) {return this.animeCommentService.getAnimeComments(animeid);}
+    public List<AnimeCommentEntity> getCommentsForAnime(@PathVariable(value = "id")long animeId) {return this.animeCommentService.getAnimeComments(animeId);}
 
     @PutMapping
     public void putAComment(@RequestBody AnimeComment comment) {
@@ -31,7 +31,7 @@ public class AnimeCommentController {
     }
 
     @GetMapping("/user/{id}")
-    public String getCurrentUserCommentForASelectAnime(@PathVariable(value = "id")long animeid) {
-        return this.animeCommentService.getCurrentUserCommentForASelectAnime(UserController.getCurrentUserLogin(), animeid);
+    public String getCurrentUserCommentForASelectAnime(@PathVariable(value = "id")long animeId) {
+        return this.animeCommentService.getCurrentUserCommentForASelectAnime(UserController.getCurrentUserLogin(), animeId);
     }
 }

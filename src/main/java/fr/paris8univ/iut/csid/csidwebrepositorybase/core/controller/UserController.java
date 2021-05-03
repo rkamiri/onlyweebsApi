@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public Optional<Users> getCurrentUser() throws NoUserFoundException {
+    public Optional<Users> getCurrentUser() {
         return this.usersService.findOneByLogin(getCurrentUserLogin());
     }
 
