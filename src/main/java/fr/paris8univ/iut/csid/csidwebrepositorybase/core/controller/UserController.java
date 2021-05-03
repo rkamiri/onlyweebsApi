@@ -17,14 +17,12 @@ import java.util.Optional;
 public class UserController {
 
     private final UsersService usersService;
-    private final UploadController uploadController;
-    private final HasImageController hasImageController;
+    private final ImageController imageController;
 
     @Autowired
-    public UserController(UsersService usersService, UploadController uploadController, HasImageController hasImageController) {
+    public UserController(UsersService usersService, ImageController imageController) {
         this.usersService = usersService;
-        this.uploadController = uploadController;
-        this.hasImageController = hasImageController;
+        this.imageController = imageController;
     }
 
     @GetMapping("/current")
@@ -49,8 +47,8 @@ public class UserController {
         return this.usersService.updateCurrentUser(updatedUser);
     }
 
-    @GetMapping("/profilepicture/{id}")
-    public Image getUserProfilePicture(@PathVariable Long id) {
-        return uploadController.downloadImage(hasImageController.getImageId(id));
+    @GetMapping("/pp")
+    public Image getUserProfilePicture() {
+        return imageController.downloadImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
     }
 }

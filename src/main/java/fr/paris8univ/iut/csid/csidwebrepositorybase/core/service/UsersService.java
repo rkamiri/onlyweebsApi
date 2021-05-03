@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
@@ -16,8 +17,12 @@ public class UsersService {
         this.ur = ur;
     }
 
-    public Optional<Users> findOneByLogin(String currentUserLogin) throws NoUserFoundException {
+    public Optional<Users> findOneByLogin(String currentUserLogin) {
         return this.ur.findByUsername(currentUserLogin);
+    }
+
+    public UsersEntity findUserEntityByUsername(String currentUserLogin) {
+        return this.ur.findUserEntityByUsername(currentUserLogin);
     }
 
     public Users updateCurrentUser(Users updatedUser) throws NoUserFoundException {
