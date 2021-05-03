@@ -30,6 +30,10 @@ public class UsersRepository {
         return this.usersDao.findByUsername(username).map(Users::new);
     }
 
+    public UsersEntity findUserEntityByUsername(String username) {
+        return this.usersDao.findByUsername(username).orElseThrow();
+    }
+
     public Users updateCurrentUser(Users updatedUser) throws NoUserFoundException {
         UsersEntity current = this.usersDao.findById(updatedUser.getId()).orElseThrow(NoUserFoundException::new);
 
