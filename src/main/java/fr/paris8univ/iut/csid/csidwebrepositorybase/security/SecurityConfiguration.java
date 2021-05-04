@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,6 +29,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final DataSource dataSource;
     private final ObjectMapper objectMapper;
 
+    @Bean
+    CorsFilter corsFilter() {
+        return new CorsFilter();
+    }
+
     public SecurityConfiguration(DataSource dataSource, ObjectMapper objectMapper) {
         this.dataSource = dataSource;
         this.objectMapper = objectMapper;
@@ -35,9 +41,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
         http.headers().frameOptions().disable();
         http.csrf().disable();
-        http.cors().and();
         http.authorizeRequests().antMatchers("/login", "/logout", "/register", "/animes", "/animes/**", "/lists", "/lists/**", "/rating", "/rating/**", "/users/*", "/anime-comment/",  "/anime-comment/**", "/articles", "/articles/**").permitAll()
                 .anyRequest()
                 .authenticated()
@@ -61,14 +67,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+   /* @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
-        configuration.setAllowedOrigins(Collections.singletonList("https://onlyweebs.csid.agilitejoviale.fr"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+        configuration.setAllowedMethods(List.of(
+                HttpMethod.GET.name(),
+                HttpMethod.PUT.name(),
+                HttpMethod.POST.name(),
+                HttpMethod.DELETE.name()
+        ));
+        configuration.setAllowCredentials(true);
+        String[] origins = {"http://localhost:4200", "https://onlyweebs.csid.agilitejoviale.fr"};
+        configuration.setAllowedOrigins(new ArrayList<>(Arrays.asList(origins)));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
         return source;
-    }
+    }*/
 }
