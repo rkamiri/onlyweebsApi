@@ -1,5 +1,4 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.security;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @EnableWebSecurity
@@ -29,11 +26,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final DataSource dataSource;
     private final ObjectMapper objectMapper;
 
-    @Bean
-    CorsFilter corsFilter() {
-        return new CorsFilter();
-    }
-
     public SecurityConfiguration(DataSource dataSource, ObjectMapper objectMapper) {
         this.dataSource = dataSource;
         this.objectMapper = objectMapper;
@@ -41,10 +33,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
         http.headers().frameOptions().disable();
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/login", "/logout", "/register", "/animes", "/animes/**", "/lists", "/lists/**", "/rating", "/rating/**", "/users/*", "/anime-comment/",  "/anime-comment/**", "/articles", "/articles/**").permitAll()
+        http.cors().configurationSource(corsConfigurationSource());
+        http.authorizeRequests().antMatchers("/login", "/logout", "/register", "/animes", "/animes/**", "/lists", "/lists/**", "/rating", "/rating/**", "/users/*", "/users/**", "/users","/anime-comment/",  "/anime-comment/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -67,7 +59,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-   /* @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedMethods(List.of(
@@ -82,5 +73,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
         return source;
-    }*/
+    }
 }
