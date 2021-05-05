@@ -2,6 +2,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ImageDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ImageEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.List;
 
 @Repository
 public class UploadRepository {
@@ -51,5 +53,21 @@ public class UploadRepository {
         } catch (IOException e) {
             return new byte[0];
         }
+    }
+
+    public void saveArticleImage(MultipartFile serverFile) throws IOException {
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setContent(scale(serverFile.getBytes(), 640, 360));
+        imageEntity.setName(serverFile.getOriginalFilename());
+        this.imageDao.save(imageEntity);
+    }
+
+    public ImageEntity getLastImage() {
+        List<ImageEntity> imageEntities = this.imageDao.findAll();
+        Long id = 1L;
+        for (ImageEntity imageEntity : imageEntities) {
+            if (imageEntity.getId() >= id) id = imageEntity.getId();
+        }
+        return this.imageDao.getOne(id);
     }
 }
