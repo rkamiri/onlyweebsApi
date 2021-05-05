@@ -7,6 +7,8 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,7 @@ public class ArticleRepository {
 
     private final ArticleDao articleDao;
     private final UsersRepository usersRepository;
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     public ArticleRepository(ArticleDao articleDao, UsersRepository usersRepository) {
@@ -32,11 +35,12 @@ public class ArticleRepository {
     }
 
     public Long postArticle(Article article) {
+        LocalDateTime now = LocalDateTime.now();
         this.articleDao.save(
                 new ArticleEntity(
                         article.getTitle(),
                         article.getBody(),
-                        article.getCreated_at(),
+                        dtf.format(now),
                         this.usersRepository.findUserEntityByUsername(UserController.getCurrentUserLogin()),
                         article.getCover()
                 ));
