@@ -28,6 +28,13 @@ public class ImageController {
         this.uploadService.saveImage(file, userid);
     }
 
+    @PostMapping("/article-image")
+    public void UploadArticleImage(MultipartHttpServletRequest request) throws IOException {
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile file = request.getFile(itr.next());
+        this.uploadService.saveArticleImage(file);
+    }
+
     @GetMapping("/image/{id}")
     public Image downloadImage(@PathVariable(value = "id") Long imageId) {
         return uploadService.findById(imageId);

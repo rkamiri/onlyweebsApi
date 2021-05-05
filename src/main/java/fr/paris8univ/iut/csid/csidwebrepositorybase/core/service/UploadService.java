@@ -20,6 +20,10 @@ public class UploadService {
         this.uploadRepository.saveImage(serverFile, userid);
     }
 
+    public void saveArticleImage(MultipartFile serverFile) throws IOException {
+        this.uploadRepository.saveArticleImage(serverFile);
+    }
+
     public Image findById(Long imageId) {
         return new Image(this.uploadRepository.findById(imageId));
     }

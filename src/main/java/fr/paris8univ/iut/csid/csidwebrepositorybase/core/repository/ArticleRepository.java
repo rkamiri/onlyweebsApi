@@ -17,12 +17,14 @@ public class ArticleRepository {
 
     private final ArticleDao articleDao;
     private final UsersRepository usersRepository;
+    private final UploadRepository uploadRepository;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public ArticleRepository(ArticleDao articleDao, UsersRepository usersRepository) {
+    public ArticleRepository(ArticleDao articleDao, UsersRepository usersRepository, UploadRepository uploadRepository) {
         this.articleDao = articleDao;
         this.usersRepository = usersRepository;
+        this.uploadRepository = uploadRepository;
     }
 
     public List<Article> findAllArticles() {
@@ -42,7 +44,7 @@ public class ArticleRepository {
                         article.getBody(),
                         dtf.format(now),
                         this.usersRepository.findUserEntityByUsername(UserController.getCurrentUserLogin()),
-                        article.getCover()
+                        this.uploadRepository.getLastImage()
                 ));
         return this.getLastArticleId();
     }
