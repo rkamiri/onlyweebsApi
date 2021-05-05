@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserController;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
@@ -13,10 +14,12 @@ import java.util.stream.Collectors;
 public class ArticleRepository {
 
     private final ArticleDao articleDao;
+    private final UsersRepository usersRepository;
 
     @Autowired
-    public ArticleRepository(ArticleDao articleDao) {
+    public ArticleRepository(ArticleDao articleDao, UsersRepository usersRepository) {
         this.articleDao = articleDao;
+        this.usersRepository = usersRepository;
     }
 
     public List<Article> findAllArticles() {
@@ -34,7 +37,7 @@ public class ArticleRepository {
                         article.getTitle(),
                         article.getBody(),
                         article.getCreated_at(),
-                        article.getAuthor(),
+                        this.usersRepository.findUserEntityByUsername(UserController.getCurrentUserLogin()),
                         article.getCover()
                 ));
         return this.getLastArticleId();
