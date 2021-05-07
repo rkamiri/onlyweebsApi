@@ -22,4 +22,8 @@ public class ArticleService {
     public Article getArticle(long id) {
         return this.articleRepository.getArticle(id);
     }
+
+    public Long postArticle(Article article) {
+        return this.articleRepository.postArticle(article);
+    }
 }
