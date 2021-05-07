@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -23,8 +24,9 @@ public class CsidWebRepositoryBaseApplication extends SpringBootServletInitializ
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
+            public void addCorsMappings(@NotNull CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("https://onlyweebs.csid.agilitejoviale.fr")
+                        .allowedMethods("GET", "PUT", "POST", "DELETE");
             }
         };
     }
