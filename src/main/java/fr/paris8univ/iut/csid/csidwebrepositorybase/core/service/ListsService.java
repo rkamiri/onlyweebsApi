@@ -68,4 +68,12 @@ public class ListsService {
     public List<Lists> getCustomLists() {
         return this.listsRepository.getCustomLists();
     }
+
+    public List<List<String>> getFourImagesOfEachListAll(){
+        return this.listsRepository.getFourImagesForAllLists();
+    }
+
+    public List<List<String>> getFourImagesOfEachCustomList(){
+        return this.listsRepository.getFourImagesForEachCustomList();
+    }
 }
