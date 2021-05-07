@@ -83,4 +83,14 @@ public class ListsController {
     public List<Lists> getCustomLists() {
         return this.listService.getCustomLists();
     }
+
+    @GetMapping("/spotify/image")
+    public List<List<String>> getFourImagesOfEachListAll() {
+        return this.listService.getFourImagesOfEachListAll();
+    }
+
+    @GetMapping("/spotify/image/custom")
+    public List<List<String>> getFourImagesOfEachCustomList() {
+        return this.listService.getFourImagesOfEachCustomList();
+    }
 }

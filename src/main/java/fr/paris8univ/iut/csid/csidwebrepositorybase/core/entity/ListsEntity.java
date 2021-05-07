@@ -1,5 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
+
 import javax.persistence.*;
 
 @Entity
@@ -34,6 +36,14 @@ public class ListsEntity {
         this.description = description;
         this.is_owned_by = is_owned_by;
         this.is_default = is_default;
+    }
+
+    public ListsEntity(Lists lists) {
+        this.name = lists.getName();
+        this.date = lists.getCreationDate();
+        this.description = lists.getDescription();
+        this.is_owned_by = lists.getIsOwnedBy();
+        this.is_default = lists.getIsDefault();
     }
 
     public int getIs_default() {

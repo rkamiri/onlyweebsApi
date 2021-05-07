@@ -113,4 +113,32 @@ public class ListsRepository {
         ilel.removeIf(e -> e.getIs_default() == 1);
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
+
+    public List<List<String>> getFourImagesOfEachList(List<ListsEntity> all){
+        List<List<String>> fourImageUrlOfEachListInAList = new ArrayList<>();
+        for(ListsEntity list : all){
+            List<Optional<Anime>> listOfAnime = findAnimeOfList(list.getId());
+            List<String> imagesUrl = new ArrayList<>();
+            if(listOfAnime.size()>=4){
+                for(int i = 0 ; i<4 ; i++){
+                    if(listOfAnime.get(i).isPresent())
+                        imagesUrl.add(listOfAnime.get(i).get().getCover());
+                }
+            }
+            else
+                imagesUrl = listOfAnime.stream().map(e->e.orElseThrow().getCover()).collect(Collectors.toList());
+            fourImageUrlOfEachListInAList.add(imagesUrl);
+        }
+        return fourImageUrlOfEachListInAList;
+    }
+
+    public List<List<String>> getFourImagesForEachCustomList(){
+        List<ListsEntity> ilel = this.listsDao.findAll();
+        ilel.removeIf(e -> e.getIs_default() == 1);
+        return this.getFourImagesOfEachList(ilel);
+    }
+
+    public List<List<String>> getFourImagesForAllLists(){
+        return this.getFourImagesOfEachList(this.listsDao.findAll());
+    }
 }
