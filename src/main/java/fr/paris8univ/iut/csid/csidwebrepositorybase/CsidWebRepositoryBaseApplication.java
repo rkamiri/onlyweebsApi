@@ -25,8 +25,10 @@ public class CsidWebRepositoryBaseApplication extends SpringBootServletInitializ
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NotNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("https://onlyweebs.csid.agilitejoviale.fr")
-                        .allowedMethods("GET", "PUT", "POST", "DELETE");
+                registry.addMapping("/**")
+                        .allowedOrigins("https://onlyweebs.csid.agilitejoviale.fr")
+                        .allowedMethods("GET", "PUT", "POST", "DELETE")
+                        .allowCredentials(true);
             }
         };
     }
