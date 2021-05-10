@@ -76,4 +76,8 @@ public class ListsService {
     public List<List<String>> getFourImagesOfEachCustomList(){
         return this.listsRepository.getFourImagesForEachCustomList();
     }
+
+    public void deleteList(long id) {
+        this.listsRepository.deleteList(id);
+    }
 }

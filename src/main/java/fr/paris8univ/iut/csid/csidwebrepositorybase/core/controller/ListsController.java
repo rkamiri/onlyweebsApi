@@ -93,4 +93,9 @@ public class ListsController {
     public List<List<String>> getFourImagesOfEachCustomList() {
         return this.listService.getFourImagesOfEachCustomList();
     }
+
+    @DeleteMapping("/user/{id}")
+    public void deleteList(@PathVariable long id) {
+        this.listService.deleteList(id);
+    }
 }
