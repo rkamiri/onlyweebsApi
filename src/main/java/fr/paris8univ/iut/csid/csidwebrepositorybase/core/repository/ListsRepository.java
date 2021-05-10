@@ -141,4 +141,11 @@ public class ListsRepository {
     public List<List<String>> getFourImagesForAllLists(){
         return this.getFourImagesOfEachList(this.listsDao.findAll());
     }
+
+    public void deleteList(long id) {
+        List<IsListedInEntity> isListedInEntitiesList = this.listedInDao.findAll();
+        isListedInEntitiesList.removeIf(e -> e.getList_id() != id);
+        for (IsListedInEntity e: isListedInEntitiesList) { this.listedInDao.delete(e); }
+        this.listsDao.delete(this.listsDao.getOne(id));
+    }
 }
