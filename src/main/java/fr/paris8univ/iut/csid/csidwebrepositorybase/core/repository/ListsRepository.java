@@ -49,7 +49,7 @@ public class ListsRepository {
         List<Optional<Anime>> al = new ArrayList<>();
         List<IsListedInEntity> x = this.listedInDao.findAll();
         for (IsListedInEntity s : x) {
-            if (s.getList_id().equals(listId)) {
+            if (s.getListId().equals(listId)) {
                 al.add(this.animeRepository.findOneAnime(s.getAnime_id()));
             }
         }
@@ -65,7 +65,7 @@ public class ListsRepository {
         if (this.animeRepository.findOneAnime(animeId).isPresent() && this.findListById(listId).isPresent()) {
             boolean isInList = false;
             for (IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
-                if (isListedInEntity.getList_id().equals(listId) && isListedInEntity.getAnime_id().equals(animeId)) {
+                if (isListedInEntity.getListId().equals(listId) && isListedInEntity.getAnime_id().equals(animeId)) {
                     isInList = true;
                     break;
                 }
@@ -79,7 +79,7 @@ public class ListsRepository {
     public void deleteAnimeInList(Long anime_id, Long list_id) {
         if (this.animeRepository.findOneAnime(anime_id).isPresent() && this.findListById(list_id).isPresent()) {
             List<IsListedInEntity> ilel = this.listedInDao.findAll();
-            ilel.removeIf(e -> !e.getAnime_id().equals(anime_id) || !e.getList_id().equals(list_id));
+            ilel.removeIf(e -> !e.getAnime_id().equals(anime_id) || !e.getListId().equals(list_id));
             this.listedInDao.delete(ilel.get(0));
         }
     }
@@ -143,9 +143,7 @@ public class ListsRepository {
     }
 
     public void deleteList(long id) {
-        List<IsListedInEntity> isListedInEntitiesList = this.listedInDao.findAll();
-        isListedInEntitiesList.removeIf(e -> e.getList_id() != id);
-        for (IsListedInEntity e: isListedInEntitiesList) { this.listedInDao.delete(e); }
-        this.listsDao.delete(this.listsDao.getOne(id));
+        this.listedInDao.deleteIsListedInEntitiesByListId(id);
+        this.listsDao.deleteById(id);
     }
 }
