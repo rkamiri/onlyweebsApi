@@ -7,6 +7,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -142,6 +143,7 @@ public class ListsRepository {
         return this.getFourImagesOfEachList(this.listsDao.findAll());
     }
 
+    @Transactional
     public void deleteList(long id) {
         this.listedInDao.deleteIsListedInEntitiesByListId(id);
         this.listsDao.deleteById(id);
