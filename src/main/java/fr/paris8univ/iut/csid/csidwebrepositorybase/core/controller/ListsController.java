@@ -52,7 +52,7 @@ public class ListsController {
 
     @PostMapping
     public ResponseEntity<Lists> createList(@RequestBody Lists list) throws URISyntaxException {
-        listService.createList(list);
+        listService.createList(list, UserController.getCurrentUserLogin());
         URI location = new URI("/create-list/" + list.getName().replaceAll(" ", "_").toLowerCase());
         return ResponseEntity.created(location).build();
     }
