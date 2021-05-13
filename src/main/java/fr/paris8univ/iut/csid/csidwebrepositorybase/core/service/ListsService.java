@@ -45,8 +45,8 @@ public class ListsService {
         return realAnimeList;
     }
 
-    public void createList(Lists list) {
-        this.listsRepository.createList(list);
+    public void createList(Lists list, String currentUserLogin) {
+        this.listsRepository.createList(list, currentUserLogin);
     }
 
     public void putAnimeInList(Long animeId, Long listId) {

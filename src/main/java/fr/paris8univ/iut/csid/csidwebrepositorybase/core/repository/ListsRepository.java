@@ -22,13 +22,15 @@ public class ListsRepository {
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
     private final AnimeRepository animeRepository;
+    private final UsersRepository usersRepository;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository) {
+    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository, UsersRepository usersRepository) {
         this.listsDao = listsDao;
         this.listedInDao = listedInDao;
         this.animeRepository = animeRepository;
+        this.usersRepository = usersRepository;
     }
 
     public List<Lists> getLists() {
@@ -57,9 +59,14 @@ public class ListsRepository {
         return al;
     }
 
-    public void createList(Lists list) {
+    public void createList(Lists list, String currentUserLogin) {
         LocalDateTime now = LocalDateTime.now();
-        this.listsDao.save(new ListsEntity(list.getName(), dtf.format(now), list.getDescription(), list.getIsOwnedBy(), 0));
+        this.listsDao.save(
+                new ListsEntity(list.getName(),
+                        dtf.format(now),
+                        list.getDescription(),
+                        this.usersRepository.findUserEntityByUsername(currentUserLogin).getId(),
+                        0));
     }
 
     public void putAnimeInList(Long animeId, Long listId) {
@@ -104,7 +111,7 @@ public class ListsRepository {
 
     public List<Lists> getMyDefaultLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
-        ilel.removeIf(e -> e.getIs_default()== 0);
+        ilel.removeIf(e -> e.getIs_default() == 0);
         ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
@@ -115,31 +122,30 @@ public class ListsRepository {
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 
-    public List<List<String>> getFourImagesOfEachList(List<ListsEntity> all){
+    public List<List<String>> getFourImagesOfEachList(List<ListsEntity> all) {
         List<List<String>> fourImageUrlOfEachListInAList = new ArrayList<>();
-        for(ListsEntity list : all){
+        for (ListsEntity list : all) {
             List<Optional<Anime>> listOfAnime = findAnimeOfList(list.getId());
             List<String> imagesUrl = new ArrayList<>();
-            if(listOfAnime.size()>=4){
-                for(int i = 0 ; i<4 ; i++){
-                    if(listOfAnime.get(i).isPresent())
+            if (listOfAnime.size() >= 4) {
+                for (int i = 0; i < 4; i++) {
+                    if (listOfAnime.get(i).isPresent())
                         imagesUrl.add(listOfAnime.get(i).get().getCover());
                 }
-            }
-            else
-                imagesUrl = listOfAnime.stream().map(e->e.orElseThrow().getCover()).collect(Collectors.toList());
+            } else
+                imagesUrl = listOfAnime.stream().map(e -> e.orElseThrow().getCover()).collect(Collectors.toList());
             fourImageUrlOfEachListInAList.add(imagesUrl);
         }
         return fourImageUrlOfEachListInAList;
     }
 
-    public List<List<String>> getFourImagesForEachCustomList(){
+    public List<List<String>> getFourImagesForEachCustomList() {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 1);
         return this.getFourImagesOfEachList(ilel);
     }
 
-    public List<List<String>> getFourImagesForAllLists(){
+    public List<List<String>> getFourImagesForAllLists() {
         return this.getFourImagesOfEachList(this.listsDao.findAll());
     }
 
