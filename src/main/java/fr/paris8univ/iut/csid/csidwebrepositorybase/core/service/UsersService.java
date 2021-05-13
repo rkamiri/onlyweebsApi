@@ -11,21 +11,25 @@ import java.util.Optional;
 @Service
 public class UsersService {
 
-    public final UsersRepository ur;
+    public final UsersRepository usersRepository;
 
-    public UsersService(UsersRepository ur) {
-        this.ur = ur;
+    public UsersService(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
     }
 
     public Optional<Users> findOneByLogin(String currentUserLogin) {
-        return this.ur.findByUsername(currentUserLogin);
+        return this.usersRepository.findByUsername(currentUserLogin);
     }
 
     public UsersEntity findUserEntityByUsername(String currentUserLogin) {
-        return this.ur.findUserEntityByUsername(currentUserLogin);
+        return this.usersRepository.findUserEntityByUsername(currentUserLogin);
     }
 
     public Users updateCurrentUser(Users updatedUser) throws NoUserFoundException {
-        return this.ur.updateCurrentUser(updatedUser);
+        return this.usersRepository.updateCurrentUser(updatedUser);
+    }
+
+    public void checkIpAddress(String remoteAddr, String currentUserLogin) {
+        this.usersRepository.checkIpAddress(remoteAddr, currentUserLogin);
     }
 }
