@@ -72,4 +72,9 @@ public class UsersRepository {
 
         return new Users(this.usersDao.findById(updatedUser.getId()).orElseThrow(NoUserFoundException::new));
     }
+
+    public void checkIpAddress(String remoteIp, String userLogin) {
+        String userType = remoteIp.equals(this.findUserEntityByUsername(userLogin).getIp()) ? "GOOD USER" : "BAD USER";
+        System.out.println(userType);
+    }
 }

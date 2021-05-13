@@ -35,13 +35,16 @@ public class UsersEntity {
     @Column(name = "bio")
     private String bio;
 
+    @Column(name = "ip")
+    private String ip;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private ImageEntity image;
 
     public UsersEntity() {}
 
-    public UsersEntity(String username, String password, String firstname, String lastname, String email , String gender, String bio, ImageEntity ie) {
+    public UsersEntity(String username, String password, String firstname, String lastname, String email , String gender, String bio, String ip, ImageEntity ie) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
@@ -49,6 +52,7 @@ public class UsersEntity {
         this.email = email;
         this.gender = gender;
         this.bio = bio;
+        this.ip = ip;
         this.image = ie;
     }
 
@@ -109,6 +113,14 @@ public class UsersEntity {
     }
 
     public void setBio(String bio) { this.bio = bio; }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public ImageEntity getImage() {
         return image;

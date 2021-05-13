@@ -11,6 +11,7 @@ public class Users {
     private String email;
     private String gender;
     private String bio;
+    private String ip;
     private Image image;
 
     public Users() {}
@@ -24,6 +25,7 @@ public class Users {
         this.email = usersEntity.getEmail();
         this.gender = usersEntity.getGender();
         this.bio = usersEntity.getBio();
+        this.ip = usersEntity.getIp();
         this.image = new Image(usersEntity.getImage());
     }
 
@@ -57,6 +59,10 @@ public class Users {
 
     public String getBio() {
         return bio;
+    }
+
+    public String getIp() {
+        return ip;
     }
 
     public Image getImage() {

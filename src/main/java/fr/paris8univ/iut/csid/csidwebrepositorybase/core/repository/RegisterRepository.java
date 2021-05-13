@@ -31,7 +31,7 @@ public class RegisterRepository {
         this.imageDao = imageDao;
     }
 
-    public void createUser(Users user) {
+    public void createUser(Users user, String remoteAddr) {
         long defaultImageId;
         switch (user.getGender()) {
             case "M":
@@ -54,6 +54,7 @@ public class RegisterRepository {
                         user.getEmail(),
                         user.getGender(),
                         "No bio yet.",
+                        remoteAddr,
                         this.imageDao.getOne(defaultImageId)
                 )
         );
