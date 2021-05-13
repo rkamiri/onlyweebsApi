@@ -12,7 +12,7 @@ public class RegisterService {
         this.registerRepository = registerRepository;
     }
 
-    public void createUser(Users user) {
-        this.registerRepository.createUser(user);
+    public void createUser(Users user, String remoteAddr) {
+        this.registerRepository.createUser(user, remoteAddr);
     }
 }

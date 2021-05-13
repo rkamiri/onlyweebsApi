@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestController
@@ -26,8 +27,14 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public Optional<Users> getCurrentUser() {
-        return this.usersService.findOneByLogin(getCurrentUserLogin());
+    public Optional<Users> getCurrentUser(HttpServletRequest request) {
+        if (!getCurrentUserLogin().equals("anonymousUser")) {
+            this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
+            return this.usersService.findOneByLogin(getCurrentUserLogin());
+        } else {
+            return Optional.empty();
+        }
+
     }
 
     public static String getCurrentUserLogin() {
