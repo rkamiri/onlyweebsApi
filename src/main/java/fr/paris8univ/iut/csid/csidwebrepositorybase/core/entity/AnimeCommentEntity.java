@@ -17,7 +17,7 @@ public class AnimeCommentEntity {
     private UsersEntity usersEntity;
 
     @Column(name = "anime_id", nullable = false)
-    private Long anime_id;
+    private Long animeId;
 
     @Column(name = "comment")
     private String comment;
@@ -28,9 +28,9 @@ public class AnimeCommentEntity {
     public AnimeCommentEntity() {
     }
 
-    public AnimeCommentEntity(UsersEntity ue, Long anime_id, String comment, String date) {
+    public AnimeCommentEntity(UsersEntity ue, Long animeId, String comment, String date) {
         this.usersEntity = ue;
-        this.anime_id = anime_id;
+        this.animeId = animeId;
         this.comment = comment;
         this.date = date;
     }
@@ -51,12 +51,12 @@ public class AnimeCommentEntity {
         this.usersEntity = usersEntity;
     }
 
-    public Long getAnime_id() {
-        return anime_id;
+    public Long getAnimeId() {
+        return animeId;
     }
 
-    public void setAnime_id(Long anime_id) {
-        this.anime_id = anime_id;
+    public void setAnimeId(Long anime_id) {
+        this.animeId = anime_id;
     }
 
     public String getComment() {
@@ -80,12 +80,12 @@ public class AnimeCommentEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnimeCommentEntity that = (AnimeCommentEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(usersEntity, that.usersEntity) && Objects.equals(anime_id, that.anime_id) && Objects.equals(comment, that.comment) && Objects.equals(date, that.date);
+        return Objects.equals(id, that.id) && Objects.equals(usersEntity, that.usersEntity) && Objects.equals(animeId, that.animeId) && Objects.equals(comment, that.comment) && Objects.equals(date, that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, usersEntity, anime_id, comment, date);
+        return Objects.hash(id, usersEntity, animeId, comment, date);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class AnimeCommentEntity {
         return "AnimeCommentEntity{" +
                 "id=" + id +
                 ", usersEntity=" + usersEntity +
-                ", anime_id=" + anime_id +
+                ", anime_id=" + animeId +
                 ", comment='" + comment + '\'' +
                 ", date='" + date + '\'' +
                 '}';

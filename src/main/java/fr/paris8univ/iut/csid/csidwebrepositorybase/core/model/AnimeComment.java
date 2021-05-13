@@ -13,7 +13,7 @@ public class AnimeComment {
 
     public AnimeComment(AnimeCommentEntity re) {
         this.user = new Users(re.getUsersEntity());
-        this.anime_id = re.getAnime_id();
+        this.anime_id = re.getAnimeId();
         this.comment = re.getComment();
         this.comment = re.getDate();
     }
