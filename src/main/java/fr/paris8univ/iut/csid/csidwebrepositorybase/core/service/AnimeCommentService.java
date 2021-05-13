@@ -33,4 +33,7 @@ public class AnimeCommentService {
         }
     }
 
+    public void deleteComment(String currentUserLogin, long animeId) {
+        this.animeCommentRepository.deleteComment(currentUserLogin, animeId);
+    }
 }

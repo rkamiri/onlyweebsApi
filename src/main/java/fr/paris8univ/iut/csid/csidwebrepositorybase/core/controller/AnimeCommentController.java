@@ -34,4 +34,9 @@ public class AnimeCommentController {
     public String getCurrentUserCommentForASelectAnime(@PathVariable(value = "id")long animeId) {
         return this.animeCommentService.getCurrentUserCommentForASelectAnime(UserController.getCurrentUserLogin(), animeId);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteComment(@PathVariable long id) {
+        this.animeCommentService.deleteComment(UserController.getCurrentUserLogin(), id);
+    }
 }
