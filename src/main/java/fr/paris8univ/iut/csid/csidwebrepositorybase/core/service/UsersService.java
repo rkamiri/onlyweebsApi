@@ -32,4 +32,8 @@ public class UsersService {
     public Boolean checkIpAddress(String remoteAddr, String currentUserLogin) {
         return this.usersRepository.checkIpAddress(remoteAddr, currentUserLogin);
     }
+
+    public UsersEntity updateIp(String newIp, String currentUserLogin) {
+        return this.usersRepository.updateIp(newIp, currentUserLogin);
+    }
 }
