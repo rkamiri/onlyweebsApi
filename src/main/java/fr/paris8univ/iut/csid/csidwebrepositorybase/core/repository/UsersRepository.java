@@ -73,10 +73,9 @@ public class UsersRepository {
         return remoteIp.equals(this.findUserEntityByUsername(userLogin).getIp());
     }
 
-    public UsersEntity updateIp(String newIp, String currentUserLogin) {
+    public void updateIp(String newIp, String currentUserLogin) {
         UsersEntity usersEntity = this.findUserEntityByUsername(currentUserLogin);
         usersEntity.setIp(newIp);
         this.usersDao.save(usersEntity);
-        return usersEntity;
     }
 }

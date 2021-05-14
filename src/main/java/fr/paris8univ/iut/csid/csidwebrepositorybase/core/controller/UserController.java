@@ -35,10 +35,8 @@ public class UserController {
     }
 
     @GetMapping("/update/ip")
-    public ResponseEntity<UsersEntity> updateIp(HttpServletRequest request) {
-        UsersEntity usersEntity = this.usersService.updateIp(request.getRemoteAddr(), getCurrentUserLogin());
-        MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).body(usersEntity);
+    public void updateIp(HttpServletRequest request) {
+        this.usersService.updateIp(request.getRemoteAddr(), getCurrentUserLogin());
     }
 
     @GetMapping("/current")
