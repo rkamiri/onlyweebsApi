@@ -54,7 +54,7 @@ public class RegisterRepository {
                         user.getEmail(),
                         user.getGender(),
                         "No bio yet.",
-                        remoteAddr,
+                        bCryptPasswordEncoder.encode(remoteAddr),
                         this.imageDao.getOne(defaultImageId)
                 )
         );
