@@ -1,10 +1,13 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +32,13 @@ public class UserController {
     @GetMapping("/same-ip")
     public Boolean getUserSameIp(HttpServletRequest request) {
         return this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
+    }
+
+    @GetMapping("/update/ip")
+    public ResponseEntity<UsersEntity> updateIp(HttpServletRequest request) {
+        UsersEntity usersEntity = this.usersService.updateIp(request.getRemoteAddr(), getCurrentUserLogin());
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).body(usersEntity);
     }
 
     @GetMapping("/current")

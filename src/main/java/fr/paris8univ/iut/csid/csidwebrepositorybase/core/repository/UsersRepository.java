@@ -70,10 +70,13 @@ public class UsersRepository {
     }
 
     public Boolean checkIpAddress(String remoteIp, String userLogin) {
-        Boolean sameIpAsLastTime = remoteIp.equals(this.findUserEntityByUsername(userLogin).getIp());
-        UsersEntity usersEntity = this.findUserEntityByUsername(userLogin);
-        usersEntity.setIp(remoteIp);
+        return remoteIp.equals(this.findUserEntityByUsername(userLogin).getIp());
+    }
+
+    public UsersEntity updateIp(String newIp, String currentUserLogin) {
+        UsersEntity usersEntity = this.findUserEntityByUsername(currentUserLogin);
+        usersEntity.setIp(newIp);
         this.usersDao.save(usersEntity);
-        return sameIpAsLastTime;
+        return usersEntity;
     }
 }
