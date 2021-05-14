@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -27,9 +26,8 @@ public class ArticleRepository {
         this.uploadRepository = uploadRepository;
     }
 
-    public List<Article> findAllArticles() {
-        List<ArticleEntity> entities = this.articleDao.findAll();
-        return entities.stream().map(Article::new).collect(Collectors.toList());
+    public List<ArticleEntity> findAllArticles() {
+        return this.articleDao.findAll();
     }
 
     public Article getArticle(long id) {

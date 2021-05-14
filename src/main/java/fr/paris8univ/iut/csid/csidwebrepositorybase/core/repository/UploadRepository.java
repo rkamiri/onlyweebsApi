@@ -2,7 +2,6 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ImageDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ImageEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import org.springframework.stereotype.Repository;
