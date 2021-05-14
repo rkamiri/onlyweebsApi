@@ -26,15 +26,18 @@ public class UserController {
         this.imageController = imageController;
     }
 
+    @GetMapping("/same-ip")
+    public Boolean getUserSameIp(HttpServletRequest request) {
+        return this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
+    }
+
     @GetMapping("/current")
-    public Optional<Users> getCurrentUser(HttpServletRequest request) {
+    public Optional<Users> getCurrentUser() {
         if (!getCurrentUserLogin().equals("anonymousUser")) {
-            this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
             return this.usersService.findOneByLogin(getCurrentUserLogin());
         } else {
             return Optional.empty();
         }
-
     }
 
     public static String getCurrentUserLogin() {
