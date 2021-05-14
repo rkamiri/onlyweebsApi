@@ -26,10 +26,6 @@ public class UsersRepository {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public Optional<Users> findById(long id) {
-        return this.usersDao.findById(id).map(Users::new);
-    }
-
     public Optional<Users> findByUsername(String username) {
         return this.usersDao.findByUsername(username).map(Users::new);
     }
@@ -73,8 +69,11 @@ public class UsersRepository {
         return new Users(this.usersDao.findById(updatedUser.getId()).orElseThrow(NoUserFoundException::new));
     }
 
-    public void checkIpAddress(String remoteIp, String userLogin) {
-        String userType = remoteIp.equals(this.findUserEntityByUsername(userLogin).getIp()) ? "GOOD USER" : "BAD USER";
-        System.out.println(userType);
+    public Boolean checkIpAddress(String remoteIp, String userLogin) {
+        Boolean sameIpAsLastTime = remoteIp.equals(this.findUserEntityByUsername(userLogin).getIp());
+        UsersEntity usersEntity = this.findUserEntityByUsername(userLogin);
+        usersEntity.setIp(remoteIp);
+        this.usersDao.save(usersEntity);
+        return sameIpAsLastTime;
     }
 }
