@@ -29,7 +29,7 @@ public class UsersService {
         return this.usersRepository.updateCurrentUser(updatedUser);
     }
 
-    public void checkIpAddress(String remoteAddr, String currentUserLogin) {
-        this.usersRepository.checkIpAddress(remoteAddr, currentUserLogin);
+    public Boolean checkIpAddress(String remoteAddr, String currentUserLogin) {
+        return this.usersRepository.checkIpAddress(remoteAddr, currentUserLogin);
     }
 }
