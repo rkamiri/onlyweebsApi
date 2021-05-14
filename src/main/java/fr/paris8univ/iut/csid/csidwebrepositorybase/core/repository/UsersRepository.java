@@ -37,7 +37,7 @@ public class UsersRepository {
     public Users updateCurrentUser(Users updatedUser) throws NoUserFoundException {
         UsersEntity current = this.usersDao.findById(updatedUser.getId()).orElseThrow(NoUserFoundException::new);
 
-        if(updatedUser.getUsername()!=null || !Objects.equals(updatedUser.getUsername(), current.getUsername())){
+        if (updatedUser.getUsername() != null || !Objects.equals(updatedUser.getUsername(), current.getUsername())) {
             AuthEntity currAuthDao = this.authDao.findById(current.getUsername()).orElseThrow();
             this.authDao.delete(currAuthDao);
             currAuthDao.setUsername(updatedUser.getUsername());
@@ -45,23 +45,23 @@ public class UsersRepository {
             this.usersDao.save(current);
             this.authDao.save(currAuthDao);
         }
-        if(updatedUser.getEmail()!=null || !Objects.equals(updatedUser.getEmail(), current.getEmail())) {
+        if (updatedUser.getEmail() != null || !Objects.equals(updatedUser.getEmail(), current.getEmail())) {
             current.setEmail(updatedUser.getEmail());
             this.usersDao.save(current);
         }
-        if(updatedUser.getFirstname()!=null || !Objects.equals(updatedUser.getFirstname(), current.getFirstname())) {
+        if (updatedUser.getFirstname() != null || !Objects.equals(updatedUser.getFirstname(), current.getFirstname())) {
             current.setFirstname(updatedUser.getFirstname());
             this.usersDao.save(current);
         }
-        if(updatedUser.getLastname()!=null || !Objects.equals(updatedUser.getLastname(), current.getLastname())) {
+        if (updatedUser.getLastname() != null || !Objects.equals(updatedUser.getLastname(), current.getLastname())) {
             current.setLastname(updatedUser.getLastname());
             this.usersDao.save(current);
         }
-        if(updatedUser.getPassword()!=null) {
+        if (updatedUser.getPassword() != null) {
             current.setPassword(this.bCryptPasswordEncoder.encode(updatedUser.getPassword()));
             this.usersDao.save(current);
         }
-        if(updatedUser.getBio()!=null || !Objects.equals(updatedUser.getBio(), current.getBio())){
+        if (updatedUser.getBio() != null || !Objects.equals(updatedUser.getBio(), current.getBio())) {
             current.setBio(updatedUser.getBio());
             this.usersDao.save(current);
         }
@@ -70,12 +70,12 @@ public class UsersRepository {
     }
 
     public Boolean checkIpAddress(String remoteIp, String userLogin) {
-        return remoteIp.equals(this.findUserEntityByUsername(userLogin).getIp());
+        return bCryptPasswordEncoder.matches(remoteIp, this.findUserEntityByUsername(userLogin).getIp());
     }
 
     public void updateIp(String newIp, String currentUserLogin) {
         UsersEntity usersEntity = this.findUserEntityByUsername(currentUserLogin);
-        usersEntity.setIp(newIp);
+        usersEntity.setIp(bCryptPasswordEncoder.encode(newIp));
         this.usersDao.save(usersEntity);
     }
 }
