@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public List<Article> findAllArticles() {
+    public List<ArticleEntity> findAllArticles() {
         return this.articleRepository.findAllArticles();
     }
 

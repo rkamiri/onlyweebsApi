@@ -1,4 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<Article> getArticles() {
+    public List<ArticleEntity> getArticles() {
         return this.articleService.findAllArticles();
     }
 
