@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -10,8 +11,12 @@ import java.util.Properties;
 @Service
 public class MailService {
     private Session mailSession;
-    final String username = "onlyweebsofficial@gmail.com";
-    final String password = "onlyweebs6942069420";
+
+    @Value("${ow.gmail.username}")
+    private String username;
+
+    @Value("${ow.gmail.password}")
+    private String password;
 
     public MailService() {
     }
@@ -30,23 +35,23 @@ public class MailService {
                 });
     }
 
-    private MimeMessage draftEmailMessage() throws MessagingException {
-        String recipients = "naelmez18@gmail.com, onlyweebsofficial@gmail.com";
+    private MimeMessage draftEmailMessage(String recipient) throws MessagingException {
+        // String recipients = "naelmez18@gmail.com, nmz94140@gmail.com";
         String emailSubject = "Test email subject";
         String emailBody = "This is an email sent by OnlyWeebs website.";
         MimeMessage emailMessage = new MimeMessage(mailSession);
-        emailMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
+        emailMessage.setRecipients(Message.RecipientType.TO, recipient);
         emailMessage.setSubject(emailSubject);
         emailMessage.setText(emailBody);
         return emailMessage;
     }
 
-    public void sendEmail() throws MessagingException {
+    public void sendEmail(String recipient) throws MessagingException {
         this.setMailServerProperties();
         String emailHost = "smtp.gmail.com";
         Transport transport = mailSession.getTransport("smtp");
         transport.connect(emailHost, username, password);
-        MimeMessage emailMessage = draftEmailMessage();
+        MimeMessage emailMessage = draftEmailMessage(recipient);
         transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
         transport.close();
         System.out.println("Email sent successfully.");
