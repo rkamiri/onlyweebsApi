@@ -1,18 +1,17 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.MailService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
@@ -22,11 +21,13 @@ public class UserController {
 
     private final UsersService usersService;
     private final ImageController imageController;
+    private final MailService mailService;
 
     @Autowired
-    public UserController(UsersService usersService, ImageController imageController) {
+    public UserController(UsersService usersService, ImageController imageController, MailService mailService) {
         this.usersService = usersService;
         this.imageController = imageController;
+        this.mailService = mailService;
     }
 
     @GetMapping("/same-ip")
@@ -37,6 +38,13 @@ public class UserController {
     @GetMapping("/update/ip")
     public void updateIp(HttpServletRequest request) {
         this.usersService.updateIp(request.getRemoteAddr(), getCurrentUserLogin());
+    }
+
+    @GetMapping("/mail/send")
+    public void sendMail() throws MessagingException {
+        System.out.println("i m here");
+        this.mailService.sendEmail();
+        System.out.println("still here");
     }
 
     @GetMapping("/current")
