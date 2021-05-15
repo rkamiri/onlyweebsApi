@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.TokenEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
@@ -13,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/users")
@@ -41,14 +39,6 @@ public class UserController {
     @GetMapping("/update/ip")
     public void updateIp(HttpServletRequest request) {
         this.usersService.updateIp(request.getRemoteAddr(), getCurrentUserLogin());
-    }
-
-    @GetMapping("/mail/send")
-    public void sendMail() throws MessagingException {
-        byte[] array = new byte[32];
-        new Random().nextBytes(array);
-        String token = new String(array, StandardCharsets.UTF_8);
-        this.mailService.sendEmail(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getEmail(), token);
     }
 
     @GetMapping("/current")
