@@ -42,9 +42,7 @@ public class UserController {
 
     @GetMapping("/mail/send")
     public void sendMail() throws MessagingException {
-        System.out.println("i m here");
-        this.mailService.sendEmail();
-        System.out.println("still here");
+        this.mailService.sendEmail(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getEmail());
     }
 
     @GetMapping("/current")
