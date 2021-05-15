@@ -7,6 +7,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.Random;
 
 @Service
 public class MailService {
@@ -17,6 +18,9 @@ public class MailService {
 
     @Value("${ow.gmail.password}")
     private String password;
+
+    @Value("${ow.link}")
+    private String onlyweebs;
 
     public MailService() {
     }
@@ -38,7 +42,7 @@ public class MailService {
     private MimeMessage draftEmailMessage(String recipient, String token) throws MessagingException {
         // String recipients = "naelmez18@gmail.com, nmz94140@gmail.com";
         String emailSubject = "Test email subject";
-        String emailBody = "onlyweebs.csid.agilitejoviale.fr/password-update/"+token;
+        String emailBody = onlyweebs + "password-update/" + token;
         MimeMessage emailMessage = new MimeMessage(mailSession);
         emailMessage.setRecipients(Message.RecipientType.TO, recipient);
         emailMessage.setSubject(emailSubject);
@@ -54,6 +58,5 @@ public class MailService {
         MimeMessage emailMessage = draftEmailMessage(recipient, token);
         transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
         transport.close();
-        System.out.println("Email sent successfully.");
     }
 }
