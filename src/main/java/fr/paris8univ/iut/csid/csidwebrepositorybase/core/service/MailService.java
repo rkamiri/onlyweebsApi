@@ -35,10 +35,10 @@ public class MailService {
                 });
     }
 
-    private MimeMessage draftEmailMessage(String recipient) throws MessagingException {
+    private MimeMessage draftEmailMessage(String recipient, String token) throws MessagingException {
         // String recipients = "naelmez18@gmail.com, nmz94140@gmail.com";
         String emailSubject = "Test email subject";
-        String emailBody = "This is an email sent by OnlyWeebs website.";
+        String emailBody = "onlyweebs.csid.agilitejoviale.fr/password-update/"+token;
         MimeMessage emailMessage = new MimeMessage(mailSession);
         emailMessage.setRecipients(Message.RecipientType.TO, recipient);
         emailMessage.setSubject(emailSubject);
@@ -46,12 +46,12 @@ public class MailService {
         return emailMessage;
     }
 
-    public void sendEmail(String recipient) throws MessagingException {
+    public void sendEmail(String recipient, String token) throws MessagingException {
         this.setMailServerProperties();
         String emailHost = "smtp.gmail.com";
         Transport transport = mailSession.getTransport("smtp");
         transport.connect(emailHost, username, password);
-        MimeMessage emailMessage = draftEmailMessage(recipient);
+        MimeMessage emailMessage = draftEmailMessage(recipient, token);
         transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
         transport.close();
         System.out.println("Email sent successfully.");
