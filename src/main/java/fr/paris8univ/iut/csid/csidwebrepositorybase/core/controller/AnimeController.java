@@ -35,8 +35,8 @@ public class AnimeController {
         return this.animeService.researchAnimes(research);
     }
 
-    @GetMapping("/pagination/count")
+    @GetMapping("/count")
     public int getPageCount(){
-        return this.animeService.getPageCount();
+        return this.animeService.getCount();
     }
 }

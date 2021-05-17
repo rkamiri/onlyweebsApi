@@ -25,7 +25,7 @@ public class AnimeRepository {
     }
 
     public List<Anime> findAllAnime(int page) {
-        Pageable pageable = PageRequest.of(page, 4, Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
 
         Page<AnimeEntity> entities = this.animeDao.findAll(pageable);
         return entities.stream().map(Anime::new).collect(Collectors.toList());
@@ -39,8 +39,8 @@ public class AnimeRepository {
         return this.animeDao.findTop15ByTitleContaining(research).stream().map(Anime::new).collect(Collectors.toList());
     }
 
-    public int getPageCount(){
-        return this.animeDao.findAll().size()/50;
+    public int getCount(){
+        return this.animeDao.findAll().size();
     }
 
 }

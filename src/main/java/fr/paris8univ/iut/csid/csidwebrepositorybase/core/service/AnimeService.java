@@ -29,7 +29,7 @@ public class AnimeService {
         return this.animeRepository.researchAnimes(research);
     }
 
-    public int getPageCount(){
-        return this.animeRepository.getPageCount();
+    public int getCount(){
+        return this.animeRepository.getCount();
     }
 }
