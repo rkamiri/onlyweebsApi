@@ -17,8 +17,8 @@ public class AnimeService {
         this.animeRepository = animeRepository;
     }
 
-    public List<Anime> getAnimes() throws URISyntaxException {
-        return this.animeRepository.findAllAnime();
+    public List<Anime> getAnimes(int page) throws URISyntaxException {
+        return this.animeRepository.findAllAnime(page);
     }
 
     public Anime getOneAnime(Long id) throws NoAnimeException {
@@ -27,5 +27,9 @@ public class AnimeService {
 
     public List<Anime> researchAnimes(String research) {
         return this.animeRepository.researchAnimes(research);
+    }
+
+    public int getPageCount(){
+        return this.animeRepository.getPageCount();
     }
 }

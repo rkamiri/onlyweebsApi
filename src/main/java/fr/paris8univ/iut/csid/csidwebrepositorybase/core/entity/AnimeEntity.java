@@ -14,26 +14,35 @@ public class AnimeEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "international_title")
-    private String internationalTitle;
-
     @Column(name = "synopsis")
     private String synopsis;
 
     @Column(name = "cover")
     private String cover;
 
+    @Column(name = "genre")
+    private String genre;
+
+    @Column(name = "aired")
+    private String aired;
+
     @Column(name = "ranking")
-    private int ranking;
+    private Long ranking;
+
+    @Column(name = "episodes")
+    private Long episodes;
 
     public AnimeEntity(){}
 
-    public AnimeEntity(String title, String international_title, String synopsis, String cover, int ranking) {
+    public AnimeEntity(Long id, String title, String synopsis, String cover, String genre, String aired, Long ranking, Long episodes) {
+        this.id = id;
         this.title = title;
-        this.internationalTitle = international_title;
         this.synopsis = synopsis;
         this.cover = cover;
+        this.genre = genre;
+        this.aired = aired;
         this.ranking = ranking;
+        this.episodes = episodes;
     }
 
     public Long getId() {
@@ -52,14 +61,6 @@ public class AnimeEntity {
         this.title = title;
     }
 
-    public String getInternationalTitle() {
-        return internationalTitle;
-    }
-
-    public void setInternationalTitle(String international_title) {
-        this.internationalTitle = international_title;
-    }
-
     public String getSynopsis() {
         return synopsis;
     }
@@ -76,11 +77,35 @@ public class AnimeEntity {
         this.cover = cover;
     }
 
-    public int getRanking() {
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getAired() {
+        return aired;
+    }
+
+    public void setAired(String aired) {
+        this.aired = aired;
+    }
+
+    public Long getRanking() {
         return ranking;
     }
 
-    public void setRanking(int ranking) {
+    public void setRanking(Long ranking) {
         this.ranking = ranking;
+    }
+
+    public Long getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(Long episodes) {
+        this.episodes = episodes;
     }
 }

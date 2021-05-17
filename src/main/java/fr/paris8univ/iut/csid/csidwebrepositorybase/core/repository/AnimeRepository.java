@@ -4,6 +4,10 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,8 +24,10 @@ public class AnimeRepository {
         this.animeDao = adao;
     }
 
-    public List<Anime> findAllAnime() {
-        List<AnimeEntity> entities = this.animeDao.findAll();
+    public List<Anime> findAllAnime(int page) {
+        Pageable pageable = PageRequest.of(page, 4, Sort.Direction.ASC, "id");
+
+        Page<AnimeEntity> entities = this.animeDao.findAll(pageable);
         return entities.stream().map(Anime::new).collect(Collectors.toList());
     }
 
@@ -30,6 +36,11 @@ public class AnimeRepository {
     }
 
     public List<Anime> researchAnimes(String research) {
-        return this.animeDao.findByInternationalTitleContainingOrTitleContaining(research, research).stream().map(Anime::new).collect(Collectors.toList());
+        return this.animeDao.findTop15ByTitleContaining(research).stream().map(Anime::new).collect(Collectors.toList());
     }
+
+    public int getPageCount(){
+        return this.animeDao.findAll().size()/50;
+    }
+
 }

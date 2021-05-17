@@ -2,21 +2,27 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 
+import javax.persistence.Column;
+
 public class Anime {
     private Long id;
     private String title;
-    private String internationalTitle;
     private String synopsis;
     private String cover;
-    private int ranking;
+    private String genre;
+    private String aired;
+    private Long ranking;
+    private Long episodes;
 
     public Anime(AnimeEntity animeEntity) {
-        this.id=animeEntity.getId();
-        this.title = animeEntity.getTitle();
-        this.internationalTitle = animeEntity.getInternationalTitle();
-        this.synopsis = animeEntity.getSynopsis();
-        this.cover = animeEntity.getCover();
-        this.ranking = animeEntity.getRanking();
+        id = animeEntity.getId();
+        title = animeEntity.getTitle();
+        synopsis = animeEntity.getSynopsis();
+        cover = animeEntity.getCover();
+        genre = animeEntity.getGenre();
+        aired = animeEntity.getAired();
+        ranking = animeEntity.getRanking();
+        episodes = animeEntity.getEpisodes();
     }
 
     public Long getId() {
@@ -35,14 +41,6 @@ public class Anime {
         this.title = title;
     }
 
-    public String getInternationalTitle() {
-        return internationalTitle;
-    }
-
-    public void setInternationalTitle(String internationalTitle) {
-        this.internationalTitle = internationalTitle;
-    }
-
     public String getSynopsis() {
         return synopsis;
     }
@@ -59,11 +57,35 @@ public class Anime {
         this.cover = cover;
     }
 
-    public int getRanking() {
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getAired() {
+        return aired;
+    }
+
+    public void setAired(String aired) {
+        this.aired = aired;
+    }
+
+    public Long getRanking() {
         return ranking;
     }
 
-    public void setRanking(int ranking) {
+    public void setRanking(Long ranking) {
         this.ranking = ranking;
+    }
+
+    public Long getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(Long episodes) {
+        this.episodes = episodes;
     }
 }

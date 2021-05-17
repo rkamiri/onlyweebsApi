@@ -20,9 +20,9 @@ public class AnimeController {
         this.animeService = animeService;
     }
 
-    @GetMapping
-    public List<Anime> getAnimes() throws URISyntaxException {
-        return this.animeService.getAnimes();
+    @GetMapping("/pagination/{page}")
+    public List<Anime> getAnimes(@PathVariable(value = "page", required = true) int page) throws URISyntaxException {
+        return this.animeService.getAnimes(page);
     }
 
     @GetMapping("/{id}")
@@ -33,5 +33,10 @@ public class AnimeController {
     @GetMapping("/research/{research}")
     public List<Anime> researchAnimes(@PathVariable(value = "research", required = true) String research) {
         return this.animeService.researchAnimes(research);
+    }
+
+    @GetMapping("/pagination/count")
+    public int getPageCount(){
+        return this.animeService.getPageCount();
     }
 }
