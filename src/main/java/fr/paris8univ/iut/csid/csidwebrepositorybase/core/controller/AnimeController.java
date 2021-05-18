@@ -35,6 +35,16 @@ public class AnimeController {
         return this.animeService.researchAnimes(research);
     }
 
+    @GetMapping("/research/{research}/pagination/{page}")
+    public List<Anime> researchAnimesPagination(@PathVariable(value = "research", required = true) String research, @PathVariable(value = "page", required = true) int page) {
+        return this.animeService.researchAnimesPagination(research, page);
+    }
+
+    @GetMapping("/research/{research}/count")
+    public int getResearchPageCount(@PathVariable(value = "research", required = true) String research){
+        return this.animeService.getResearchCount(research);
+    }
+
     @GetMapping("/count")
     public int getPageCount(){
         return this.animeService.getCount();

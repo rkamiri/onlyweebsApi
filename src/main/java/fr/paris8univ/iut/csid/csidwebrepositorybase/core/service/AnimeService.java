@@ -21,6 +21,10 @@ public class AnimeService {
         return this.animeRepository.findAllAnime(page);
     }
 
+    public int getCount(){
+        return this.animeRepository.getCount();
+    }
+
     public Anime getOneAnime(Long id) throws NoAnimeException {
         return this.animeRepository.findOneAnime(id).orElseThrow(NoAnimeException::new);
     }
@@ -29,7 +33,12 @@ public class AnimeService {
         return this.animeRepository.researchAnimes(research);
     }
 
-    public int getCount(){
-        return this.animeRepository.getCount();
+    public List<Anime> researchAnimesPagination(String research, int page) {
+        return this.animeRepository.researchAnimesPagination(research, page);
     }
+
+    public int getResearchCount(String research){
+        return this.animeRepository.getResearchCount(research);
+    }
+
 }
