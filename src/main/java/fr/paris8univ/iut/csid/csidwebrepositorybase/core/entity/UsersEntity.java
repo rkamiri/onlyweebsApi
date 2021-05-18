@@ -60,6 +60,10 @@ public class UsersEntity {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -80,16 +84,16 @@ public class UsersEntity {
         return firstname;
     }
 
-    public void setFirstname(String firstName) {
-        this.firstname = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public String getLastname() {
         return lastname;
     }
 
-    public void setLastname(String lastName) {
-        this.lastname = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -109,10 +113,12 @@ public class UsersEntity {
     }
 
     public String getBio() {
-        return this.bio;
+        return bio;
     }
 
-    public void setBio(String bio) { this.bio = bio; }
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     public String getIp() {
         return ip;
