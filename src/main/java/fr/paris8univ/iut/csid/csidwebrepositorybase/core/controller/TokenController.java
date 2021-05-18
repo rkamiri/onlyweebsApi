@@ -9,6 +9,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.mail.MessagingException;
 
 @RestController
@@ -34,7 +35,7 @@ public class TokenController {
                 token.getToken()
         );
     }
-
+  
     @PostMapping("/change-password")
     public ResponseEntity<Boolean> putPassword(@RequestBody UpdatePassword newPassword) {
         if (this.tokenService.putPassword(newPassword)==null) {

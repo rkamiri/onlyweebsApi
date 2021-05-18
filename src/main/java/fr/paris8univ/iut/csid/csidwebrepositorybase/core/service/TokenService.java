@@ -28,7 +28,7 @@ public class TokenService {
         this.tokenDao.save(tokenEntity);
         return tokenEntity;
     }
-
+  
     public TokenEntity putPassword(UpdatePassword newPassword) {
         TokenEntity tokenEntity;
         try {
