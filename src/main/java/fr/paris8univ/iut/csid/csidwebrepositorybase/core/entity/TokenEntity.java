@@ -1,7 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -18,22 +17,21 @@ public class TokenEntity {
     @Column(name = "token")
     private String token;
 
-    @Column(name = "expiration_date")
-    private String expirationDate;
+    @Column(name = "expiration_date", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expirationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UsersEntity usersEntity;
 
     public TokenEntity(UsersEntity usersEntity) {
-        Date datePlus30Minutes = new Date(Calendar.getInstance().getTimeInMillis() + (30 * 60 * 1000));
         this.token = generateRandomAlphanumericString();
-        this.expirationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(datePlus30Minutes);
+        this.expirationDate = new Date(Calendar.getInstance().getTimeInMillis() + (30 * 60 * 1000));
         this.usersEntity = usersEntity;
     }
 
     public TokenEntity() {
-
     }
 
     public String generateRandomAlphanumericString() {
@@ -41,27 +39,42 @@ public class TokenEntity {
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 64;
         Random random = new Random();
-        String generatedString = random.ints(leftLimit, rightLimit + 1)
+        return random.ints(leftLimit, rightLimit + 1)
                 .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
-        return generatedString;
     }
 
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getToken() {
         return token;
     }
 
-    public String getExpirationDate() {
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getExpirationDate() {
         return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public UsersEntity getUsersEntity() {
         return usersEntity;
+    }
+
+    public void setUsersEntity(UsersEntity usersEntity) {
+        this.usersEntity = usersEntity;
     }
 }

@@ -41,3 +41,6 @@ src\main\resources\liquibase\liquibase.properties
 src/main/resources/liquibase/liquibase.properties
 /src/main/resources/liquibase/liquibase.properties
 liquibase.properties
+/src/main/resources/errors.txt
+/src/main/resources/result.csv
+/src/main/resources/sniffer.py

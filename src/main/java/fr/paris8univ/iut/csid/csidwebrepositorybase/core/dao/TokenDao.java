@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TokenDao extends JpaRepository<TokenEntity, Long> {
     TokenEntity findTokenEntityByUsersEntity(UsersEntity usersEntity);
+    TokenEntity findTokenEntityByToken(String token);
 }
