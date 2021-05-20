@@ -1,6 +1,8 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.PegiDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.PegiEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +20,27 @@ import java.util.stream.Collectors;
 public class AnimeRepository {
 
     private final AnimeDao animeDao;
+    private final PegiDao pegiDao;
+    private static final Long HENTAI_PEGI_ID  = 166L;
 
     @Autowired
-    public AnimeRepository(AnimeDao adao) {
+    public AnimeRepository(AnimeDao adao, PegiDao pegiDao) {
         this.animeDao = adao;
+        this.pegiDao = pegiDao;
     }
 
     public List<Anime> findAllAnime(int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
-
-        //Page<AnimeEntity> entities = this.animeDao.findByGenreNotContaining(pageable, "hentai");
-        Page<AnimeEntity> entities = this.animeDao.findAll(pageable);
-        return entities.stream().map(Anime::new).collect(Collectors.toList());
+        PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
+        List<Anime> animes = this.animeDao.findAll(pageable).stream().map(Anime::new).collect(Collectors.toList());
+        removeHentais(animes);
+        return animes;
     }
 
     public int getCount(){
-        return this.animeDao.findAll().size();
+        List<Anime> animes = this.animeDao.findAll().stream().map(Anime::new).collect(Collectors.toList());
+        removeHentais(animes);
+        return animes.size();
     }
 
     public Optional<Anime> findOneAnime(Long id) {
@@ -41,18 +48,29 @@ public class AnimeRepository {
     }
 
     public List<Anime> researchAnimes(String research) {
-        return this.animeDao.findTop15ByTitleContaining(research).stream().map(Anime::new).collect(Collectors.toList());
+        PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
+        List<Anime> animes =  this.animeDao.findTop15ByTitleContaining(research).stream().map(Anime::new).collect(Collectors.toList());
+        removeHentais(animes);
+        return animes;
     }
 
     public List<Anime> researchAnimesPagination(String research, int page) {
+        PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
-        Page<AnimeEntity> entities = this.animeDao.findByTitleContaining(pageable, research);
-        return entities.stream().map(Anime::new).collect(Collectors.toList());
+        List<Anime> animes = this.animeDao.findByTitleContaining(pageable, research).stream().map(Anime::new).collect(Collectors.toList());
+        removeHentais(animes);
+        return animes;
     }
 
     public int getResearchCount(String research){
-        return this.animeDao.findByTitleContaining(research).size();
+        PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
+        List<Anime> animes = this.animeDao.findByTitleContaining(research).stream().map(Anime::new).collect(Collectors.toList());
+        removeHentais(animes);
+        return animes.size();
     }
 
+    private static void removeHentais(List<Anime> animes){
+        animes.removeIf(anime -> anime.getPegi().getId().equals(HENTAI_PEGI_ID));
+    }
 
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class AnimeService {
-
     private final AnimeRepository animeRepository;
     private final HasStudioDao hasStudioDao;
     private final HasGenreDao hasGenreDao;

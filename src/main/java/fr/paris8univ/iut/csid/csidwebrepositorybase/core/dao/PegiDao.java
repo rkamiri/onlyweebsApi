@@ -11,4 +11,5 @@ import java.util.List;
 
 @Repository
 public interface PegiDao extends JpaRepository<PegiEntity, Long> {
+    PegiEntity findOneById(Long hentaiPegiId);
 }
