@@ -19,7 +19,7 @@ public class AnimeRepository {
 
     private final AnimeDao animeDao;
     private final PegiDao pegiDao;
-    private static final Long HENTAI_PEGI_ID  = 166L;
+    private static final Long HENTAI_PEGI_ID  = 6L;
 
     @Autowired
     public AnimeRepository(AnimeDao adao, PegiDao pegiDao) {
