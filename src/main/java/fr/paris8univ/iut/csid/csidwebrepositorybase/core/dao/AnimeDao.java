@@ -6,15 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
 
-   List<AnimeEntity> findTop15ByTitleContaining(String researchInternationalTitle);
-   Page<AnimeEntity> findByTitleContaining(Pageable page, String researchInternationalTitle);
-   List<AnimeEntity> findByTitleContaining(String researchInternationalTitle);
-   //Page<AnimeEntity> findAllBy (Pageable page, PegiEntity pegiEntity);
+   List<AnimeEntity> findAllByPegiEntityNotLike(PegiEntity pegiEntity);
+   List<AnimeEntity> findTop15ByTitleContainingAndPegiEntityNotLike(String researchInternationalTitle, PegiEntity pegiEntity);
+   List<AnimeEntity> findByTitleContainingAndPegiEntityNotLike(String researchInternationalTitle, PegiEntity pegiEntity);
+   Page<AnimeEntity> findAllByPegiEntityNotLike(Pageable page, PegiEntity pegiEntity);
+   Page<AnimeEntity> findByTitleContainingAndPegiEntityNotLike(Pageable page, String researchInternationalTitle, PegiEntity hentaiEntity);
 }
