@@ -1,6 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.GenreEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ProducerEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.StudioEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +53,20 @@ public class AnimeController {
     @GetMapping("/count")
     public int getPageCount(){
         return this.animeService.getCount();
+    }
+
+    @GetMapping("{id}/studios")
+    public List<StudioEntity> getAnimeStudios(@PathVariable(value = "id", required = true) Long idAnime){
+        return this.animeService.getAnimeStudios(idAnime);
+    }
+
+    @GetMapping("{id}/producers")
+    public List<ProducerEntity> getAnimeProducers(@PathVariable(value = "id", required = true) Long idAnime){
+        return this.animeService.getAnimeProducers(idAnime);
+    }
+
+    @GetMapping("{id}/genres")
+    public List<GenreEntity> getAnimeGenres(@PathVariable(value = "id", required = true) Long idAnime){
+        return this.animeService.getAnimeGenres(idAnime);
     }
 }

@@ -27,12 +27,13 @@ public class AnimeRepository {
     public List<Anime> findAllAnime(int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
 
-        Page<AnimeEntity> entities = this.animeDao.findByGenreNotContaining(pageable, "hentai");
+        //Page<AnimeEntity> entities = this.animeDao.findByGenreNotContaining(pageable, "hentai");
+        Page<AnimeEntity> entities = this.animeDao.findAll(pageable);
         return entities.stream().map(Anime::new).collect(Collectors.toList());
     }
 
     public int getCount(){
-        return this.animeDao.findByGenreNotContaining("hentai").size();
+        return this.animeDao.findAll().size();
     }
 
     public Optional<Anime> findOneAnime(Long id) {
@@ -40,17 +41,17 @@ public class AnimeRepository {
     }
 
     public List<Anime> researchAnimes(String research) {
-        return this.animeDao.findTop15ByTitleContainingAndGenreNotContaining(research, "Hentai").stream().map(Anime::new).collect(Collectors.toList());
+        return this.animeDao.findTop15ByTitleContaining(research).stream().map(Anime::new).collect(Collectors.toList());
     }
 
     public List<Anime> researchAnimesPagination(String research, int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
-        Page<AnimeEntity> entities = this.animeDao.findByTitleContainingAndGenreNotContaining(pageable, research, "hentai");
+        Page<AnimeEntity> entities = this.animeDao.findByTitleContaining(pageable, research);
         return entities.stream().map(Anime::new).collect(Collectors.toList());
     }
 
     public int getResearchCount(String research){
-        return this.animeDao.findByTitleContainingAndGenreNotContaining(research, "hentai").size();
+        return this.animeDao.findByTitleContaining(research).size();
     }
 
 

@@ -130,10 +130,10 @@ public class ListsRepository {
             if (listOfAnime.size() >= 4) {
                 for (int i = 0; i < 4; i++) {
                     if (listOfAnime.get(i).isPresent())
-                        imagesUrl.add(listOfAnime.get(i).get().getCover());
+                        imagesUrl.add(listOfAnime.get(i).get().getImgUrl());
                 }
             } else
-                imagesUrl = listOfAnime.stream().map(e -> e.orElseThrow().getCover()).collect(Collectors.toList());
+                imagesUrl = listOfAnime.stream().map(e -> e.orElseThrow().getImgUrl()).collect(Collectors.toList());
             fourImageUrlOfEachListInAList.add(imagesUrl);
         }
         return fourImageUrlOfEachListInAList;

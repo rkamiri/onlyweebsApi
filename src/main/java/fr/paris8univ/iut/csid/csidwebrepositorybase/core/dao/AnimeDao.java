@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
 
-   List<AnimeEntity> findTop15ByTitleContainingAndGenreNotContaining(String researchInternationalTitle, String hentai);
-   Page<AnimeEntity> findByTitleContainingAndGenreNotContaining(Pageable page, String researchInternationalTitle, String hentai);
-   List<AnimeEntity> findByTitleContainingAndGenreNotContaining(String researchInternationalTitle, String hentai);
-   Page<AnimeEntity> findByGenreNotContaining (Pageable page, String hentai);
-   List<AnimeEntity> findByGenreNotContaining(String hentai);
+   List<AnimeEntity> findTop15ByTitleContaining(String researchInternationalTitle);
+   Page<AnimeEntity> findByTitleContaining(Pageable page, String researchInternationalTitle);
+   List<AnimeEntity> findByTitleContaining(String researchInternationalTitle);
+   //Page<AnimeEntity> findByGenreNotContaining (Pageable page, String hentai);
+   //List<AnimeEntity> findByGenreNotContaining(String hentai);
 }
