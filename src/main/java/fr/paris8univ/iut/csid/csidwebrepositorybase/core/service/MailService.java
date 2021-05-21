@@ -1,17 +1,18 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-import java.util.Random;
 
 @Service
 public class MailService {
     private Session mailSession;
+    Logger logger = LoggerFactory.getLogger(MailService.class);
 
     @Value("${ow.gmail.username}")
     private String username;
@@ -51,12 +52,17 @@ public class MailService {
     }
 
     public void sendEmail(String recipient, String token) throws MessagingException {
-        this.setMailServerProperties();
-        String emailHost = "smtp.gmail.com";
-        Transport transport = mailSession.getTransport("smtp");
-        transport.connect(emailHost, username, password);
-        MimeMessage emailMessage = draftEmailMessage(recipient, token);
-        transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
-        transport.close();
+        try {
+            this.setMailServerProperties();
+            String emailHost = "smtp.gmail.com";
+            Transport transport = mailSession.getTransport("smtp");
+            transport.connect(emailHost, username, password);
+            MimeMessage emailMessage = draftEmailMessage(recipient, token);
+            transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
+            transport.close();
+        } catch (Exception exception) {
+            logger.error("An ERROR Message");
+            logger.error(String.valueOf(exception));
+        }
     }
 }
