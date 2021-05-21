@@ -30,6 +30,7 @@ public class MailService {
         emailProperties.put("mail.smtp.auth", "true");
         emailProperties.put("mail.smtp.starttls.enable", "true");
         emailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        emailProperties.put("mail.smtp.ssl.protocols", "TLSv1.3");
         mailSession = Session.getInstance(emailProperties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
