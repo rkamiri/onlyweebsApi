@@ -4,7 +4,6 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.HasProducer;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,7 @@ public class AnimeService {
         this.studioDao = studioDao;
     }
 
-    public List<Anime> getAnimes(int page) throws URISyntaxException {
+    public List<Anime> getAnimes(int page) {
         return this.animeRepository.findAllAnime(page);
     }
 
@@ -77,7 +76,7 @@ public class AnimeService {
     public List<GenreEntity> getAnimeGenres(Long idAnime) {
         List<HasGenreEntity> hasGenreEntities = hasGenreDao.findAllByIdAnime(idAnime);
         List<GenreEntity> genreEntities = new ArrayList<>();
-        for(HasGenreEntity entity: hasGenreEntities){
+        for (HasGenreEntity entity : hasGenreEntities) {
             genreEntities.add(genreDao.findById(entity.getIdGenre()).orElseThrow());
         }
         return genreEntities;
