@@ -1,7 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +9,8 @@ import java.util.Properties;
 
 @Service
 public class MailService {
-    private Session mailSession;
-    Logger logger = LoggerFactory.getLogger(MailService.class);
 
+    private Session mailSession;
     @Value("${ow.gmail.username}")
     private String username;
 
@@ -51,7 +48,7 @@ public class MailService {
         return emailMessage;
     }
 
-    public void sendEmail(String recipient, String token) throws MessagingException {
+    public String sendEmail(String recipient, String token) throws MessagingException {
         try {
             this.setMailServerProperties();
             String emailHost = "smtp.gmail.com";
@@ -61,8 +58,8 @@ public class MailService {
             transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
             transport.close();
         } catch (Exception exception) {
-            logger.error("An ERROR Message");
-            logger.error(String.valueOf(exception));
+            return exception.toString();
         }
+        return "ALL GOOD";
     }
 }

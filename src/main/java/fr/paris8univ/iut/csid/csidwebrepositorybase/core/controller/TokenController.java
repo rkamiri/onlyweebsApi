@@ -27,13 +27,10 @@ public class TokenController {
     }
 
     @GetMapping("/change-password")
-    public void sendMail() throws MessagingException {
+    public String sendMail() throws MessagingException {
         UsersEntity user = this.usersService.findUserEntityByUsername(UserController.getCurrentUserLogin());
         TokenEntity token = this.tokenService.createToken(user);
-        this.mailService.sendEmail(
-                user.getEmail(),
-                token.getToken()
-        );
+        return this.mailService.sendEmail(user.getEmail(), token.getToken());
     }
   
     @PostMapping("/change-password")
