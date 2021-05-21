@@ -26,6 +26,7 @@ public class MailService {
     private void setMailServerProperties() {
         Properties emailProperties = System.getProperties();
         emailProperties.put("mail.smtp.host", "smtp.gmail.com");
+        emailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         emailProperties.put("mail.smtp.port", "587");
         emailProperties.put("mail.smtp.auth", "true");
         emailProperties.put("mail.smtp.starttls.enable", "true");
