@@ -4,15 +4,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-import java.util.Random;
 
 @Service
 public class MailService {
-    private Session mailSession;
 
+    private Session mailSession;
     @Value("${ow.gmail.username}")
     private String username;
 
@@ -31,6 +29,8 @@ public class MailService {
         emailProperties.put("mail.smtp.port", "587");
         emailProperties.put("mail.smtp.auth", "true");
         emailProperties.put("mail.smtp.starttls.enable", "true");
+        emailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        emailProperties.put("mail.smtp.ssl.protocols", "TLSv1.3");
         mailSession = Session.getInstance(emailProperties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -50,13 +50,18 @@ public class MailService {
         return emailMessage;
     }
 
-    public void sendEmail(String recipient, String token) throws MessagingException {
-        this.setMailServerProperties();
-        String emailHost = "smtp.gmail.com";
-        Transport transport = mailSession.getTransport("smtp");
-        transport.connect(emailHost, username, password);
-        MimeMessage emailMessage = draftEmailMessage(recipient, token);
-        transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
-        transport.close();
+    public String sendEmail(String recipient, String token) throws MessagingException {
+        try {
+            this.setMailServerProperties();
+            String emailHost = "smtp.gmail.com";
+            Transport transport = mailSession.getTransport("smtp");
+            transport.connect(emailHost, username, password);
+            MimeMessage emailMessage = draftEmailMessage(recipient, token);
+            transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
+            transport.close();
+        } catch (Exception exception) {
+            return exception.toString();
+        }
+        return "ALL GOOD";
     }
 }
