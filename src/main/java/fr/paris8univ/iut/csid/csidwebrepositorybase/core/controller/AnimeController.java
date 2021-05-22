@@ -1,17 +1,13 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.GenreEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ProducerEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.StudioEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -26,27 +22,27 @@ public class AnimeController {
     }
 
     @GetMapping("/pagination/{page}")
-    public List<Anime> getAnimes(@PathVariable(value = "page", required = true) int page) throws URISyntaxException {
+    public List<Anime> getAnimes(@PathVariable(value = "page") int page) {
         return this.animeService.getAnimes(page);
     }
 
     @GetMapping("/{id}")
-    public Anime getOneAnime(@PathVariable(value = "id", required = true) Long idAnime) throws NoAnimeException {
+    public Anime getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
         return this.animeService.getOneAnime(idAnime);
     }
 
     @GetMapping("/research/{research}")
-    public List<Anime> researchAnimes(@PathVariable(value = "research", required = true) String research) {
+    public List<Anime> researchAnimes(@PathVariable(value = "research") String research) {
         return this.animeService.researchAnimes(research);
     }
 
     @GetMapping("/research/{research}/pagination/{page}")
-    public List<Anime> researchAnimesPagination(@PathVariable(value = "research", required = true) String research, @PathVariable(value = "page", required = true) int page) {
+    public List<Anime> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
         return this.animeService.researchAnimesPagination(research, page);
     }
 
     @GetMapping("/research/{research}/count")
-    public int getResearchPageCount(@PathVariable(value = "research", required = true) String research){
+    public int getResearchPageCount(@PathVariable(value = "research") String research){
         return this.animeService.getResearchCount(research);
     }
 
@@ -56,17 +52,17 @@ public class AnimeController {
     }
 
     @GetMapping("{id}/studios")
-    public List<StudioEntity> getAnimeStudios(@PathVariable(value = "id", required = true) Long idAnime){
+    public List<StudioEntity> getAnimeStudios(@PathVariable(value = "id") Long idAnime){
         return this.animeService.getAnimeStudios(idAnime);
     }
 
     @GetMapping("{id}/producers")
-    public List<ProducerEntity> getAnimeProducers(@PathVariable(value = "id", required = true) Long idAnime){
+    public List<ProducerEntity> getAnimeProducers(@PathVariable(value = "id") Long idAnime){
         return this.animeService.getAnimeProducers(idAnime);
     }
 
     @GetMapping("{id}/genres")
-    public List<GenreEntity> getAnimeGenres(@PathVariable(value = "id", required = true) Long idAnime){
+    public List<GenreEntity> getAnimeGenres(@PathVariable(value = "id") Long idAnime){
         return this.animeService.getAnimeGenres(idAnime);
     }
 }

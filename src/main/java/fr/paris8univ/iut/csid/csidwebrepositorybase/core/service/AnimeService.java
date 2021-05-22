@@ -6,8 +6,6 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeExcept
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
-
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
