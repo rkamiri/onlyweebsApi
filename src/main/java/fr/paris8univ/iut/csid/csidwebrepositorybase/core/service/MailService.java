@@ -50,18 +50,13 @@ public class MailService {
         return emailMessage;
     }
 
-    public String sendEmail(String recipient, String token) throws MessagingException {
-        try {
-            this.setMailServerProperties();
-            String emailHost = "smtp.gmail.com";
-            Transport transport = mailSession.getTransport("smtp");
-            transport.connect(emailHost, username, password);
-            MimeMessage emailMessage = draftEmailMessage(recipient, token);
-            transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
-            transport.close();
-        } catch (Exception exception) {
-            return exception.toString();
-        }
-        return "ALL GOOD";
+    public void sendEmail(String recipient, String token) throws MessagingException {
+        this.setMailServerProperties();
+        String emailHost = "smtp.gmail.com";
+        Transport transport = mailSession.getTransport("smtp");
+        transport.connect(emailHost, username, password);
+        MimeMessage emailMessage = draftEmailMessage(recipient, token);
+        transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
+        transport.close();
     }
 }
