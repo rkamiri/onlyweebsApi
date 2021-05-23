@@ -1,22 +1,39 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.PegiEntity;
+
+import javax.persistence.Column;
 
 public class Anime {
     private Long id;
     private String title;
-    private String internationalTitle;
+    private String titleEnglish;
     private String synopsis;
-    private String cover;
-    private int ranking;
+    private String imgUrl;
+    private Long episodes;
+    private String airing;
+    private boolean aired;
+    private PegiEntity pegi;
 
     public Anime(AnimeEntity animeEntity) {
-        this.id=animeEntity.getId();
+        this.id = animeEntity.getId();
         this.title = animeEntity.getTitle();
-        this.internationalTitle = animeEntity.getInternationalTitle();
+        this.titleEnglish = animeEntity.getTitleEnglish();
         this.synopsis = animeEntity.getSynopsis();
-        this.cover = animeEntity.getCover();
-        this.ranking = animeEntity.getRanking();
+        this.imgUrl = animeEntity.getImgUrl();
+        this.episodes = animeEntity.getEpisodes();
+        this.airing = animeEntity.getAiring();
+        this.aired = animeEntity.isAired();
+        this.pegi = animeEntity.getPegiEntity();
+    }
+
+    public PegiEntity getPegi() {
+        return pegi;
+    }
+
+    public void setPegi(PegiEntity pegi) {
+        this.pegi = pegi;
     }
 
     public Long getId() {
@@ -35,12 +52,12 @@ public class Anime {
         this.title = title;
     }
 
-    public String getInternationalTitle() {
-        return internationalTitle;
+    public String getTitleEnglish() {
+        return titleEnglish;
     }
 
-    public void setInternationalTitle(String internationalTitle) {
-        this.internationalTitle = internationalTitle;
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
     }
 
     public String getSynopsis() {
@@ -51,19 +68,35 @@ public class Anime {
         this.synopsis = synopsis;
     }
 
-    public String getCover() {
-        return cover;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
-    public int getRanking() {
-        return ranking;
+    public Long getEpisodes() {
+        return episodes;
     }
 
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
+    public void setEpisodes(Long episodes) {
+        this.episodes = episodes;
+    }
+
+    public String getAiring() {
+        return airing;
+    }
+
+    public void setAiring(String airing) {
+        this.airing = airing;
+    }
+
+    public boolean isAired() {
+        return aired;
+    }
+
+    public void setAired(boolean aired) {
+        this.aired = aired;
     }
 }
