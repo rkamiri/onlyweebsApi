@@ -30,7 +30,6 @@ public class AnimeRepository {
     public List<Anime> findAllAnime(int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.ASC, "id");
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
-        System.out.println(hentaiEntity.getName());
         return animeDao.findAllByPegiEntityNotLike(pageable, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
     }
 
