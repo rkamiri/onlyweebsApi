@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.GenreEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ProducerEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.StudioEntity;
@@ -24,6 +25,11 @@ public class AnimeController {
     @GetMapping("/pagination/{page}")
     public List<Anime> getAnimes(@PathVariable(value = "page") int page) {
         return this.animeService.getAnimes(page);
+    }
+
+    @GetMapping("/all")
+    public List<Anime> getAllAnimes() {
+        return this.animeService.getAllAnimes();
     }
 
     @GetMapping("/{id}")

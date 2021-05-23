@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 public class AnimeService {
     private final AnimeRepository animeRepository;
+    private final AnimeDao animeDao;
     private final HasStudioDao hasStudioDao;
     private final HasGenreDao hasGenreDao;
     private final HasProducerDao hasProducerDao;
@@ -19,8 +20,9 @@ public class AnimeService {
     private final ProducerDao producerDao;
     private final StudioDao studioDao;
 
-    public AnimeService(AnimeRepository animeRepository, HasStudioDao hasStudioDao, HasGenreDao hasGenreDao, HasProducerDao hasProducerDao, GenreDao genreDao, ProducerDao producerDao, StudioDao studioDao) {
+    public AnimeService(AnimeRepository animeRepository, AnimeDao animeDao, HasStudioDao hasStudioDao, HasGenreDao hasGenreDao, HasProducerDao hasProducerDao, GenreDao genreDao, ProducerDao producerDao, StudioDao studioDao) {
         this.animeRepository = animeRepository;
+        this.animeDao = animeDao;
         this.hasStudioDao = hasStudioDao;
         this.hasGenreDao = hasGenreDao;
         this.hasProducerDao = hasProducerDao;
@@ -78,5 +80,13 @@ public class AnimeService {
             genreEntities.add(genreDao.findById(entity.getIdGenre()).orElseThrow());
         }
         return genreEntities;
+    }
+
+    public List<Anime> getAllAnimes() {
+        List<Anime> animeList = new ArrayList<>();
+        for (AnimeEntity animeEntity: this.animeDao.findAll()) {
+            animeList.add(new Anime(animeEntity));
+        }
+        return animeList;
     }
 }
