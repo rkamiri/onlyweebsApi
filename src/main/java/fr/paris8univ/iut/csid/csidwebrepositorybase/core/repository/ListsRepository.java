@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.IsListedInDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
@@ -21,14 +22,16 @@ public class ListsRepository {
 
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
+    private final AnimeDao animeDao;
     private final AnimeRepository animeRepository;
     private final UsersRepository usersRepository;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository, UsersRepository usersRepository) {
+    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeDao animeDao, AnimeRepository animeRepository, UsersRepository usersRepository) {
         this.listsDao = listsDao;
         this.listedInDao = listedInDao;
+        this.animeDao = animeDao;
         this.animeRepository = animeRepository;
         this.usersRepository = usersRepository;
     }
@@ -57,6 +60,17 @@ public class ListsRepository {
             }
         }
         return al;
+    }
+
+    public List<AnimeEntity> findAnimeEntityOfList(Long listId) {
+        List<AnimeEntity> animeEntities = new ArrayList<>();
+        List<IsListedInEntity> x = this.listedInDao.findAll();
+        for (IsListedInEntity s : x) {
+            if (s.getListId().equals(listId)) {
+                animeEntities.add(this.animeDao.getOne(s.getAnime_id()));
+            }
+        }
+        return animeEntities;
     }
 
     public void createList(Lists list, String currentUserLogin) {
@@ -125,15 +139,14 @@ public class ListsRepository {
     public List<List<String>> getFourImagesOfEachList(List<ListsEntity> all) {
         List<List<String>> fourImageUrlOfEachListInAList = new ArrayList<>();
         for (ListsEntity list : all) {
-            List<Optional<Anime>> listOfAnime = findAnimeOfList(list.getId());
+            List<AnimeEntity> listOfAnime = findAnimeEntityOfList(list.getId());
             List<String> imagesUrl = new ArrayList<>();
             if (listOfAnime.size() >= 4) {
                 for (int i = 0; i < 4; i++) {
-                    if (listOfAnime.get(i).isPresent())
-                        imagesUrl.add(listOfAnime.get(i).get().getCover());
+                    imagesUrl.add(listOfAnime.get(i).getImgUrl());
                 }
             } else
-                imagesUrl = listOfAnime.stream().map(e -> e.orElseThrow().getCover()).collect(Collectors.toList());
+                imagesUrl = listOfAnime.stream().map(AnimeEntity::getImgUrl).collect(Collectors.toList());
             fourImageUrlOfEachListInAList.add(imagesUrl);
         }
         return fourImageUrlOfEachListInAList;

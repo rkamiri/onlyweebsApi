@@ -66,7 +66,7 @@ public class ListsController {
 
     @DeleteMapping("/{listId}/{animeId}")
     public void deleteAnimeFromList(@PathVariable long animeId, @PathVariable long listId) {
-        listService.deleteAnimeInList(animeId,listId);
+        listService.deleteAnimeInList(animeId, listId);
     }
 
     @GetMapping("/getlastlist")

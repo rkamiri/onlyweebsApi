@@ -14,26 +14,50 @@ public class AnimeEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "international_title")
-    private String internationalTitle;
+    @Column(name = "title_english")
+    private String titleEnglish;
 
     @Column(name = "synopsis")
     private String synopsis;
 
-    @Column(name = "cover")
-    private String cover;
+    @Column(name = "img_url")
+    private String imgUrl;
 
-    @Column(name = "ranking")
-    private int ranking;
+    @Column(name = "episodes")
+    private Long episodes;
 
-    public AnimeEntity(){}
+    @Column(name = "airing")
+    private String airing;
 
-    public AnimeEntity(String title, String international_title, String synopsis, String cover, int ranking) {
+    @Column(name = "aired")
+    private boolean aired;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pegi_id")
+    private PegiEntity pegiEntity;
+
+    public AnimeEntity(Long id, String title, String titleEnglish, String synopsis, String imgUrl, Long episodes, String airing, boolean aired, PegiEntity pegiEntity) {
+        this.id = id;
         this.title = title;
-        this.internationalTitle = international_title;
+        this.titleEnglish = titleEnglish;
         this.synopsis = synopsis;
-        this.cover = cover;
-        this.ranking = ranking;
+        this.imgUrl = imgUrl;
+        this.episodes = episodes;
+        this.airing = airing;
+        this.aired = aired;
+        this.pegiEntity = pegiEntity;
+    }
+
+    public AnimeEntity() {
+
+    }
+
+    public PegiEntity getPegiEntity() {
+        return pegiEntity;
+    }
+
+    public void setPegiEntity(PegiEntity pegiEntity) {
+        this.pegiEntity = pegiEntity;
     }
 
     public Long getId() {
@@ -52,12 +76,12 @@ public class AnimeEntity {
         this.title = title;
     }
 
-    public String getInternationalTitle() {
-        return internationalTitle;
+    public String getTitleEnglish() {
+        return titleEnglish;
     }
 
-    public void setInternationalTitle(String international_title) {
-        this.internationalTitle = international_title;
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
     }
 
     public String getSynopsis() {
@@ -68,19 +92,35 @@ public class AnimeEntity {
         this.synopsis = synopsis;
     }
 
-    public String getCover() {
-        return cover;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setImgUrl(String img_url) {
+        this.imgUrl = img_url;
     }
 
-    public int getRanking() {
-        return ranking;
+    public Long getEpisodes() {
+        return episodes;
     }
 
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
+    public void setEpisodes(Long episodes) {
+        this.episodes = episodes;
+    }
+
+    public String getAiring() {
+        return airing;
+    }
+
+    public void setAiring(String airing) {
+        this.airing = airing;
+    }
+
+    public boolean isAired() {
+        return aired;
+    }
+
+    public void setAired(boolean aired) {
+        this.aired = aired;
     }
 }
