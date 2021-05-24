@@ -6,6 +6,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class AnimeController {
         this.animeService = animeService;
     }
 
-    @GetMapping("/pagination/{page}")
+    @GetMapping(value = "/pagination/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Anime> getAnimes(@PathVariable(value = "page") int page) {
         return this.animeService.getAnimes(page);
     }
