@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/anime-comment")
+@RequestMapping(value = "/comment")
 public class CommentController {
 
     private final CommentService commentService;
@@ -18,23 +18,33 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/anime/{id}")
     public List<Comment> getCommentsForAnime(@PathVariable(value = "id")long animeId) {
-        return this.commentService.getAnimeComments(animeId);
+        return this.commentService.getComments(animeId, true);
+    }
+
+    @GetMapping("/article/{id}")
+    public List<Comment> getCommentsForArticle(@PathVariable(value = "id")long animeId) {
+        return this.commentService.getComments(animeId, false);
     }
 
     @PutMapping
-    public void putAComment(@RequestBody Comment comment) {
-        this.commentService.putAComment(comment);
+    public void putComment(@RequestBody Comment comment) {
+        this.commentService.putComment(comment);
     }
 
-    @GetMapping("/user/{id}")
+/*    @GetMapping("/user/{id}")
     public String getCurrentUserCommentForASelectAnime(@PathVariable(value = "id")long animeId) {
         return this.commentService.getCurrentUserCommentForASelectAnime(UserController.getCurrentUserLogin(), animeId);
+    }*/
+
+    @DeleteMapping("/anime/{id}")
+    public void deleteAnimeComment(@PathVariable long id) {
+        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, true);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteComment(@PathVariable long id) {
-        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id);
+    @DeleteMapping("/article/{id}")
+    public void deleteArticleComment(@PathVariable long id) {
+        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, false);
     }
 }
