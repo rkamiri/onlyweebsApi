@@ -1,6 +1,4 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
-
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.GenreEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ProducerEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.StudioEntity;

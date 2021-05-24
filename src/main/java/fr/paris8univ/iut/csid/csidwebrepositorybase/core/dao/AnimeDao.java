@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
 
-    List<AnimeEntity> findAllByPegiEntityNotLike(PegiEntity pegiEntity);
+    int countAnimeEntitiesByPegiEntityNotLike(PegiEntity pegiEntity);
 
     List<AnimeEntity> findTop15ByTitleContainingAndPegiEntityNotLike(String researchInternationalTitle, PegiEntity pegiEntity);
 
