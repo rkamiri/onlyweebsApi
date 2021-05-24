@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
-@JsonIgnoreProperties("animeEntity")
+@JsonIgnoreProperties({"animeEntity", "articleEntity"})
 @Table(name = "comment")
 public class CommentEntity {
 
@@ -28,13 +28,28 @@ public class CommentEntity {
     @JoinColumn(name="anime_id")
     private AnimeEntity animeEntity;
 
+    @ManyToOne
+    @JoinColumn(name="article_id")
+    private ArticleEntity articleEntity;
+
     public CommentEntity() { }
 
-    public CommentEntity(UsersEntity usersEntity, String body, String date, AnimeEntity animeEntity) {
+    public CommentEntity(UsersEntity usersEntity, String body, String date) {
         this.usersEntity = usersEntity;
         this.body = body;
         this.date = date;
+    }
+
+    public ArticleEntity getArticleEntity() {
+        return articleEntity;
+    }
+
+    public void setAnimeEntity(AnimeEntity animeEntity) {
         this.animeEntity = animeEntity;
+    }
+
+    public void setArticleEntity(ArticleEntity articleEntity) {
+        this.articleEntity = articleEntity;
     }
 
     public Long getId() {
