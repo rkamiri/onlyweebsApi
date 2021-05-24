@@ -2,6 +2,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.PegiDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.PegiEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,7 @@ public class AnimeRepository {
 
     public int getCount() {
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
-        List<Anime> animes = this.animeDao.findAllByPegiEntityNotLike(hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
-        return animes.size();
+        return this.animeDao.countAnimeEntitiesByPegiEntityNotLike(hentaiEntity);
     }
 
     public Optional<Anime> findOneAnime(Long id) {
