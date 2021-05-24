@@ -31,7 +31,7 @@ public class AnimeService {
         this.studioDao = studioDao;
     }
 
-    public List<Anime> getAnimes(int page) {
+    public List<AnimeEntity> getAnimes(int page) {
         return this.animeRepository.findAllAnime(page);
     }
 

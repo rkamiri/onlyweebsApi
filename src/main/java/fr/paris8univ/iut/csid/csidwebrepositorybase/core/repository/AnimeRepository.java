@@ -6,6 +6,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.PegiEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,10 +29,10 @@ public class AnimeRepository {
         this.pegiDao = pegiDao;
     }
 
-    public List<Anime> findAllAnime(int page) {
-        Pageable pageable = PageRequest.of(page, 20, Sort.Direction.ASC, "id");
+    public List<AnimeEntity> findAllAnime(int page) {
+        Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
-        return animeDao.findAllByPegiEntityNotLike(pageable, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
+        return animeDao.findAllByPegiEntityNotLike(pageable, hentaiEntity).toList();
     }
 
     public int getCount() {
