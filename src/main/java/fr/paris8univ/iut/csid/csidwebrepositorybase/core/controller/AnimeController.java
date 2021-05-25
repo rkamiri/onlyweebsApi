@@ -37,6 +37,11 @@ public class AnimeController {
         return this.animeService.getOneAnime(idAnime);
     }
 
+    @GetMapping("/{id}/synopsis")
+    public String getAnimeSynopsis(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
+        return this.animeService.getOneAnime(idAnime).getSynopsis();
+    }
+
     @GetMapping("/research/{research}")
     public List<Anime> researchAnimes(@PathVariable(value = "research") String research) {
         return this.animeService.researchAnimes(research);
