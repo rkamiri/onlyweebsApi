@@ -37,7 +37,7 @@ public class AnimeController {
         return this.animeService.getOneAnime(idAnime);
     }
 
-    @GetMapping(value = "/{id}/synopsis", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}/synopsis")
     public String getAnimeSynopsis(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
         return this.animeService.getOneAnime(idAnime).getSynopsis();
     }
