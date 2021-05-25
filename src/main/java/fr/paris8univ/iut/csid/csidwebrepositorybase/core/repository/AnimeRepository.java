@@ -28,10 +28,10 @@ public class AnimeRepository {
         this.pegiDao = pegiDao;
     }
 
-    public List<Anime> findAllAnime(int page) {
-        Pageable pageable = PageRequest.of(page, 20, Sort.Direction.ASC, "id");
+    public List<AnimeEntity> findAllAnime(int page) {
+        Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
-        return animeDao.findAllByPegiEntityNotLike(pageable, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
+        return animeDao.findAllByPegiEntityNotLike(pageable, hentaiEntity).toList();
     }
 
     public int getCount() {
@@ -39,8 +39,8 @@ public class AnimeRepository {
         return this.animeDao.countAnimeEntitiesByPegiEntityNotLike(hentaiEntity);
     }
 
-    public Optional<Anime> findOneAnime(Long id) {
-        return this.animeDao.findById(id).map(Anime::new);
+    public Optional<AnimeEntity> findOneAnime(Long id) {
+        return this.animeDao.findById(id);
     }
 
     public List<Anime> researchAnimes(String research) {

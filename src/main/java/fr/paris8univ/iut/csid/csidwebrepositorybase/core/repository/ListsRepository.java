@@ -56,7 +56,7 @@ public class ListsRepository {
         List<IsListedInEntity> x = this.listedInDao.findAll();
         for (IsListedInEntity s : x) {
             if (s.getListId().equals(listId)) {
-                al.add(this.animeRepository.findOneAnime(s.getAnime_id()));
+                al.add(this.animeRepository.findOneAnime(s.getAnime_id()).map(Anime::new));
             }
         }
         return al;

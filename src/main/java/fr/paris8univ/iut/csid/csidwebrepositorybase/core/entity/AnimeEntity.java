@@ -1,6 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -36,9 +37,6 @@ public class AnimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pegi_id")
     private PegiEntity pegiEntity;
-
-    @OneToMany(mappedBy="animeEntity")
-    private Set<CommentEntity> commentEntity;
 
     public AnimeEntity() {
     }
@@ -88,9 +86,5 @@ public class AnimeEntity {
 
     public PegiEntity getPegiEntity() {
         return pegiEntity;
-    }
-
-    public Set<CommentEntity> getCommentEntity() {
-        return commentEntity;
     }
 }

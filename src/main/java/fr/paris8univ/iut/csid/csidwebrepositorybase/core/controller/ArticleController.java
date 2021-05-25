@@ -2,9 +2,14 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(value = "/articles")
@@ -18,8 +23,11 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<ArticleEntity> getArticles() {
-        return this.articleService.findAllArticles();
+    public ResponseEntity<List<ArticleEntity>> getArticles() {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        val content = this.articleService.findAllArticles();
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/{id}")
