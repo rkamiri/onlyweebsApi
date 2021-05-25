@@ -8,10 +8,12 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(value = "/animes")
@@ -24,26 +26,28 @@ public class AnimeController {
         this.animeService = animeService;
     }
 
-    @GetMapping(value = "/pagination/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<AnimeEntity> getAnimes(@PathVariable(value = "page") int page) {
-        return this.animeService.getAnimes(page);
+    @GetMapping(value = "/pagination/{page}")
+    public ResponseEntity<List<AnimeEntity>> getAnimes(@PathVariable(value = "page") int page) {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        val content = this.animeService.getAnimes(page);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/all")
-    public List<Anime> getAllAnimes() {
-        return this.animeService.getAllAnimes();
+    public ResponseEntity<List<Anime>> getAllAnimes() {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        val content = this.animeService.getAllAnimes();
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/{id}")
-    public Anime getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
-        return this.animeService.getOneAnime(idAnime);
-    }
-
-    @GetMapping(value = "/{id}/synopsis")
-    public ResponseEntity<String> getAnimeSynopsis(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
-        val content = this.animeService.getOneAnime(idAnime).getSynopsis();
-        MediaType contentType = MediaType.valueOf("text/plain; charset=utf-8");
-        return ResponseEntity.status(200).contentType(contentType).body(content);
+    public ResponseEntity<Anime> getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        val content = this.animeService.getOneAnime(idAnime);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/research/{research}")
