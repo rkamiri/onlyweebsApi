@@ -6,13 +6,17 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(value = "/lists")
@@ -26,8 +30,11 @@ public class ListsController {
     }
 
     @GetMapping
-    public List<Lists> getLists() {
-        return this.listService.getLists();
+    public ResponseEntity<List<Lists>> getLists() {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        val content = this.listService.getLists();
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/user/default/{id}")
@@ -80,8 +87,12 @@ public class ListsController {
     }
 
     @GetMapping("/custom")
-    public List<Lists> getCustomLists() {
-        return this.listService.getCustomLists();
+    public ResponseEntity<List<Lists>> getCustomLists() {
+
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        val content = this.listService.getCustomLists();
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/spotify/image")
