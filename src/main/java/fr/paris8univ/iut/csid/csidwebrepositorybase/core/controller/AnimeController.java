@@ -6,8 +6,10 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.StudioEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -38,8 +40,10 @@ public class AnimeController {
     }
 
     @GetMapping(value = "/{id}/synopsis")
-    public String getAnimeSynopsis(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
-        return this.animeService.getOneAnime(idAnime).getSynopsis();
+    public ResponseEntity<String> getAnimeSynopsis(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
+        val content = this.animeService.getOneAnime(idAnime).getSynopsis();
+        MediaType contentType = MediaType.valueOf("text/plain; charset=utf-8");
+        return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("/research/{research}")
