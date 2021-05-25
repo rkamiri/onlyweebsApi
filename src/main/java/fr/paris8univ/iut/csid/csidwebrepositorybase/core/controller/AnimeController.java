@@ -43,7 +43,7 @@ public class AnimeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Anime> getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
+    public ResponseEntity<AnimeEntity> getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
         val content = this.animeService.getOneAnime(idAnime);
         MediaType contentType = MediaType.valueOf("application/json");

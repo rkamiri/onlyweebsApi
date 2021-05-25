@@ -39,8 +39,8 @@ public class AnimeService {
         return this.animeRepository.getCount();
     }
 
-    public Anime getOneAnime(Long id) throws NoAnimeException {
-        return this.animeRepository.findOneAnime(id).orElseThrow(NoAnimeException::new);
+    public AnimeEntity getOneAnime(Long id) {
+        return this.animeRepository.findOneAnime(id).orElseThrow();
     }
 
     public List<Anime> researchAnimes(String research) {

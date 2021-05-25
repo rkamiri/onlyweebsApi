@@ -6,7 +6,6 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.PegiEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,8 +39,8 @@ public class AnimeRepository {
         return this.animeDao.countAnimeEntitiesByPegiEntityNotLike(hentaiEntity);
     }
 
-    public Optional<Anime> findOneAnime(Long id) {
-        return this.animeDao.findById(id).map(Anime::new);
+    public Optional<AnimeEntity> findOneAnime(Long id) {
+        return this.animeDao.findById(id);
     }
 
     public List<Anime> researchAnimes(String research) {
