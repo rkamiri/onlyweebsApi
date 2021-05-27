@@ -47,12 +47,16 @@ public class AnimeService {
         return this.animeRepository.researchAnimes(research);
     }
 
-    public List<Anime> researchAnimesPagination(String research, int page) {
+    /*public List<Anime> researchAnimesPagination(String research, int page) {
         return this.animeRepository.researchAnimesPagination(research, page);
+    }*/
+
+    public int getResearchCount(String research, String producer, String studio, String genre) {
+        return this.animeRepository.getResearchCount(research, producer, studio, genre);
     }
 
-    public int getResearchCount(String research) {
-        return this.animeRepository.getResearchCount(research);
+    public List<Anime> researchAnimesPagination(String research, String producer, String studio, String genre, int page) {
+        return this.animeRepository.researchAnimesPagination(research, producer, studio, genre, page);
     }
 
     public List<StudioEntity> getAnimeStudios(Long idAnime) {

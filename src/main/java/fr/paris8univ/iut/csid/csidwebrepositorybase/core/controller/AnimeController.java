@@ -4,6 +4,8 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.GenreEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ProducerEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.StudioEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeResearch;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,15 +56,10 @@ public class AnimeController {
         return this.animeService.researchAnimes(research);
     }
 
-    @GetMapping("/research/{research}/pagination/{page}")
+    /*@GetMapping("/research/{research}/pagination/{page}")
     public List<Anime> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
         return this.animeService.researchAnimesPagination(research, page);
-    }
-
-    @GetMapping("/research/{research}/count")
-    public int getResearchPageCount(@PathVariable(value = "research") String research){
-        return this.animeService.getResearchCount(research);
-    }
+    }*/
 
     @GetMapping("/count")
     public int getPageCount(){
@@ -82,5 +79,15 @@ public class AnimeController {
     @GetMapping("{id}/genres")
     public List<GenreEntity> getAnimeGenres(@PathVariable(value = "id") Long idAnime){
         return this.animeService.getAnimeGenres(idAnime);
+    }
+
+    @PostMapping("/research/{research}/pagination/{page}")
+    public List<Anime> researchAnimesPagination(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "research") String title, @PathVariable(value = "page") int page){
+        return this.animeService.researchAnimesPagination(title, animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre(), page);
+    }
+
+    @PostMapping("/research/{research}/count")
+    public int getResearchPageCount(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "research") String research){
+        return this.animeService.getResearchCount(research, animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre());
     }
 }
