@@ -2,7 +2,6 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ImageService;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -49,7 +48,7 @@ public class ImageController {
     public ResponseEntity<byte[]> getImageContent(@PathVariable(value = "id") Long imageId) {
         CacheControl cacheControl = CacheControl.maxAge(3600000, TimeUnit.SECONDS).mustRevalidate();
         Image image = this.imageService.findById(imageId);
-        val content = image.getContent();
+        byte[] content = image.getContent();
         MediaType contentType = MediaType.valueOf("image/jpg");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
