@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/security")
@@ -27,17 +28,16 @@ public class TokenController {
     }
 
     @GetMapping("/change-password")
-    public void sendMail() throws MessagingException {
+    public void sendMail() throws MessagingException, IOException {
         UsersEntity user = this.usersService.findUserEntityByUsername(UserController.getCurrentUserLogin());
         TokenEntity token = this.tokenService.createToken(user);
         this.mailService.sendEmail(user.getEmail(), token.getToken());
     }
-  
+
     @PostMapping("/change-password")
     public ResponseEntity<Boolean> putPassword(@RequestBody UpdatePassword newPassword) {
-        if (this.tokenService.putPassword(newPassword)==null) {
+        if (!this.tokenService.putPassword(newPassword))
             return ResponseEntity.status(401).body(false);
-        };
-        return ResponseEntity.ok(true);
+        else return ResponseEntity.ok(true);
     }
 }
