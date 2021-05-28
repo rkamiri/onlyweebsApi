@@ -21,4 +21,7 @@ public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
     Page<AnimeEntity> findAllByPegiEntityNotLike(Pageable page, PegiEntity pegiEntity);
 
     Page<AnimeEntity> findByTitleContainingAndPegiEntityNotLike(Pageable page, String researchInternationalTitle, PegiEntity hentaiEntity);
+
+    List<AnimeEntity> findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc(String date, PegiEntity pegiEntity);
+
 }

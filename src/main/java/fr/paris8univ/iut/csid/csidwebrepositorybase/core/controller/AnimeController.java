@@ -83,4 +83,9 @@ public class AnimeController {
     public List<GenreEntity> getAnimeGenres(@PathVariable(value = "id") Long idAnime){
         return this.animeService.getAnimeGenres(idAnime);
     }
+
+    @GetMapping("/latest")
+    public List<Anime> getLatestAnimes(){
+        return this.animeService.getLatestAnimes();
+    }
 }
