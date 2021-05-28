@@ -29,7 +29,7 @@ public class TokenService {
         return tokenEntity;
     }
   
-    public TokenEntity putPassword(UpdatePassword newPassword) {
+    public boolean putPassword(UpdatePassword newPassword) {
         TokenEntity tokenEntity;
         try {
             tokenEntity = this.tokenDao.findTokenEntityByToken(newPassword.getToken());
@@ -37,10 +37,11 @@ public class TokenService {
                 UsersEntity usersEntity = tokenEntity.getUsersEntity();
                 usersEntity.setPassword(this.bCryptPasswordEncoder.encode(newPassword.getNewPassword()));
                 this.usersDao.save(usersEntity);
+                this.tokenDao.delete(tokenEntity);
             }
         } catch (Exception ignored) {
-            return null;
+            return false;
         }
-        return tokenEntity;
+        return true;
     }
 }
