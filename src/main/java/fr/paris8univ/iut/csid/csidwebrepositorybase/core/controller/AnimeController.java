@@ -6,7 +6,6 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.StudioEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -29,7 +28,7 @@ public class AnimeController {
     @GetMapping(value = "/pagination/{page}")
     public ResponseEntity<List<AnimeEntity>> getAnimes(@PathVariable(value = "page") int page) {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        val content = this.animeService.getAnimes(page);
+        List<AnimeEntity> content = this.animeService.getAnimes(page);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
@@ -37,7 +36,7 @@ public class AnimeController {
     @GetMapping("/all")
     public ResponseEntity<List<Anime>> getAllAnimes() {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        val content = this.animeService.getAllAnimes();
+        List<Anime> content = this.animeService.getAllAnimes();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
@@ -45,7 +44,7 @@ public class AnimeController {
     @GetMapping("/{id}")
     public ResponseEntity<AnimeEntity> getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        val content = this.animeService.getOneAnime(idAnime);
+        AnimeEntity content = this.animeService.getOneAnime(idAnime);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }

@@ -6,7 +6,6 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -32,7 +31,7 @@ public class ListsController {
     @GetMapping
     public ResponseEntity<List<Lists>> getLists() {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        val content = this.listService.getLists();
+        List<Lists> content = this.listService.getLists();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
@@ -90,7 +89,7 @@ public class ListsController {
     public ResponseEntity<List<Lists>> getCustomLists() {
 
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        val content = this.listService.getCustomLists();
+        List<Lists> content = this.listService.getCustomLists();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }

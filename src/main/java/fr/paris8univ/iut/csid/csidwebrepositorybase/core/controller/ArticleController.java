@@ -2,7 +2,6 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -25,7 +24,7 @@ public class ArticleController {
     @GetMapping
     public ResponseEntity<List<ArticleEntity>> getArticles() {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        val content = this.articleService.findAllArticles();
+        List<ArticleEntity> content = this.articleService.findAllArticles();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
