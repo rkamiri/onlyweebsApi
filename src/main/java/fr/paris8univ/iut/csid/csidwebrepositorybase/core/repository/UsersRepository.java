@@ -1,14 +1,14 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AuthDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AuthEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,11 +19,21 @@ public class UsersRepository {
     private final UsersDao usersDao;
     private final AuthDao authDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ListsDao listsDao;
+    private final IsListedInDao isListedIdDao;
+    private final CommentDao commentDao;
+    private final RatingDao ratingDao;
+    private final ArticleDao articleDao;
 
-    public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder, ListsDao listsDao, IsListedInDao isListedIdDao, CommentDao commentDao, RatingDao ratingDao, ArticleDao articleDao) {
         this.usersDao = usersDao;
         this.authDao = authDao;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.listsDao = listsDao;
+        this.isListedIdDao = isListedIdDao;
+        this.commentDao = commentDao;
+        this.ratingDao = ratingDao;
+        this.articleDao = articleDao;
     }
 
     public Optional<Users> findByUsername(String username) {
@@ -77,5 +87,21 @@ public class UsersRepository {
         UsersEntity usersEntity = this.findUserEntityByUsername(currentUserLogin);
         usersEntity.setIp(bCryptPasswordEncoder.encode(newIp));
         this.usersDao.save(usersEntity);
+    }
+
+    @Transactional
+    public void deleteUser(UsersEntity usersEntity) {
+        List<ListsEntity> lists = this.listsDao.getListsEntitiesByIsOwnedBy(usersEntity.getId());
+        for (ListsEntity list: lists) {
+            this.isListedIdDao.deleteIsListedInEntitiesByListId(list.getId());
+        }
+        this.listsDao.deleteInBatch(lists);
+        this.commentDao.deleteInBatch(this.commentDao.findCommentEntitiesByUsersEntity(usersEntity));
+        this.ratingDao.deleteInBatch(this.ratingDao.getRatingEntitiesByUserId(usersEntity.getId()));
+        for (ArticleEntity articleEntity : this.articleDao.getArticleEntitiesByAuthor(usersEntity)) {
+            articleEntity.setAuthor(this.usersDao.getOne(1L));
+        }
+        this.authDao.delete(this.authDao.getOne(usersEntity.getUsername()));
+        this.usersDao.delete(usersEntity);
     }
 }

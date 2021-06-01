@@ -47,7 +47,7 @@ public class ListsRepository {
 
     public Lists findListByNameAndUserId(String name, long userid) {
         List<ListsEntity> ilel = this.listsDao.findAll();
-        ilel.removeIf(e -> !e.getName().equals(name) || !e.getIs_owned_by().equals(userid));
+        ilel.removeIf(e -> !e.getName().equals(name) || !e.getIsOwnedBy().equals(userid));
         return ilel.stream().map(Lists::new).collect(Collectors.toList()).get(0);
     }
 
@@ -119,14 +119,14 @@ public class ListsRepository {
     public List<Lists> getMyCustomLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 1);
-        ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        ilel.removeIf(e -> !e.getIsOwnedBy().equals(id));
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 
     public List<Lists> getMyDefaultLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 0);
-        ilel.removeIf(e -> !e.getIs_owned_by().equals(id));
+        ilel.removeIf(e -> !e.getIsOwnedBy().equals(id));
         return ilel.stream().map(Lists::new).collect(Collectors.toList());
     }
 
