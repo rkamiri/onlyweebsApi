@@ -18,4 +18,5 @@ public interface CommentDao extends JpaRepository<CommentEntity, AnimeCommentId>
     List<CommentEntity> findCommentEntitiesByArticleEntityAndUsersEntity(ArticleEntity articleEntity, UsersEntity usersEntity);
     List<CommentEntity> findCommentEntitiesByArticleEntity(ArticleEntity articleEntity);
     List<CommentEntity> findCommentEntitiesByAnimeEntity(AnimeEntity animeEntity);
+    List<CommentEntity> findCommentEntitiesByUsersEntity(UsersEntity usersEntity);
 }

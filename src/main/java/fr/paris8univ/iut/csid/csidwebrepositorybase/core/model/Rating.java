@@ -12,7 +12,7 @@ public class Rating {
     }
 
     public Rating(RatingEntity re) {
-        this.userId = re.getUser_id();
+        this.userId = re.getUserId();
         this.animeId = re.getAnime_id();
         this.rate = re.getRate();
     }

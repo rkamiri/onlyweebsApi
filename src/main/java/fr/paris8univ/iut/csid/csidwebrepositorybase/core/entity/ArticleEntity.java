@@ -20,7 +20,7 @@ public class ArticleEntity {
     @Column(name = "created_at")
     private String created_at;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private UsersEntity author;
 
