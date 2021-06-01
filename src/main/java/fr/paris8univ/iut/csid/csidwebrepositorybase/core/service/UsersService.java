@@ -36,4 +36,8 @@ public class UsersService {
     public void updateIp(String newIp, String currentUserLogin) {
         this.usersRepository.updateIp(newIp, currentUserLogin);
     }
+
+    public void deleteUser(UsersEntity usersEntity) {
+        this.usersRepository.deleteUser(usersEntity);
+    }
 }
