@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ListsService {
@@ -25,11 +26,11 @@ public class ListsService {
     }
 
     public List<Lists> getMyDefaultLists(long id) {
-        return this.listsRepository.getMyDefaultLists(id);
+        return this.listsRepository.getMyDefaultLists(id).stream().map(Lists::new).collect(Collectors.toList());
     }
 
     public List<Lists> getMyCustomLists(long id) {
-        return this.listsRepository.getMyCustomLists(id);
+        return this.listsRepository.getMyCustomLists(id).stream().map(Lists::new).collect(Collectors.toList());
     }
 
     public Lists getOneById(Long id) throws NoListException {
@@ -79,5 +80,13 @@ public class ListsService {
 
     public void deleteList(long id) {
         this.listsRepository.deleteList(id);
+    }
+
+    public List<List<String>> getFourImagesOfEachCustomListUser(String currentUserLogin) {
+        return this.listsRepository.getFourImagesOfEachCustomListUser(currentUserLogin);
+    }
+
+    public List<List<String>> getFourImagesOfEachDefaultListUser(String currentUserLogin) {
+        return this.listsRepository.getFourImagesOfEachDefaultListUser(currentUserLogin);
     }
 }
