@@ -99,7 +99,7 @@ public class UsersRepository {
         this.commentDao.deleteInBatch(this.commentDao.findCommentEntitiesByUsersEntity(usersEntity));
         this.ratingDao.deleteInBatch(this.ratingDao.getRatingEntitiesByUserId(usersEntity.getId()));
         for (ArticleEntity articleEntity : this.articleDao.getArticleEntitiesByAuthor(usersEntity)) {
-            articleEntity.setAuthor(this.usersDao.getOne(1L));
+            articleEntity.setAuthor(this.usersDao.findByUsername("deleted").orElseThrow());
         }
         this.authDao.delete(this.authDao.getOne(usersEntity.getUsername()));
         this.usersDao.delete(usersEntity);
