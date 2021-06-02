@@ -17,7 +17,7 @@ public class Lists {
         this.name = listsEntity.getName();
         this.creationDate = listsEntity.getDate();
         this.description = listsEntity.getDescription();
-        this.isOwnedBy = listsEntity.getIs_owned_by();
+        this.isOwnedBy = listsEntity.getIsOwnedBy();
         this.isDefault = listsEntity.getIs_default();
     }
 
