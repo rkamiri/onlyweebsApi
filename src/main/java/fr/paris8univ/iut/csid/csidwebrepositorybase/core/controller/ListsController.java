@@ -104,6 +104,16 @@ public class ListsController {
         return this.listService.getFourImagesOfEachCustomList();
     }
 
+    @GetMapping("/user/image/default")
+    public List<List<String>> getFourImagesOfEachDefaultListUser() {
+        return this.listService.getFourImagesOfEachDefaultListUser(UserController.getCurrentUserLogin());
+    }
+
+    @GetMapping("/user/image/custom")
+    public List<List<String>> getFourImagesOfEachCustomListUser() {
+        return this.listService.getFourImagesOfEachCustomListUser(UserController.getCurrentUserLogin());
+    }
+
     @DeleteMapping("/user/{id}")
     public void deleteList(@PathVariable long id) {
         this.listService.deleteList(id);
