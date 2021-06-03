@@ -29,7 +29,7 @@ public class ArticleRepository {
     }
 
     public List<ArticleEntity> findAllArticles() {
-        return this.articleDao.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return this.articleDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Article getArticle(long id) {

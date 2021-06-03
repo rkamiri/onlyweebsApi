@@ -35,8 +35,8 @@ public class UsersService {
         return this.usersRepository.updateCurrentUser(updatedUser);
     }
 
-    public Boolean checkIpAddress(String remoteAddr, String currentUserLogin) {
-        return this.usersRepository.checkIpAddress(remoteAddr, currentUserLogin);
+    public Boolean checkIpAddress(String remoteAddress, String currentUserLogin) {
+        return this.usersRepository.checkIpAddress(remoteAddress, currentUserLogin);
     }
 
     public void updateIp(String newIp, String currentUserLogin) {
