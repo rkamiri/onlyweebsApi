@@ -28,18 +28,27 @@ public class ArticleEntity {
     @JoinColumn(name = "cover_id", referencedColumnName = "id")
     private ImageEntity cover;
 
-    public ArticleEntity(String title, String body, String created_at, UsersEntity author, ImageEntity cover) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private ArticleCategoriesEntity category;
+
+    public ArticleEntity(String title, String body, String created_at, UsersEntity author, ImageEntity cover, ArticleCategoriesEntity category) {
         this.title = title;
         this.body = body;
         this.created_at = created_at;
         this.author = author;
         this.cover = cover;
+        this.category = category;
     }
 
     public ArticleEntity() {}
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -80,5 +89,13 @@ public class ArticleEntity {
 
     public void setCover(ImageEntity cover) {
         this.cover = cover;
+    }
+
+    public ArticleCategoriesEntity getCategory() {
+        return category;
+    }
+
+    public void setCategory(ArticleCategoriesEntity category) {
+        this.category = category;
     }
 }
