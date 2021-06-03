@@ -41,6 +41,7 @@ public class UserController {
     @GetMapping("/current")
     public Optional<Users> getCurrentUser() throws NotFoundException {
         try {
+            System.out.println(getCurrentUserLogin());
             if (!getCurrentUserLogin().equals("anonymousUser")) {
                 return this.usersService.findOneByLogin(getCurrentUserLogin());
             } else {
