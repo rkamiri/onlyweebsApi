@@ -116,18 +116,18 @@ public class ListsRepository {
         return this.findListById(i).orElseGet(Lists::new);
     }
 
-    public List<Lists> getMyCustomLists(long id) {
+    public List<ListsEntity> getMyCustomLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 1);
         ilel.removeIf(e -> !e.getIsOwnedBy().equals(id));
-        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+        return ilel;
     }
 
-    public List<Lists> getMyDefaultLists(long id) {
+    public List<ListsEntity> getMyDefaultLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 0);
         ilel.removeIf(e -> !e.getIsOwnedBy().equals(id));
-        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+        return ilel;
     }
 
     public List<Lists> getCustomLists() {
@@ -166,5 +166,13 @@ public class ListsRepository {
     public void deleteList(long id) {
         this.listedInDao.deleteIsListedInEntitiesByListId(id);
         this.listsDao.deleteById(id);
+    }
+
+    public List<List<String>> getFourImagesOfEachCustomListUser(String currentUserLogin) {
+        return this.getFourImagesOfEachList(this.getMyCustomLists(this.usersRepository.findUserEntityByUsername(currentUserLogin).getId()));
+    }
+
+    public List<List<String>> getFourImagesOfEachDefaultListUser(String currentUserLogin) {
+        return this.getFourImagesOfEachList(this.getMyDefaultLists(this.usersRepository.findUserEntityByUsername(currentUserLogin).getId()));
     }
 }
