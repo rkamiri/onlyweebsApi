@@ -5,6 +5,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +28,7 @@ public class ArticleRepository {
     }
 
     public List<ArticleEntity> findAllArticles() {
-        return this.articleDao.findAll();
+        return this.articleDao.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Article getArticle(long id) {
@@ -42,7 +43,8 @@ public class ArticleRepository {
                         article.getBody(),
                         dtf.format(now),
                         this.usersRepository.findUserEntityByUsername(UserController.getCurrentUserLogin()),
-                        this.uploadRepository.getLastImage()
+                        this.uploadRepository.getLastImage(),
+                        article.getCategory()
                 ));
         return this.getLastArticleId();
     }
