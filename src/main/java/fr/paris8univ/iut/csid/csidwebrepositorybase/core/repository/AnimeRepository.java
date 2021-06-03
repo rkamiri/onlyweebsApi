@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,6 +59,19 @@ public class AnimeRepository {
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
         List<Anime> animes = this.animeDao.findByTitleContainingAndPegiEntityNotLike(research, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
         return animes.size();
+    }
+
+    public List<Anime> getLatestAnimes() {
+        LocalDate now = LocalDate.now();
+        String tempstr = "";
+        int month = now.getMonthValue();
+        int year = now.getYear();
+        if (now.getMonthValue() < 10)
+            tempstr = "0" + month;
+        else
+            tempstr = "" + month;
+        PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
+        return this.animeDao.findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc("from "+year+"-"+tempstr, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
     }
 
 }

@@ -89,4 +89,8 @@ public class AnimeService {
         }
         return animeList;
     }
+
+    public List<Anime> getLatestAnimes(){
+        return this.animeRepository.getLatestAnimes();
+    }
 }
