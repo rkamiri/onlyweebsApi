@@ -4,6 +4,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -38,11 +39,11 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public Optional<Users> getCurrentUser() {
+    public Optional<Users> getCurrentUser() throws NotFoundException {
         if (!getCurrentUserLogin().equals("anonymousUser")) {
             return this.usersService.findOneByLogin(getCurrentUserLogin());
         } else {
-            return Optional.empty();
+            throw new NotFoundException("Id not found in the request");
         }
     }
 
