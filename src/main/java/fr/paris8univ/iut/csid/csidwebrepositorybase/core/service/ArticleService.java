@@ -3,6 +3,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ArticleRepository;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ArticleService {
         return this.articleRepository.getArticle(id);
     }
 
-    public Long postArticle(Article article) {
+    public Long postArticle(Article article) throws NotFoundException {
         return this.articleRepository.postArticle(article);
     }
 }

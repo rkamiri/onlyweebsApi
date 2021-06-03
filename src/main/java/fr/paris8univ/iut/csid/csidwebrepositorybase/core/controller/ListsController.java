@@ -6,6 +6,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -57,7 +58,7 @@ public class ListsController {
     }
 
     @PostMapping
-    public ResponseEntity<Lists> createList(@RequestBody Lists list) throws URISyntaxException {
+    public ResponseEntity<Lists> createList(@RequestBody Lists list) throws URISyntaxException, NotFoundException {
         listService.createList(list, UserController.getCurrentUserLogin());
         URI location = new URI("/create-list/" + list.getName().replaceAll(" ", "_").toLowerCase());
         return ResponseEntity.created(location).build();
@@ -105,12 +106,12 @@ public class ListsController {
     }
 
     @GetMapping("/user/image/default")
-    public List<List<String>> getFourImagesOfEachDefaultListUser() {
+    public List<List<String>> getFourImagesOfEachDefaultListUser() throws NotFoundException {
         return this.listService.getFourImagesOfEachDefaultListUser(UserController.getCurrentUserLogin());
     }
 
     @GetMapping("/user/image/custom")
-    public List<List<String>> getFourImagesOfEachCustomListUser() {
+    public List<List<String>> getFourImagesOfEachCustomListUser() throws NotFoundException {
         return this.listService.getFourImagesOfEachCustomListUser(UserController.getCurrentUserLogin());
     }
 

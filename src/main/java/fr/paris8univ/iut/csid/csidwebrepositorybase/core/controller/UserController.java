@@ -29,34 +29,42 @@ public class UserController {
     }
 
     @GetMapping("/same-ip")
-    public Boolean getUserSameIp(HttpServletRequest request) {
+    public Boolean getUserSameIp(HttpServletRequest request) throws NotFoundException {
         return this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
     }
 
     @GetMapping("/update/ip")
-    public void updateIp(HttpServletRequest request) {
+    public void updateIp(HttpServletRequest request) throws NotFoundException {
         this.usersService.updateIp(request.getRemoteAddr(), getCurrentUserLogin());
     }
 
     @GetMapping("/current")
     public Optional<Users> getCurrentUser() throws NotFoundException {
-        if (!getCurrentUserLogin().equals("anonymousUser")) {
-            return this.usersService.findOneByLogin(getCurrentUserLogin());
-        } else {
-            throw new NotFoundException("Id not found in the request");
+        try {
+            if (!getCurrentUserLogin().equals("anonymousUser")) {
+                return this.usersService.findOneByLogin(getCurrentUserLogin());
+            } else {
+               return Optional.empty();
+            }
+        } catch (Exception e) {
+            throw new NotFoundException("getCurrentUser error");
         }
     }
 
-    public static String getCurrentUserLogin() {
-        org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        String login = null;
-        if (authentication != null)
-            if (authentication.getPrincipal() instanceof UserDetails)
-                login = ((UserDetails) authentication.getPrincipal()).getUsername();
-            else if (authentication.getPrincipal() instanceof String)
-                login = (String) authentication.getPrincipal();
-        return login;
+    public static String getCurrentUserLogin() throws NotFoundException {
+        try {
+            org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
+            Authentication authentication = securityContext.getAuthentication();
+            String login = null;
+            if (authentication != null)
+                if (authentication.getPrincipal() instanceof UserDetails)
+                    login = ((UserDetails) authentication.getPrincipal()).getUsername();
+                else if (authentication.getPrincipal() instanceof String)
+                    login = (String) authentication.getPrincipal();
+            return login;
+        } catch (Exception e) {
+            throw new NotFoundException("getCurrentUserLogin error");
+        }
     }
 
     @PutMapping("/update")
@@ -65,13 +73,13 @@ public class UserController {
     }
 
     @GetMapping("/pp")
-    public Image getUserProfilePicture() {
+    public Image getUserProfilePicture() throws NotFoundException {
         return imageController.downloadImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
     }
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAccount() {
+    public void deleteAccount() throws NotFoundException {
         usersService.deleteUser(this.usersService.findUserEntityByUsername(getCurrentUserLogin()));
     }
 }

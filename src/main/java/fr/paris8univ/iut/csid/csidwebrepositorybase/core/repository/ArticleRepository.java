@@ -4,6 +4,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserControll
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ public class ArticleRepository {
         return new Article(this.articleDao.getOne(id));
     }
 
-    public Long postArticle(Article article) {
+    public Long postArticle(Article article) throws NotFoundException {
         LocalDateTime now = LocalDateTime.now();
         this.articleDao.save(
                 new ArticleEntity(

@@ -7,6 +7,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UpdatePassword;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.MailService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.TokenService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
+import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class TokenController {
     }
 
     @GetMapping("/change-password")
-    public void sendMail() throws MessagingException, IOException, URISyntaxException, NoHtmlFileException {
+    public void sendMail() throws MessagingException, IOException, URISyntaxException, NoHtmlFileException, NotFoundException {
         UsersEntity user = this.usersService.findUserEntityByUsername(UserController.getCurrentUserLogin());
         TokenEntity token = this.tokenService.createToken(user);
         this.mailService.sendEmail(user.getEmail(), token.getToken());

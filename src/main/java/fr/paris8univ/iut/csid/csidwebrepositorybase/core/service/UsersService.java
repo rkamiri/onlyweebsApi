@@ -4,6 +4,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,8 +18,12 @@ public class UsersService {
         this.usersRepository = usersRepository;
     }
 
-    public Optional<Users> findOneByLogin(String currentUserLogin) {
-        return this.usersRepository.findByUsername(currentUserLogin);
+    public Optional<Users> findOneByLogin(String currentUserLogin) throws NotFoundException {
+        try {
+            return this.usersRepository.findByUsername(currentUserLogin);
+        } catch (Exception e) {
+            throw new NotFoundException("findOneByLogin error");
+        }
     }
 
     public UsersEntity findUserEntityByUsername(String currentUserLogin) {
