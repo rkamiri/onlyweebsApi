@@ -2,6 +2,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.CommentService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class CommentController {
     }
 
     @PutMapping
-    public void putComment(@RequestBody Comment comment) {
+    public void putComment(@RequestBody Comment comment) throws NotFoundException {
         this.commentService.putComment(comment);
     }
 
@@ -39,12 +40,12 @@ public class CommentController {
     }*/
 
     @DeleteMapping("/anime/{id}")
-    public void deleteAnimeComment(@PathVariable long id) {
+    public void deleteAnimeComment(@PathVariable long id) throws NotFoundException {
         this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, true);
     }
 
     @DeleteMapping("/article/{id}")
-    public void deleteArticleComment(@PathVariable long id) {
+    public void deleteArticleComment(@PathVariable long id) throws NotFoundException {
         this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, false);
     }
 }

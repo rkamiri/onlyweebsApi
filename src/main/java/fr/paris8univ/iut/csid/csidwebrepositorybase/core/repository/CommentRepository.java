@@ -9,6 +9,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.CommentEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class CommentRepository {
         this.usersRepository = usersRepository;
     }
 
-    public void putComment(Comment comment) {
+    public void putComment(Comment comment) throws NotFoundException {
         LocalDateTime now = LocalDateTime.now();
         UsersEntity user = this.usersRepository.findUserEntityByUsername(UserController.getCurrentUserLogin());
         List<CommentEntity> commentEntities;

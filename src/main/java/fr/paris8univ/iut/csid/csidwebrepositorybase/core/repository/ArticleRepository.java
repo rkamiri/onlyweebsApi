@@ -4,6 +4,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserControll
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -28,14 +29,14 @@ public class ArticleRepository {
     }
 
     public List<ArticleEntity> findAllArticles() {
-        return this.articleDao.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return this.articleDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Article getArticle(long id) {
         return new Article(this.articleDao.getOne(id));
     }
 
-    public Long postArticle(Article article) {
+    public Long postArticle(Article article) throws NotFoundException {
         LocalDateTime now = LocalDateTime.now();
         this.articleDao.save(
                 new ArticleEntity(

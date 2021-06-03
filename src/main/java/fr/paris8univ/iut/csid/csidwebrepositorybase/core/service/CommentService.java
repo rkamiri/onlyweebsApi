@@ -6,6 +6,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.CommentEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.CommentRepository;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class CommentService {
         this.animeDao = animeDao;
     }
 
-    public void putComment(Comment comment) {
+    public void putComment(Comment comment) throws NotFoundException {
         this.commentRepository.putComment(comment);
     }
 
