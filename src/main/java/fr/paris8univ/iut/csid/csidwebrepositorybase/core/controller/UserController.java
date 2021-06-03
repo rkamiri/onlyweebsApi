@@ -48,6 +48,7 @@ public class UserController {
                return Optional.empty();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new NotFoundException("getCurrentUser error");
         }
     }
