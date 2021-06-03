@@ -1,11 +1,14 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoHtmlFileException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -43,9 +46,13 @@ public class MailService {
                 });
     }
 
-    private MimeMessage draftEmailMessage(String recipient, String token) throws MessagingException, IOException {
+    private MimeMessage draftEmailMessage(String recipient, String token) throws MessagingException, IOException, URISyntaxException, NoHtmlFileException {
         String emailSubject = "Reset your password";
-        String emailBody = new String(Files.readAllBytes(Paths.get("password-update.html")));
+        URL htmlUrl = MailService.class.getClassLoader().getResource("password-update.html");
+        if (htmlUrl == null) {
+            throw new NoHtmlFileException();
+        }
+        String emailBody = new String(Files.readAllBytes(Paths.get(htmlUrl.toURI())));
         emailBody = addUrlToHtml(emailBody, token);
         MimeMessage emailMessage = new MimeMessage(mailSession);
         emailMessage.setRecipients(Message.RecipientType.TO, recipient);
@@ -54,7 +61,7 @@ public class MailService {
         return emailMessage;
     }
 
-    public void sendEmail(String recipient, String token) throws MessagingException, IOException {
+    public void sendEmail(String recipient, String token) throws MessagingException, IOException, URISyntaxException, NoHtmlFileException {
         this.setMailServerProperties();
         String emailHost = "smtp.gmail.com";
         Transport transport = mailSession.getTransport("smtp");
@@ -66,6 +73,6 @@ public class MailService {
 
     public String addUrlToHtml(String str, String token) {
         String tokenUrl = onlyweebs + "password-update/" + token;
-        return str.substring(0, str.indexOf("href=\"#\"")+6) + tokenUrl + str.substring(str.indexOf("href=\"#\"")+7);
+        return str.substring(0, str.indexOf("href=\"#\"") + 6) + tokenUrl + str.substring(str.indexOf("href=\"#\"") + 7);
     }
 }
