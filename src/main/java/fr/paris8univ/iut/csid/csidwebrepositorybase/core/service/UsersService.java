@@ -22,6 +22,7 @@ public class UsersService {
         try {
             return this.usersRepository.findByUsername(currentUserLogin);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new NotFoundException("findOneByLogin error");
         }
     }
