@@ -43,7 +43,7 @@ public class UsersService {
         this.usersRepository.updateIp(newIp, currentUserLogin);
     }
 
-    public void deleteUser(UsersEntity usersEntity) {
+    public void deleteUser(UsersEntity usersEntity) throws NoUserFoundException {
         this.usersRepository.deleteUser(usersEntity);
     }
 }

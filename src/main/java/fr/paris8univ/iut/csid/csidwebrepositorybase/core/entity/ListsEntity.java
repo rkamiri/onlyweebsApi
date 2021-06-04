@@ -65,4 +65,8 @@ public class ListsEntity {
     public Long getIsOwnedBy() {
         return isOwnedBy;
     }
+
+    public void setIsOwnedBy(Long isOwnedBy) {
+        this.isOwnedBy = isOwnedBy;
+    }
 }
