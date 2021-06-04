@@ -3,16 +3,13 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
-
 
 @Repository
 public class UsersRepository {
@@ -20,23 +17,11 @@ public class UsersRepository {
     private final UsersDao usersDao;
     private final AuthDao authDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ListsDao listsDao;
-    private final IsListedInDao isListedIdDao;
-    private final CommentDao commentDao;
-    private final RatingDao ratingDao;
-    private final ArticleDao articleDao;
-    private final ImageDao imageDao;
 
     public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder, ListsDao listsDao, IsListedInDao isListedIdDao, CommentDao commentDao, RatingDao ratingDao, ArticleDao articleDao, ImageDao imageDao) {
         this.usersDao = usersDao;
         this.authDao = authDao;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.listsDao = listsDao;
-        this.isListedIdDao = isListedIdDao;
-        this.commentDao = commentDao;
-        this.ratingDao = ratingDao;
-        this.articleDao = articleDao;
-        this.imageDao = imageDao;
     }
 
     public Optional<Users> findByUsername(String username) {
@@ -92,23 +77,24 @@ public class UsersRepository {
         this.usersDao.save(usersEntity);
     }
 
-    @Transactional
-    public void deleteUser(UsersEntity usersEntity) {
-        List<ListsEntity> lists = this.listsDao.getListsEntitiesByIsOwnedBy(usersEntity.getId());
-        int[] intArray = {1,2,3};
-        for (ListsEntity list: lists) {
-            this.isListedIdDao.deleteIsListedInEntitiesByListId(list.getId());
-        }
-        this.listsDao.deleteInBatch(lists);
-        this.commentDao.deleteInBatch(this.commentDao.findCommentEntitiesByUsersEntity(usersEntity));
-        this.ratingDao.deleteInBatch(this.ratingDao.getRatingEntitiesByUserId(usersEntity.getId()));
-        if (Arrays.stream(intArray).noneMatch(i -> i ==  usersEntity.getImage().getId())) {
-            this.imageDao.delete(usersEntity.getImage());
-        }
-        for (ArticleEntity articleEntity : this.articleDao.getArticleEntitiesByAuthor(usersEntity)) {
-            articleEntity.setAuthor(this.usersDao.findByUsername("deleted").orElseThrow());
-        }
-        this.authDao.delete(this.authDao.getOne(usersEntity.getUsername()));
-        this.usersDao.delete(usersEntity);
+    public void deleteUser(UsersEntity usersEntity) throws NoUserFoundException {
+        String encoding = bCryptPasswordEncoder.encode(usersEntity.getUsername());
+        String newUsername = "deleted" + encoding.substring(encoding.length() - 20);
+        ImageEntity newImage = usersEntity.getImage();
+        newImage.setContent("hello667world".getBytes(StandardCharsets.UTF_8));
+        newImage.setName("deletedImageName");
+        Users deletedUser = new Users(
+                usersEntity.getId(),
+                newUsername,
+                usersEntity.getPassword() + "667ekip",
+                "Supprimé",
+                "Supprimé",
+                "Supprimé",
+                "S",
+                "Supprimé",
+                "Supprimé",
+                new Image(usersEntity.getImage()));
+        this.updateCurrentUser(deletedUser);
+        this.usersDao.getOne(deletedUser.getId()).setImage(newImage);
     }
 }

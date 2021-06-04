@@ -80,7 +80,7 @@ public class UserController {
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAccount() throws NotFoundException {
+    public void deleteAccount() throws NotFoundException, NoUserFoundException {
         usersService.deleteUser(this.usersService.findUserEntityByUsername(getCurrentUserLogin()));
     }
 }

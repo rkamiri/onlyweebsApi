@@ -88,11 +88,9 @@ public class ListsController {
 
     @GetMapping("/custom")
     public ResponseEntity<List<Lists>> getCustomLists() {
-
-        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
         List<Lists> content = this.listService.getCustomLists();
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+        return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("/spotify/image")
