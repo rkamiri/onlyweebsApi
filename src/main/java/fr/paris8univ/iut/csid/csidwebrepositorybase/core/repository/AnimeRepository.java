@@ -63,15 +63,15 @@ public class AnimeRepository {
 
     public List<Anime> getLatestAnimes() {
         LocalDate now = LocalDate.now();
-        String tempstr = "";
+        String temporary;
         int month = now.getMonthValue();
         int year = now.getYear();
         if (now.getMonthValue() < 10)
-            tempstr = "0" + month;
+            temporary = "0" + month;
         else
-            tempstr = "" + month;
+            temporary = "" + month;
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
-        return this.animeDao.findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc("from "+year+"-"+tempstr, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
+        return this.animeDao.findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc("from "+year+"-"+temporary, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
     }
 
 }

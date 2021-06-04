@@ -55,10 +55,6 @@ public class ArticleEntity {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getBody() {
         return body;
     }
@@ -69,10 +65,6 @@ public class ArticleEntity {
 
     public String getCreated_at() {
         return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
     }
 
     public UsersEntity getAuthor() {
@@ -87,15 +79,7 @@ public class ArticleEntity {
         return cover;
     }
 
-    public void setCover(ImageEntity cover) {
-        this.cover = cover;
-    }
-
     public ArticleCategoriesEntity getCategory() {
         return category;
-    }
-
-    public void setCategory(ArticleCategoriesEntity category) {
-        this.category = category;
     }
 }

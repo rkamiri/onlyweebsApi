@@ -34,11 +34,6 @@ public class CommentController {
         this.commentService.putComment(comment);
     }
 
-/*    @GetMapping("/user/{id}")
-    public String getCurrentUserCommentForASelectAnime(@PathVariable(value = "id")long animeId) {
-        return this.commentService.getCurrentUserCommentForASelectAnime(UserController.getCurrentUserLogin(), animeId);
-    }*/
-
     @DeleteMapping("/anime/{id}")
     public void deleteAnimeComment(@PathVariable long id) throws NotFoundException {
         this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, true);

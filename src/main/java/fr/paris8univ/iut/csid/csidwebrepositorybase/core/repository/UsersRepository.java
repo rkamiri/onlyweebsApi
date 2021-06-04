@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,8 +25,9 @@ public class UsersRepository {
     private final CommentDao commentDao;
     private final RatingDao ratingDao;
     private final ArticleDao articleDao;
+    private final ImageDao imageDao;
 
-    public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder, ListsDao listsDao, IsListedInDao isListedIdDao, CommentDao commentDao, RatingDao ratingDao, ArticleDao articleDao) {
+    public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder, ListsDao listsDao, IsListedInDao isListedIdDao, CommentDao commentDao, RatingDao ratingDao, ArticleDao articleDao, ImageDao imageDao) {
         this.usersDao = usersDao;
         this.authDao = authDao;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -34,6 +36,7 @@ public class UsersRepository {
         this.commentDao = commentDao;
         this.ratingDao = ratingDao;
         this.articleDao = articleDao;
+        this.imageDao = imageDao;
     }
 
     public Optional<Users> findByUsername(String username) {
@@ -92,12 +95,16 @@ public class UsersRepository {
     @Transactional
     public void deleteUser(UsersEntity usersEntity) {
         List<ListsEntity> lists = this.listsDao.getListsEntitiesByIsOwnedBy(usersEntity.getId());
+        int[] intArray = {1,2,3};
         for (ListsEntity list: lists) {
             this.isListedIdDao.deleteIsListedInEntitiesByListId(list.getId());
         }
         this.listsDao.deleteInBatch(lists);
         this.commentDao.deleteInBatch(this.commentDao.findCommentEntitiesByUsersEntity(usersEntity));
         this.ratingDao.deleteInBatch(this.ratingDao.getRatingEntitiesByUserId(usersEntity.getId()));
+        if (Arrays.stream(intArray).noneMatch(i -> i ==  usersEntity.getImage().getId())) {
+            this.imageDao.delete(usersEntity.getImage());
+        }
         for (ArticleEntity articleEntity : this.articleDao.getArticleEntitiesByAuthor(usersEntity)) {
             articleEntity.setAuthor(this.usersDao.findByUsername("deleted").orElseThrow());
         }

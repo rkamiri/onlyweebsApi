@@ -2,7 +2,6 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
