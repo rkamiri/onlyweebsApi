@@ -79,4 +79,8 @@ public class CommentEntity {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public void setUsersEntity(UsersEntity usersEntity) {
+        this.usersEntity = usersEntity;
+    }
 }
