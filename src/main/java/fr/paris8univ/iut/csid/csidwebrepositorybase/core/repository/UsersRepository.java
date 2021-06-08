@@ -18,7 +18,7 @@ public class UsersRepository {
     private final AuthDao authDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder, ListsDao listsDao, IsListedInDao isListedIdDao, CommentDao commentDao, RatingDao ratingDao, ArticleDao articleDao, ImageDao imageDao) {
+    public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.usersDao = usersDao;
         this.authDao = authDao;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;

@@ -1,7 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
-
 import javax.persistence.*;
 
 @Entity
@@ -22,15 +20,16 @@ public class ListsEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_owned_by")
-    private Long isOwnedBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "is_owned_by")
+    private UsersEntity isOwnedBy;
 
     @Column(name = "is_default")
     private int is_default;
 
     public ListsEntity() {}
 
-    public ListsEntity(String name, String date, String description, Long isOwnedBy, int is_default) {
+    public ListsEntity(String name, String date, String description, UsersEntity isOwnedBy, int is_default) {
         this.name = name;
         this.date = date;
         this.description = description;
@@ -62,11 +61,7 @@ public class ListsEntity {
         this.name = name;
     }
 
-    public Long getIsOwnedBy() {
+    public UsersEntity getIsOwnedBy() {
         return isOwnedBy;
-    }
-
-    public void setIsOwnedBy(Long isOwnedBy) {
-        this.isOwnedBy = isOwnedBy;
     }
 }
