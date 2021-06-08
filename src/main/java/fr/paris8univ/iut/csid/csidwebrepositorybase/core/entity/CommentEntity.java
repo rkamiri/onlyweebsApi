@@ -32,6 +32,10 @@ public class CommentEntity {
     @JoinColumn(name="article_id")
     private ArticleEntity articleEntity;
 
+    @ManyToOne
+    @JoinColumn(name="list_id")
+    private ListsEntity listsEntity;
+
     public CommentEntity() { }
 
     public CommentEntity(UsersEntity usersEntity, String body, String date) {
@@ -82,5 +86,13 @@ public class CommentEntity {
 
     public void setUsersEntity(UsersEntity usersEntity) {
         this.usersEntity = usersEntity;
+    }
+
+    public ListsEntity getListsEntity() {
+        return listsEntity;
+    }
+
+    public void setListsEntity(ListsEntity listsEntity) {
+        this.listsEntity = listsEntity;
     }
 }

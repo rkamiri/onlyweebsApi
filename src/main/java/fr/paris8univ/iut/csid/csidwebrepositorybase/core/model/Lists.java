@@ -1,13 +1,14 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 
 public class Lists {
     private Long id;
     private String name;
     private String creationDate;
     private String description;
-    private Long isOwnedBy;
+    private UsersEntity isOwnedBy;
     private int isDefault;
 
     public Lists() { }
@@ -37,35 +38,19 @@ public class Lists {
         this.name = name;
     }
 
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getCreationDate() {
+        return creationDate;
     }
 
-    public Long getIsOwnedBy() {
+    public UsersEntity getIsOwnedBy() {
         return isOwnedBy;
-    }
-
-    public void setIsOwnedBy(Long isOwnedBy) {
-        this.isOwnedBy = isOwnedBy;
     }
 
     public int getIsDefault() {
         return isDefault;
-    }
-
-    public void setIsDefault(int isDefault) {
-        this.isDefault = isDefault;
     }
 }
