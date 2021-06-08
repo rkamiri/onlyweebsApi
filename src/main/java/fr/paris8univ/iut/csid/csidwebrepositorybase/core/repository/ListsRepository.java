@@ -1,6 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.IsListedInDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
@@ -23,15 +24,17 @@ public class ListsRepository {
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
     private final AnimeDao animeDao;
+    private final CommentDao commentDao;
     private final AnimeRepository animeRepository;
     private final UsersRepository usersRepository;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeDao animeDao, AnimeRepository animeRepository, UsersRepository usersRepository) {
+    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeDao animeDao, CommentDao commentDao, AnimeRepository animeRepository, UsersRepository usersRepository) {
         this.listsDao = listsDao;
         this.listedInDao = listedInDao;
         this.animeDao = animeDao;
+        this.commentDao = commentDao;
         this.animeRepository = animeRepository;
         this.usersRepository = usersRepository;
     }
@@ -47,7 +50,7 @@ public class ListsRepository {
 
     public Lists findListByNameAndUserId(String name, long userid) {
         List<ListsEntity> ilel = this.listsDao.findAll();
-        ilel.removeIf(e -> !e.getName().equals(name) || !e.getIsOwnedBy().equals(userid));
+        ilel.removeIf(e -> !e.getName().equals(name) || !e.getIsOwnedBy().getId().equals(userid));
         return ilel.stream().map(Lists::new).collect(Collectors.toList()).get(0);
     }
 
@@ -79,7 +82,7 @@ public class ListsRepository {
                 new ListsEntity(list.getName(),
                         dtf.format(now),
                         list.getDescription(),
-                        this.usersRepository.findUserEntityByUsername(currentUserLogin).getId(),
+                        this.usersRepository.findUserEntityByUsername(currentUserLogin),
                         0));
     }
 
@@ -119,21 +122,21 @@ public class ListsRepository {
     public List<ListsEntity> getMyCustomLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 1);
-        ilel.removeIf(e -> !e.getIsOwnedBy().equals(id));
+        ilel.removeIf(e -> !e.getIsOwnedBy().getId().equals(id));
         return ilel;
     }
 
     public List<ListsEntity> getMyDefaultLists(long id) {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 0);
-        ilel.removeIf(e -> !e.getIsOwnedBy().equals(id));
+        ilel.removeIf(e -> !e.getIsOwnedBy().getId().equals(id));
         return ilel;
     }
 
-    public List<Lists> getCustomLists() {
+    public List<ListsEntity> getCustomLists() {
         List<ListsEntity> ilel = this.listsDao.findAll();
         ilel.removeIf(e -> e.getIs_default() == 1);
-        return ilel.stream().map(Lists::new).collect(Collectors.toList());
+        return ilel;
     }
 
     public List<List<String>> getFourImagesOfEachList(List<ListsEntity> all) {
@@ -165,6 +168,7 @@ public class ListsRepository {
     @Transactional
     public void deleteList(long id) {
         this.listedInDao.deleteIsListedInEntitiesByListId(id);
+        this.commentDao.deleteCommentEntitiesByListsEntity(this.listsDao.getOne(id));
         this.listsDao.deleteById(id);
     }
 

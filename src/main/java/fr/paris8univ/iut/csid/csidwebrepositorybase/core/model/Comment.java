@@ -3,6 +3,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.CommentEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
 
 public class Comment {
 
@@ -12,6 +13,7 @@ public class Comment {
     private String date;
     private AnimeEntity animeEntity;
     private ArticleEntity articleEntity;
+    private ListsEntity listsEntity;
 
     public Comment() {
     }
@@ -23,6 +25,7 @@ public class Comment {
         this.date = commentEntity.getDate();
         this.animeEntity = commentEntity.getAnimeEntity();
         this.articleEntity = commentEntity.getArticleEntity();
+        this.listsEntity = commentEntity.getListsEntity();
 
     }
 
@@ -48,5 +51,13 @@ public class Comment {
 
     public String getDate() {
         return date;
+    }
+
+    public ListsEntity getListsEntity() {
+        return listsEntity;
+    }
+
+    public void setListsEntity(ListsEntity listsEntity) {
+        this.listsEntity = listsEntity;
     }
 }

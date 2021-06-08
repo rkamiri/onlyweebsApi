@@ -3,6 +3,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.CommentEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.CommentRepository;
@@ -18,43 +19,38 @@ public class CommentService {
     private final CommentDao commentDao;
     private final ArticleDao articleDao;
     private final AnimeDao animeDao;
+    private final ListsDao listsDao;
 
-    public CommentService(CommentRepository commentRepository, CommentDao commentDao, ArticleDao articleDao, AnimeDao animeDao) {
+    public CommentService(CommentRepository commentRepository, CommentDao commentDao, ArticleDao articleDao, AnimeDao animeDao, ListsDao listsDao) {
         this.commentRepository = commentRepository;
         this.commentDao = commentDao;
         this.articleDao = articleDao;
         this.animeDao = animeDao;
+        this.listsDao = listsDao;
     }
 
     public void putComment(Comment comment) throws NotFoundException {
         this.commentRepository.putComment(comment);
     }
 
-    public List<Comment> getComments(long id, boolean isAnime) {
+    public List<Comment> getComments(long objectId, int type) {
         List<CommentEntity> commentEntities;
         List<Comment> commentList = new ArrayList<>();
 
-        if (isAnime) {
-            commentEntities = this.commentDao.findCommentEntitiesByAnimeEntity(animeDao.findById(id).orElseThrow());
+        if (type == 0) {
+            commentEntities = this.commentDao.findCommentEntitiesByAnimeEntity(animeDao.findById(objectId).orElseThrow());
+        } else if (type == 1) {
+            commentEntities = this.commentDao.findCommentEntitiesByArticleEntity(articleDao.findById(objectId).orElseThrow());
         } else {
-            commentEntities = this.commentDao.findCommentEntitiesByArticleEntity(articleDao.findById(id).orElseThrow());
+            commentEntities = this.commentDao.findCommentEntitiesByListsEntity(listsDao.findById(objectId).orElseThrow());
         }
         for (CommentEntity commentEntity : commentEntities) {
             commentList.add(new Comment(commentEntity));
         }
-
         return commentList;
     }
 
-/*    public String getCurrentUserCommentForASelectAnime(String currentUserLogin, long animeId) {
-        if (this.commentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeId).equals(Optional.empty())) {
-            return "666";
-        } else {
-            return this.commentRepository.getCurrentUserAnimeCommentForASelectAnime(currentUserLogin, animeId).orElseThrow().getBody();
-        }
-    }*/
-
-    public void deleteComment(String currentUserLogin, long animeId, boolean isAnimeComment) {
-        this.commentRepository.deleteComment(currentUserLogin, animeId, isAnimeComment);
+    public void deleteComment(String currentUserLogin, long animeId, int type) {
+        this.commentRepository.deleteComment(currentUserLogin, animeId, type);
     }
 }

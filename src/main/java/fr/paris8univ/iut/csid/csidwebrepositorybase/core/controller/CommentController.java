@@ -20,13 +20,18 @@ public class CommentController {
     }
 
     @GetMapping("/anime/{id}")
-    public List<Comment> getCommentsForAnime(@PathVariable(value = "id")long animeId) {
-        return this.commentService.getComments(animeId, true);
+    public List<Comment> getCommentsForAnime(@PathVariable(value = "id") long animeId) {
+        return this.commentService.getComments(animeId, 0);
     }
 
     @GetMapping("/article/{id}")
-    public List<Comment> getCommentsForArticle(@PathVariable(value = "id")long animeId) {
-        return this.commentService.getComments(animeId, false);
+    public List<Comment> getCommentsForArticle(@PathVariable(value = "id") long articleId) {
+        return this.commentService.getComments(articleId, 1);
+    }
+
+    @GetMapping("/list/{id}")
+    public List<Comment> getCommentsForList(@PathVariable(value = "id") long listId) {
+        return this.commentService.getComments(listId, 2);
     }
 
     @PutMapping
@@ -36,11 +41,16 @@ public class CommentController {
 
     @DeleteMapping("/anime/{id}")
     public void deleteAnimeComment(@PathVariable long id) throws NotFoundException {
-        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, true);
+        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, 0);
     }
 
     @DeleteMapping("/article/{id}")
     public void deleteArticleComment(@PathVariable long id) throws NotFoundException {
-        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, false);
+        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, 1);
+    }
+
+    @DeleteMapping("/list/{id}")
+    public void deleteListComment(@PathVariable long id) throws NotFoundException {
+        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, 2);
     }
 }
