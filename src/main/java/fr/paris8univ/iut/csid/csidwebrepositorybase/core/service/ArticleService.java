@@ -28,4 +28,12 @@ public class ArticleService {
     public Long postArticle(Article article) throws NotFoundException {
         return this.articleRepository.postArticle(article);
     }
+
+    public List<ArticleEntity> getArticlesByCategoryId (int page, Long categoryId){
+        return this.articleRepository.getArticlesByCategoryId(page, categoryId);
+    }
+
+    public List<ArticleEntity> getArticlesByPage (int page){
+        return this.articleRepository.getArticlesByPage(page);
+    }
 }
