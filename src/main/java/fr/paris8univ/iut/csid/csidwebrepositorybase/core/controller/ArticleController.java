@@ -44,4 +44,20 @@ public class ArticleController {
             return null;
         }
     }
+
+    @GetMapping("/page/{page}")
+    public ResponseEntity<List<ArticleEntity>> getArticlesByPage(@PathVariable int page) {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        List<ArticleEntity> content = this.articleService.getArticlesByPage(page);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+    }
+
+    @GetMapping("/category/{categoryId}/page/{page}")
+    public ResponseEntity<List<ArticleEntity>> getArticlesByCategoryId(@PathVariable long categoryId, @PathVariable int page) {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        List<ArticleEntity> content = this.articleService.getArticlesByCategoryId(page, categoryId);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+    }
 }
