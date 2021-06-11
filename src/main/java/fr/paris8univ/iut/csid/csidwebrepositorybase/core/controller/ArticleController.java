@@ -53,10 +53,10 @@ public class ArticleController {
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
-    @GetMapping("/category/{categoryId}/page/{page}")
-    public ResponseEntity<List<ArticleEntity>> getArticlesByCategoryId(@PathVariable long categoryId, @PathVariable int page) {
+    @GetMapping("/category/{categoryId}/query/{query}/page/{page}")
+    public ResponseEntity<List<ArticleEntity>> getArticlesByCategoryId(@PathVariable long categoryId, @PathVariable String query, @PathVariable int page) {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        List<ArticleEntity> content = this.articleService.getArticlesByCategoryId(page, categoryId);
+        List<ArticleEntity> content = this.articleService.getArticlesByCategoryId(page, query, categoryId);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }

@@ -29,8 +29,8 @@ public class ArticleService {
         return this.articleRepository.postArticle(article);
     }
 
-    public List<ArticleEntity> getArticlesByCategoryId (int page, Long categoryId){
-        return this.articleRepository.getArticlesByCategoryId(page, categoryId);
+    public List<ArticleEntity> getArticlesByCategoryId (int page, String query, Long categoryId){
+        return this.articleRepository.getArticlesByCategoryId(page, query, categoryId);
     }
 
     public List<ArticleEntity> getArticlesByPage (int page){

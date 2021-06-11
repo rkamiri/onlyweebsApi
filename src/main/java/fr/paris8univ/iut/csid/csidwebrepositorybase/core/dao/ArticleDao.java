@@ -14,5 +14,5 @@ import java.util.List;
 @Repository
 public interface ArticleDao extends JpaRepository<ArticleEntity, Long> {
     List<ArticleEntity> getArticleEntitiesByAuthor(UsersEntity author);
-    List<ArticleEntity> getArticleEntitiesByCategoryId(Pageable page, Long category);
+    List<ArticleEntity> getArticleEntitiesByCategoryIdAndTitleLike(Pageable page, Long category, String title);
 }
