@@ -21,19 +21,11 @@ public interface ArticleDao extends JpaRepository<ArticleEntity, Long> {
 
     List<ArticleEntity> getArticleEntitiesByCategoryIdAndTitleLike(Pageable page, Long category, String title);
 
-    @Query(value = "Select distinct a.id, a.title, a.body, a.created_at, a.author_id, a.cover_id, a.category_id from article a"+
-            "where category_id = 1",
-           // "where (:query is null or title like CONCAT('%',:query,'%')) and (:category is null or category_id = :category)",
-
-
-
-
-
+    @Query(value = "Select distinct a.id, a.title, a.body, a.created_at, a.author_id, a.cover_id, a.category_id from article a " +
+                   "where (:query is null or title like CONCAT('%',:query,'%')) and (:category is null or category_id like CONCAT('%',:category,'%'))",
             countQuery = "select count(*) from article a " +
-                    "where category_id = 1",
-                   // "where (:query is null or title like CONCAT('%',:query,'%')) and (:category is null or category_id = :category)",
+                         "where (:query is null or title like CONCAT('%',:query,'%')) and (:category is null or category_id like CONCAT('%',:category,'%'))",
             nativeQuery = true)
-
     Page<ArticleEntity> findAllByCompleteResearch(@Param("query")String query, @Param("category") Long category, Pageable page);
 
 }
