@@ -36,7 +36,7 @@ public class ArticleRepository {
 
     public List<ArticleEntity> getArticlesByCategoryId(int page, String query, Long articleCategoryId) {
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
-        return this.articleDao.getArticleEntitiesByCategoryIdAndTitleLike(pageable, articleCategoryId, query);
+        return this.articleDao.findAllByCompleteResearch(query, articleCategoryId, pageable).toList();
     }
 
     public Article getArticle(long id) {
