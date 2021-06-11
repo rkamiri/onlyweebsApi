@@ -33,9 +33,10 @@ public class ArticleRepository {
     public List<ArticleEntity> findAllArticles() {
         return this.articleDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
-    public List<ArticleEntity> getArticlesByCategoryId(int page, Long articleCategoryId) {
+
+    public List<ArticleEntity> getArticlesByCategoryId(int page, String query, Long articleCategoryId) {
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
-        return this.articleDao.getArticleEntitiesByCategoryId(pageable, articleCategoryId);
+        return this.articleDao.getArticleEntitiesByCategoryIdAndTitleLike(pageable, articleCategoryId, query);
     }
 
     public Article getArticle(long id) {
