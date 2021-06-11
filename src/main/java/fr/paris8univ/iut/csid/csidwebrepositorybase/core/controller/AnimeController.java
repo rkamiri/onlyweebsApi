@@ -81,6 +81,11 @@ public class AnimeController {
         return this.animeService.getAnimeGenres(idAnime);
     }
 
+    @GetMapping("/latest")
+    public List<Anime> getLatestAnimes(){
+        return this.animeService.getLatestAnimes();
+    }
+
     @PostMapping("/research/{research}/pagination/{page}")
     public List<Anime> researchAnimesPagination(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "research") String title, @PathVariable(value = "page") int page){
         return this.animeService.researchAnimesPagination(title, animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre(), page);

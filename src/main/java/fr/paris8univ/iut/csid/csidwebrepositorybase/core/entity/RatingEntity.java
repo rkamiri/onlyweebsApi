@@ -12,7 +12,7 @@ public class RatingEntity {
 
     @Id
     @Column(name = "user_id", nullable = false)
-    private Long user_id;
+    private Long userId;
 
     @Id
     @Column(name = "anime_id", nullable = false)
@@ -24,18 +24,18 @@ public class RatingEntity {
     public RatingEntity() {
     }
 
-    public RatingEntity(Long user_id, Long anime_id, Long rate) {
-        this.user_id = user_id;
+    public RatingEntity(Long userId, Long anime_id, Long rate) {
+        this.userId = userId;
         this.anime_id = anime_id;
         this.rate = rate;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long user_id) {
+        this.userId = user_id;
     }
 
     public Long getAnime_id() {
@@ -59,18 +59,18 @@ public class RatingEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RatingEntity that = (RatingEntity) o;
-        return rate.equals(that.rate) && Objects.equals(user_id, that.user_id) && Objects.equals(anime_id, that.anime_id);
+        return rate.equals(that.rate) && Objects.equals(userId, that.userId) && Objects.equals(anime_id, that.anime_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user_id, anime_id, rate);
+        return Objects.hash(userId, anime_id, rate);
     }
 
     @Override
     public String toString() {
         return "RatingEntity{" +
-                "user_id=" + user_id +
+                "user_id=" + userId +
                 ", anime_id=" + anime_id +
                 ", rate=" + rate +
                 '}';

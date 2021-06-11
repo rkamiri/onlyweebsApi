@@ -1,17 +1,15 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AuthDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AuthEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
-
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
-
 
 @Repository
 public class UsersRepository {
@@ -77,5 +75,26 @@ public class UsersRepository {
         UsersEntity usersEntity = this.findUserEntityByUsername(currentUserLogin);
         usersEntity.setIp(bCryptPasswordEncoder.encode(newIp));
         this.usersDao.save(usersEntity);
+    }
+
+    public void deleteUser(UsersEntity usersEntity) throws NoUserFoundException {
+        String encoding = bCryptPasswordEncoder.encode(usersEntity.getUsername());
+        String newUsername = "deleted" + encoding.substring(encoding.length() - 20);
+        ImageEntity newImage = usersEntity.getImage();
+        newImage.setContent("hello667world".getBytes(StandardCharsets.UTF_8));
+        newImage.setName("deletedImageName");
+        Users deletedUser = new Users(
+                usersEntity.getId(),
+                newUsername,
+                usersEntity.getPassword() + "667ekip",
+                "Supprimé",
+                "Supprimé",
+                "Supprimé",
+                "S",
+                "Supprimé",
+                "Supprimé",
+                new Image(usersEntity.getImage()));
+        this.updateCurrentUser(deletedUser);
+        this.usersDao.getOne(deletedUser.getId()).setImage(newImage);
     }
 }

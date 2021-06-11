@@ -38,7 +38,7 @@ public class UsersEntity {
     @Column(name = "ip")
     private String ip;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private ImageEntity image;
 
@@ -106,10 +106,6 @@ public class UsersEntity {
 
     public String getGender() {
         return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getBio() {

@@ -20,7 +20,7 @@ public class ArticleEntity {
     @Column(name = "created_at")
     private String created_at;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private UsersEntity author;
 
@@ -28,12 +28,17 @@ public class ArticleEntity {
     @JoinColumn(name = "cover_id", referencedColumnName = "id")
     private ImageEntity cover;
 
-    public ArticleEntity(String title, String body, String created_at, UsersEntity author, ImageEntity cover) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private ArticleCategoriesEntity category;
+
+    public ArticleEntity(String title, String body, String created_at, UsersEntity author, ImageEntity cover, ArticleCategoriesEntity category) {
         this.title = title;
         this.body = body;
         this.created_at = created_at;
         this.author = author;
         this.cover = cover;
+        this.category = category;
     }
 
     public ArticleEntity() {}
@@ -42,12 +47,12 @@ public class ArticleEntity {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getTitle() {
+        return title;
     }
 
     public String getBody() {
@@ -62,10 +67,6 @@ public class ArticleEntity {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
     public UsersEntity getAuthor() {
         return author;
     }
@@ -78,7 +79,7 @@ public class ArticleEntity {
         return cover;
     }
 
-    public void setCover(ImageEntity cover) {
-        this.cover = cover;
+    public ArticleCategoriesEntity getCategory() {
+        return category;
     }
 }

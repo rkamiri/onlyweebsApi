@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,11 +49,11 @@ public class AnimeRepository {
         return this.animeDao.findTop15ByTitleContainingAndPegiEntityNotLike(research, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
     }
 
-    /*public List<Anime> researchAnimesPagination(String research, int page) {
+    public List<Anime> researchAnimesPagination(String research, int page) {
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
         return this.animeDao.findByTitleContainingAndPegiEntityNotLike(pageable, research, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
-    }*/
+    }
 
     public int getResearchCount(String research, String producer, String studio, String genre) {
         List<Anime> animes = this.animeDao.findAllByCompleteResearchForCount(research, producer, studio, genre).stream().map(Anime::new).collect(Collectors.toList());
@@ -62,6 +63,19 @@ public class AnimeRepository {
     public List<Anime> researchAnimesPagination(String research, String producer, String studio, String genre, int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
         return this.animeDao.findAllByCompleteResearch(research, producer, studio, genre, pageable).stream().map(Anime::new).collect(Collectors.toList());
+    }
+
+    public List<Anime> getLatestAnimes() {
+        LocalDate now = LocalDate.now();
+        String temporary;
+        int month = now.getMonthValue();
+        int year = now.getYear();
+        if (now.getMonthValue() < 10)
+            temporary = "0" + month;
+        else
+            temporary = "" + month;
+        PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
+        return this.animeDao.findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc("from "+year+"-"+temporary, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
     }
 
 }

@@ -2,6 +2,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public Long postArticle(@RequestBody Article article) {
+    public Long postArticle(@RequestBody Article article) throws NotFoundException {
         return this.articleService.postArticle(article);
     }
 }

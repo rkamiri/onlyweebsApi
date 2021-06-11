@@ -4,11 +4,10 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserControll
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.CommentEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,30 +22,36 @@ public class CommentRepository {
     private final CommentDao commentDao;
     private final AnimeDao animeDao;
     private final ArticleDao articleDao;
+    private final ListsDao listsDao;
     public final UsersRepository usersRepository;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public CommentRepository(CommentDao commentDao, AnimeDao animeDao, ArticleDao articleDao, UsersRepository usersRepository) {
+    public CommentRepository(CommentDao commentDao, AnimeDao animeDao, ArticleDao articleDao, ListsDao listsDao, UsersRepository usersRepository) {
         this.commentDao = commentDao;
         this.animeDao = animeDao;
         this.articleDao = articleDao;
+        this.listsDao = listsDao;
         this.usersRepository = usersRepository;
     }
 
-    public void putComment(Comment comment) {
+    public void putComment(Comment comment) throws NotFoundException {
         LocalDateTime now = LocalDateTime.now();
         UsersEntity user = this.usersRepository.findUserEntityByUsername(UserController.getCurrentUserLogin());
         List<CommentEntity> commentEntities;
-        boolean isAnimeComment;
-        if (comment.getArticleEntity()==null) {
+        int whichTypeOfComment;
+        if (comment.getArticleEntity() == null && comment.getListsEntity() == null) { // anime comment
             AnimeEntity animeEntity = comment.getAnimeEntity();
             commentEntities = this.commentDao.findCommentEntitiesByAnimeEntityAndUsersEntity(animeEntity, user);
-            isAnimeComment = true;
-        } else {
+            whichTypeOfComment = 0;
+        } else if (comment.getAnimeEntity() == null && comment.getListsEntity() == null) { // article comment
             ArticleEntity articleEntity = comment.getArticleEntity();
             commentEntities = this.commentDao.findCommentEntitiesByArticleEntityAndUsersEntity(articleEntity, user);
-            isAnimeComment = false;
+            whichTypeOfComment = 1;
+        } else { // list comment
+            ListsEntity listsEntity = comment.getListsEntity();
+            commentEntities = this.commentDao.findCommentEntitiesByListsEntityAndUsersEntity(listsEntity, user);
+            whichTypeOfComment = 2;
         }
         if (commentEntities.size() > 0) {
             commentEntities.get(0).setBody(comment.getBody());
@@ -54,30 +59,27 @@ public class CommentRepository {
             commentDao.save(commentEntities.get(0));
         } else {
             CommentEntity commentEntity = new CommentEntity(user, comment.getBody(), dtf.format(now));
-            if (isAnimeComment) {
+            if (whichTypeOfComment == 0) {
                 commentEntity.setAnimeEntity(comment.getAnimeEntity());
-            } else {
+            } else if (whichTypeOfComment == 1) {
                 commentEntity.setArticleEntity(comment.getArticleEntity());
+            } else {
+                commentEntity.setListsEntity(comment.getListsEntity());
             }
             this.commentDao.save(commentEntity);
         }
     }
 
-/*    public Optional<Comment> getCurrentUserAnimeCommentForASelectAnime(String currentUserLogin, Long animeId) {
-        if (usersRepository.findByUsername(currentUserLogin).isPresent()) {
-            return this.commentDao.findById(new AnimeCommentId(usersRepository.findByUsername(currentUserLogin).get().getId(), animeId)).map(Comment::new);
-        } else {
-            return Optional.empty();
-        }
-    }*/
-
     @Transactional
-    public void deleteComment(String currentUserLogin, long id, boolean isAnimeComment) {
+    public void deleteComment(String currentUserLogin, long id, int type) {
         UsersEntity user = this.usersRepository.findUserEntityByUsername(currentUserLogin);
-        if (isAnimeComment) {
+        if (type==0) {
             this.commentDao.deleteCommentEntityByAnimeEntityAndUsersEntity(this.animeDao.getOne(id), user);
-        } else {
+        } else if (type == 1){
             this.commentDao.deleteCommentEntityByArticleEntityAndUsersEntity(this.articleDao.getOne(id), user);
+        } else {
+            this.commentDao.deleteCommentEntityByListsEntityAndUsersEntity(this.listsDao.getOne(id), user);
+
         }
     }
 }
