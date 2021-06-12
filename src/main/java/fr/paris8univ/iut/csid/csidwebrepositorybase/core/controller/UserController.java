@@ -44,7 +44,7 @@ public class UserController {
             if (!getCurrentUserLogin().equals("anonymousUser")) {
                 return this.usersService.findOneByLogin(getCurrentUserLogin());
             } else {
-               return Optional.empty();
+                return Optional.empty();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,5 +82,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAccount() throws NotFoundException, NoUserFoundException {
         usersService.deleteUser(this.usersService.findUserEntityByUsername(getCurrentUserLogin()));
+    }
+
+    @GetMapping("/auth")
+    public Object[] getUserAuth() {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray();
     }
 }

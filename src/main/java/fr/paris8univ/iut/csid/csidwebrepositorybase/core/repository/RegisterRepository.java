@@ -62,6 +62,6 @@ public class RegisterRepository {
         this.listsDao.save(new ListsEntity("Watched", dtf.format(now), "All the animes you watched", usersEntity, 1));
         this.listsDao.save(new ListsEntity("Currently watching", dtf.format(now), "All the animes your are currently watching", usersEntity, 1));
         this.listsDao.save(new ListsEntity("Plan to watch", dtf.format(now), "All the animes your are planning to watch", usersEntity, 1));
-        this.authDao.save(new AuthEntity(user.getUsername(), "root"));
+        this.authDao.save(new AuthEntity(user.getUsername(), "ROLE_USER"));
     }
 }
