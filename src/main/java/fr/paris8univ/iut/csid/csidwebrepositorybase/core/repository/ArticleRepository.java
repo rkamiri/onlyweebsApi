@@ -34,7 +34,7 @@ public class ArticleRepository {
         return this.articleDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
-    public List<ArticleEntity> getArticlesByCategoryId(int page, String query, Long articleCategoryId) {
+    public List<ArticleEntity> getArticlesByCategoryId(int page, String query, Integer articleCategoryId) {
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
         return this.articleDao.findAllByCompleteResearch(query, articleCategoryId, pageable).toList();
     }
@@ -73,5 +73,9 @@ public class ArticleRepository {
     public List<ArticleEntity> getArticlesByPage(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
         return this.articleDao.findAll(pageable).toList();
+    }
+
+    public List<ArticleEntity> getSimilarArticles(long category, long articleId) {
+        return this.articleDao.findTop5ByCategoryIdAndIdNot(Sort.by(Sort.Direction.DESC, "id"), category, articleId);
     }
 }

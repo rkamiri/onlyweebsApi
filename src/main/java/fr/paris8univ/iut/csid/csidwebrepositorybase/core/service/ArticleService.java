@@ -29,11 +29,15 @@ public class ArticleService {
         return this.articleRepository.postArticle(article);
     }
 
-    public List<ArticleEntity> getArticlesByCategoryId (int page, String query, Long categoryId){
+    public List<ArticleEntity> getArticlesByCategoryId (int page, String query, Integer categoryId){
         return this.articleRepository.getArticlesByCategoryId(page, query, categoryId);
     }
 
     public List<ArticleEntity> getArticlesByPage (int page){
         return this.articleRepository.getArticlesByPage(page);
+    }
+
+    public List<ArticleEntity> getSimilarArticles(long category, long articleId){
+        return this.articleRepository.getSimilarArticles(category, articleId);
     }
 }

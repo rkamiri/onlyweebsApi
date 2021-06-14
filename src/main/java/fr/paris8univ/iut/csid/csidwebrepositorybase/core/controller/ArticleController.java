@@ -61,4 +61,11 @@ public class ArticleController {
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
+
+    @GetMapping("similar/article_id/{articleId}/category/{category}")
+    public ResponseEntity<List<ArticleEntity>> getSimilarArticles(@PathVariable long category, @PathVariable long articleId) {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        List<ArticleEntity> content = this.articleService.getSimilarArticles(category, articleId);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);    }
 }
