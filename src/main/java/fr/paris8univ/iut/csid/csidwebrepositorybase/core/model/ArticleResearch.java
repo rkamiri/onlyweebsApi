@@ -2,9 +2,9 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
 public class ArticleResearch {
     public String title;
-    public long categoryId;
+    public Integer categoryId;
 
-    public ArticleResearch(String title, long categoryId) {
+    public ArticleResearch(String title, Integer categoryId) {
         this.title = title;
         this.categoryId = categoryId;
     }
@@ -17,11 +17,11 @@ public class ArticleResearch {
         this.title = title;
     }
 
-    public long getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 }
