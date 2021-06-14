@@ -7,6 +7,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +55,7 @@ public class UserController {
 
     public static String getCurrentUserLogin() throws NotFoundException {
         try {
+            System.out.println(getCurrentUserRole());
             org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
             Authentication authentication = securityContext.getAuthentication();
             String login = null;
@@ -67,6 +69,14 @@ public class UserController {
             throw new NotFoundException("getCurrentUserLogin error");
         }
     }
+
+    @GetMapping(value = "/role")
+    public static String getCurrentUserRole() {
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        role = (role.substring(0, role.length() - 1)).substring(1);
+        return "{ \"auth\": \""+ role + "\" }";
+    }
+
 
     @PutMapping("/update")
     public Users updateCurrentUser(@RequestBody Users updatedUser) throws NoUserFoundException {

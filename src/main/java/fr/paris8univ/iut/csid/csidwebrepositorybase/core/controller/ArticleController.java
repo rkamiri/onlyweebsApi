@@ -36,9 +36,12 @@ public class ArticleController {
         return this.articleService.getArticle(id);
     }
 
-    @Secured("ROLE_ADMIN")
     @PostMapping
     public Long postArticle(@RequestBody Article article) throws NotFoundException {
-        return this.articleService.postArticle(article);
+        if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
+            return this.articleService.postArticle(article);
+        } else {
+            return null;
+        }
     }
 }
