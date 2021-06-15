@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +38,10 @@ public class ArticleController {
 
     @PostMapping
     public Long postArticle(@RequestBody Article article) throws NotFoundException {
-        return this.articleService.postArticle(article);
+        if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
+            return this.articleService.postArticle(article);
+        } else {
+            return null;
+        }
     }
 }
