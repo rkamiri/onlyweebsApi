@@ -6,6 +6,8 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
@@ -30,6 +32,11 @@ public class ArticleRepository {
 
     public List<ArticleEntity> findAllArticles() {
         return this.articleDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    }
+
+    public List<ArticleEntity> getArticlesByCategoryId(int page, String query, Integer articleCategoryId) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
+        return this.articleDao.findAllByCompleteResearch(query, articleCategoryId, pageable).toList();
     }
 
     public Article getArticle(long id) {
@@ -61,5 +68,14 @@ public class ArticleRepository {
         } else {
             return 0L;
         }
+    }
+
+    public List<ArticleEntity> getArticlesByPage(int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
+        return this.articleDao.findAll(pageable).toList();
+    }
+
+    public List<ArticleEntity> getSimilarArticles(long category, long articleId) {
+        return this.articleDao.findTop5ByCategoryIdAndIdNot(Sort.by(Sort.Direction.DESC, "id"), category, articleId);
     }
 }

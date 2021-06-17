@@ -1,6 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleResearch;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,4 +45,27 @@ public class ArticleController {
             return null;
         }
     }
+
+    @GetMapping("/page/{page}")
+    public ResponseEntity<List<ArticleEntity>> getArticlesByPage(@PathVariable int page) {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        List<ArticleEntity> content = this.articleService.getArticlesByPage(page);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+    }
+
+    @PostMapping("/research/page/{page}")
+    public ResponseEntity<List<ArticleEntity>> getArticlesByCategoryId(@RequestBody ArticleResearch articleResearch, @PathVariable int page) {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        List<ArticleEntity> content = this.articleService.getArticlesByCategoryId(page, articleResearch.title, articleResearch.categoryId);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+    }
+
+    @GetMapping("similar/article_id/{articleId}/category/{category}")
+    public ResponseEntity<List<ArticleEntity>> getSimilarArticles(@PathVariable long category, @PathVariable long articleId) {
+        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
+        List<ArticleEntity> content = this.articleService.getSimilarArticles(category, articleId);
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);    }
 }
