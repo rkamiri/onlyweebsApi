@@ -1,4 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
+
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleResearch;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -48,18 +50,16 @@ public class ArticleController {
 
     @GetMapping("/page/{page}")
     public ResponseEntity<List<ArticleEntity>> getArticlesByPage(@PathVariable int page) {
-        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
         List<ArticleEntity> content = this.articleService.getArticlesByPage(page);
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+        return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @PostMapping("/research/page/{page}")
     public ResponseEntity<List<ArticleEntity>> getArticlesByCategoryId(@RequestBody ArticleResearch articleResearch, @PathVariable int page) {
-        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
         List<ArticleEntity> content = this.articleService.getArticlesByCategoryId(page, articleResearch.title, articleResearch.categoryId);
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+        return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("similar/article_id/{articleId}/category/{category}")
@@ -67,5 +67,6 @@ public class ArticleController {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
         List<ArticleEntity> content = this.articleService.getSimilarArticles(category, articleId);
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);    }
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+    }
 }
