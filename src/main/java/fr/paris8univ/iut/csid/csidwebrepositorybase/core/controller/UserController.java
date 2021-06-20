@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/same-ip")
-    public Boolean getUserSameIp(HttpServletRequest request) throws NotFoundException {
+    public Boolean userHasSameIp(HttpServletRequest request) throws NotFoundException {
         return this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
     }
 
@@ -47,7 +47,6 @@ public class UserController {
                 return Optional.empty();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             throw new NotFoundException("getCurrentUser error");
         }
     }
@@ -90,10 +89,5 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAccount() throws NotFoundException, NoUserFoundException {
         usersService.deleteUser(this.usersService.findUserEntityByUsername(getCurrentUserLogin()));
-    }
-
-    @GetMapping("/auth")
-    public Object[] getUserAuth() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray();
     }
 }
