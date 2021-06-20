@@ -24,7 +24,7 @@ public class ArticlesCategoriesController {
     }
 
     @GetMapping("/all")
-    public List<ArticleCategoriesEntity> getCategories() {
+    public List<ArticleCategories> getCategories() {
         return this.articleCategoriesService.findAll();
     }
 }
