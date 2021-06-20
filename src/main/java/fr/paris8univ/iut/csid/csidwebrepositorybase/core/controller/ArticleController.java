@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +26,9 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ArticleEntity>> getArticles() {
+    public ResponseEntity<List<Article>> getArticles() {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        List<ArticleEntity> content = this.articleService.findAllArticles();
+        List<Article> content = this.articleService.findAllArticles();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
@@ -49,23 +48,23 @@ public class ArticleController {
     }
 
     @GetMapping("/page/{page}")
-    public ResponseEntity<List<ArticleEntity>> getArticlesByPage(@PathVariable int page) {
-        List<ArticleEntity> content = this.articleService.getArticlesByPage(page);
+    public ResponseEntity<List<Article>> getArticlesByPage(@PathVariable int page) {
+        List<Article> content = this.articleService.getArticlesByPage(page);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @PostMapping("/research/page/{page}")
-    public ResponseEntity<List<ArticleEntity>> getArticlesByCategoryId(@RequestBody ArticleResearch articleResearch, @PathVariable int page) {
-        List<ArticleEntity> content = this.articleService.getArticlesByCategoryId(page, articleResearch.title, articleResearch.categoryId);
+    public ResponseEntity<List<Article>> getArticlesByCategoryId(@RequestBody ArticleResearch articleResearch, @PathVariable int page) {
+        List<Article> content = this.articleService.getArticlesByCategoryId(page, articleResearch.title, articleResearch.categoryId);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("similar/article_id/{articleId}/category/{category}")
-    public ResponseEntity<List<ArticleEntity>> getSimilarArticles(@PathVariable long category, @PathVariable long articleId) {
+    public ResponseEntity<List<Article>> getSimilarArticles(@PathVariable long category, @PathVariable long articleId) {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        List<ArticleEntity> content = this.articleService.getSimilarArticles(category, articleId);
+        List<Article> content = this.articleService.getSimilarArticles(category, articleId);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
