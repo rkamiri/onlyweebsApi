@@ -8,7 +8,6 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -31,7 +30,7 @@ public class RegisterRepository {
         this.imageDao = imageDao;
     }
 
-    public void createUser(Users user, String remoteAddr) {
+    public void createUser(Users user, String ipAddress) {
         long defaultImageId;
         switch (user.getGender()) {
             case "M":
@@ -54,7 +53,7 @@ public class RegisterRepository {
                         user.getEmail(),
                         user.getGender(),
                         "No bio yet.",
-                        bCryptPasswordEncoder.encode(remoteAddr),
+                        bCryptPasswordEncoder.encode(ipAddress),
                         this.imageDao.getOne(defaultImageId)
                 )
         );
