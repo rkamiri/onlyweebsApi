@@ -71,7 +71,6 @@ public class AnimeRepository {
         else
             temporary = "" + month;
         PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
-        return this.animeDao.findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc("from "+year+"-"+temporary, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
+        return this.animeDao.findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc("from " + year + "-" + temporary, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
     }
-
 }

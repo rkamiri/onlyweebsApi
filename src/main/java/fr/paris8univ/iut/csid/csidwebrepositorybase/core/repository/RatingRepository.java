@@ -1,7 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.RatingDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Rating;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingId;
@@ -15,12 +14,12 @@ import java.util.Optional;
 public class RatingRepository {
 
     private final RatingDao ratingDao;
-    public final UsersRepository ur;
+    public final UsersRepository usersRepository;
 
     @Autowired
-    public RatingRepository(RatingDao ratingDao, UsersRepository ur) {
+    public RatingRepository(RatingDao ratingDao, UsersRepository usersRepository) {
         this.ratingDao = ratingDao;
-        this.ur = ur;
+        this.usersRepository = usersRepository;
     }
 
     public void putARating(Rating rating)  {
@@ -48,8 +47,8 @@ public class RatingRepository {
     }
 
     public Optional<Rating> getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeid) {
-        if (ur.findByUsername(currentUserLogin).isPresent()) {
-            return this.ratingDao.findById(new RatingId(ur.findByUsername(currentUserLogin).get().getId(), animeid)).map(Rating::new);
+        if (usersRepository.findByUsername(currentUserLogin).isPresent()) {
+            return this.ratingDao.findById(new RatingId(usersRepository.findByUsername(currentUserLogin).get().getId(), animeid)).map(Rating::new);
         } else {
             return Optional.empty();
         }

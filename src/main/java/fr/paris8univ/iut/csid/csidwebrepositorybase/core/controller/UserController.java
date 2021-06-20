@@ -7,7 +7,6 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/same-ip")
-    public Boolean getUserSameIp(HttpServletRequest request) throws NotFoundException {
+    public Boolean userHasSameIp(HttpServletRequest request) throws NotFoundException {
         return this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
     }
 
@@ -48,14 +47,12 @@ public class UserController {
                 return Optional.empty();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             throw new NotFoundException("getCurrentUser error");
         }
     }
 
     public static String getCurrentUserLogin() throws NotFoundException {
         try {
-            System.out.println(getCurrentUserRole());
             org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
             Authentication authentication = securityContext.getAuthentication();
             String login = null;
@@ -85,17 +82,12 @@ public class UserController {
 
     @GetMapping("/pp")
     public Image getUserProfilePicture() throws NotFoundException {
-        return imageController.downloadImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
+        return imageController.getImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
     }
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAccount() throws NotFoundException, NoUserFoundException {
         usersService.deleteUser(this.usersService.findUserEntityByUsername(getCurrentUserLogin()));
-    }
-
-    @GetMapping("/auth")
-    public Object[] getUserAuth() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray();
     }
 }
