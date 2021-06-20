@@ -3,10 +3,15 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Genre;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Producer;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AnimeService {
@@ -30,16 +35,16 @@ public class AnimeService {
         this.studioDao = studioDao;
     }
 
-    public List<AnimeEntity> getAnimes(int page) {
-        return this.animeRepository.findAllAnime(page);
+    public List<Anime> getAnimes(int page) {
+        return this.animeRepository.findAllAnime(page).stream().map(Anime::new).collect(Collectors.toList());
     }
 
     public int getCount() {
         return this.animeRepository.getCount();
     }
 
-    public AnimeEntity getOneAnime(Long id) {
-        return this.animeRepository.findOneAnime(id).orElseThrow();
+    public Anime getOneAnime(Long id) {
+        return this.animeRepository.findOneAnime(id).map(Anime::new).orElseThrow();
     }
 
     public List<Anime> researchAnimes(String research) {
@@ -54,42 +59,42 @@ public class AnimeService {
         return this.animeRepository.getResearchCount(research);
     }
 
-    public List<StudioEntity> getAnimeStudios(Long idAnime) {
+    public List<Studio> getAnimeStudios(Long idAnime) {
         List<HasStudioEntity> hasStudioEntity = hasStudioDao.findAllByIdAnime(idAnime);
         List<StudioEntity> studioEntities = new ArrayList<>();
         for (HasStudioEntity entity : hasStudioEntity) {
             studioEntities.add(studioDao.findById(entity.getIdStudio()).orElseThrow());
         }
-        return studioEntities;
+        return studioEntities.stream().map(Studio::new).collect(Collectors.toList());
     }
 
-    public List<ProducerEntity> getAnimeProducers(Long idAnime) {
+    public List<Producer> getAnimeProducers(Long idAnime) {
         List<HasProducerEntity> hasProducerEntity = hasProducerDao.findAllByIdAnime(idAnime);
         List<ProducerEntity> producerEntities = new ArrayList<>();
         for (HasProducerEntity entity : hasProducerEntity) {
             producerEntities.add(producerDao.findById(entity.getIdProducer()).orElseThrow());
         }
-        return producerEntities;
+        return producerEntities.stream().map(Producer::new).collect(Collectors.toList());
     }
 
-    public List<GenreEntity> getAnimeGenres(Long idAnime) {
+    public List<Genre> getAnimeGenres(Long idAnime) {
         List<HasGenreEntity> hasGenreEntities = hasGenreDao.findAllByIdAnime(idAnime);
         List<GenreEntity> genreEntities = new ArrayList<>();
         for (HasGenreEntity entity : hasGenreEntities) {
             genreEntities.add(genreDao.findById(entity.getIdGenre()).orElseThrow());
         }
-        return genreEntities;
+        return genreEntities.stream().map(Genre::new).collect(Collectors.toList());
     }
 
     public List<Anime> getAllAnimes() {
         List<Anime> animeList = new ArrayList<>();
-        for (AnimeEntity animeEntity: this.animeDao.findAll()) {
+        for (AnimeEntity animeEntity : this.animeDao.findAll()) {
             animeList.add(new Anime(animeEntity));
         }
         return animeList;
     }
 
-    public List<Anime> getLatestAnimes(){
+    public List<Anime> getLatestAnimes() {
         return this.animeRepository.getLatestAnimes();
     }
 }

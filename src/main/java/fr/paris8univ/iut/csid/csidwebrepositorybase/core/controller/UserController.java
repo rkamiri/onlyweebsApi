@@ -55,7 +55,6 @@ public class UserController {
 
     public static String getCurrentUserLogin() throws NotFoundException {
         try {
-            System.out.println(getCurrentUserRole());
             org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
             Authentication authentication = securityContext.getAuthentication();
             String login = null;
