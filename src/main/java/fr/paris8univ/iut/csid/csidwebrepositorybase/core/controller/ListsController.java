@@ -1,6 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedIn;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;

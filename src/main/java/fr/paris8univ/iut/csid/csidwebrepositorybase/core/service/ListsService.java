@@ -1,6 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
@@ -69,10 +68,6 @@ public class ListsService {
 
     public List<Lists> getCustomLists() {
         return this.listsRepository.getCustomLists().stream().map(Lists::new).collect(Collectors.toList());
-    }
-
-    public List<ListsEntity> getCustomEntities() {
-        return this.listsRepository.getCustomLists();
     }
 
     public List<List<String>> getFourImagesOfEachListAll(){
