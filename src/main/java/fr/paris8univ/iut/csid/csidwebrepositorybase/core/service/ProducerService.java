@@ -1,13 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.HasProducerDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.PegiDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ProducerDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.PegiEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ProducerEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Producer;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProducerService {
@@ -18,7 +15,7 @@ public class ProducerService {
         this.producerDao = producerDao;
     }
 
-    public List<ProducerEntity> findAll(){
-        return this.producerDao.findAll();
+    public List<Producer> findAll(){
+        return this.producerDao.findAll().stream().map(Producer::new).collect(Collectors.toList());
     }
 }
