@@ -1,14 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Rating;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoRatingException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.RatingService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -23,7 +19,7 @@ public class RatingController {
     }
 
     @GetMapping
-    public List<RatingEntity> getRatings() {
+    public List<Rating> getRatings() {
         return this.ratingService.getRatings();
     }
 
@@ -34,7 +30,7 @@ public class RatingController {
     }
 
     @GetMapping("/user/{id}")
-    public Long getCurrentUserRatingForASelectAnime(@PathVariable(value = "id")Long animeid) throws NoRatingException, NoUserFoundException, NotFoundException {
+    public Long getCurrentUserRatingForASelectAnime(@PathVariable(value = "id")Long animeid) throws NotFoundException {
         return this.ratingService.getCurrentUserRatingForASelectAnime(UserController.getCurrentUserLogin(), animeid);
     }
 
