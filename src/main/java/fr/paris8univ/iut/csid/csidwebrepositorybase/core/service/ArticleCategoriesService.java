@@ -1,10 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleCategoriesDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleCategoriesEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleCategories;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleCategoriesService {
@@ -15,7 +16,7 @@ public class ArticleCategoriesService {
         this.articleCategoriesDao = articleCategoriesDao;
     }
 
-    public List<ArticleCategoriesEntity> findAll(){
-        return this.articleCategoriesDao.findAll();
+    public List<ArticleCategories> findAll(){
+        return this.articleCategoriesDao.findAll().stream().map(ArticleCategories::new).collect(Collectors.toList());
     }
 }

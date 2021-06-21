@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/same-ip")
-    public Boolean getUserSameIp(HttpServletRequest request) throws NotFoundException {
+    public Boolean userHasSameIp(HttpServletRequest request) throws NotFoundException {
         return this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
     }
 
@@ -44,10 +44,9 @@ public class UserController {
             if (!getCurrentUserLogin().equals("anonymousUser")) {
                 return this.usersService.findOneByLogin(getCurrentUserLogin());
             } else {
-               return Optional.empty();
+                return Optional.empty();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             throw new NotFoundException("getCurrentUser error");
         }
     }
@@ -68,6 +67,14 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/role")
+    public static String getCurrentUserRole() {
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        role = (role.substring(0, role.length() - 1)).substring(1);
+        return "{ \"auth\": \""+ role + "\" }";
+    }
+
+
     @PutMapping("/update")
     public Users updateCurrentUser(@RequestBody Users updatedUser) throws NoUserFoundException {
         return this.usersService.updateCurrentUser(updatedUser);
@@ -75,7 +82,7 @@ public class UserController {
 
     @GetMapping("/pp")
     public Image getUserProfilePicture() throws NotFoundException {
-        return imageController.downloadImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
+        return imageController.getImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
     }
 
     @DeleteMapping("/delete")

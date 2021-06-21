@@ -26,21 +26,21 @@ public class ImageController {
     }
 
     @PostMapping("/user-image/{userid}")
-    public void UploadFile(MultipartHttpServletRequest request, @PathVariable Long userid) throws IOException {
+    public void uploadUserImage(MultipartHttpServletRequest request, @PathVariable Long userid) throws IOException {
         Iterator<String> itr = request.getFileNames();
         MultipartFile file = request.getFile(itr.next());
         this.imageService.saveImage(file, userid);
     }
 
     @PostMapping("/article-image")
-    public void UploadArticleImage(MultipartHttpServletRequest request) throws IOException {
+    public void uploadArticleImage(MultipartHttpServletRequest request) throws IOException {
         Iterator<String> itr = request.getFileNames();
         MultipartFile file = request.getFile(itr.next());
         this.imageService.saveArticleImage(file);
     }
 
     @GetMapping("/image/{id}")
-    public Image downloadImage(@PathVariable(value = "id") Long imageId) {
+    public Image getImage(@PathVariable(value = "id") Long imageId) {
         return imageService.findById(imageId);
     }
 

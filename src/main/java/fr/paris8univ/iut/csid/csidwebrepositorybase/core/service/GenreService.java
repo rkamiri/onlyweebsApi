@@ -1,12 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.GenreDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ProducerDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.GenreEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ProducerEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Genre;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GenreService {
@@ -17,7 +16,7 @@ public class GenreService {
         this.genreDao = genreDao;
     }
 
-    public List<GenreEntity> findAll(){
-        return this.genreDao.findAll();
+    public List<Genre> findAll(){
+        return this.genreDao.findAll().stream().map(Genre::new).collect(Collectors.toList());
     }
 }
