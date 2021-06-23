@@ -39,18 +39,30 @@ public class CommentController {
         this.commentService.putComment(comment);
     }
 
-    @DeleteMapping("/anime/{id}")
-    public void deleteAnimeComment(@PathVariable long id) throws NotFoundException {
-        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, 0);
+    @DeleteMapping("/anime/{animeId}/user/{userId}")
+    public void deleteMyAnimeComment(@PathVariable long animeId, @PathVariable long userId) throws NotFoundException {
+        if (!UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }") || userId == -667L) {
+            this.commentService.deleteCommentAsUser(UserController.getCurrentUserLogin(), animeId, 0);
+        } else {
+            this.commentService.deleteCommentAsAdmin(userId, animeId, 0);
+        }
     }
 
-    @DeleteMapping("/article/{id}")
-    public void deleteArticleComment(@PathVariable long id) throws NotFoundException {
-        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, 1);
+    @DeleteMapping("/article/{articleId}/user/{userId}")
+    public void deleteMyArticleComment(@PathVariable long articleId, @PathVariable long userId) throws NotFoundException {
+        if (!UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }") || userId == -667L) {
+            this.commentService.deleteCommentAsUser(UserController.getCurrentUserLogin(), articleId, 1);
+        } else {
+            this.commentService.deleteCommentAsAdmin(userId, articleId, 1);
+        }
     }
 
-    @DeleteMapping("/list/{id}")
-    public void deleteListComment(@PathVariable long id) throws NotFoundException {
-        this.commentService.deleteComment(UserController.getCurrentUserLogin(), id, 2);
+    @DeleteMapping("/list/{listId}/user/{userId}")
+    public void deleteListComment(@PathVariable long listId, @PathVariable long userId) throws NotFoundException {
+        if (!UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }") || userId == -667L) {
+            this.commentService.deleteCommentAsUser(UserController.getCurrentUserLogin(), listId, 2);
+        } else {
+            this.commentService.deleteCommentAsAdmin(userId, listId, 2);
+        }
     }
 }

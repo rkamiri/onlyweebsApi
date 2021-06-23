@@ -20,7 +20,7 @@ public class UsersService {
 
     public Optional<Users> findOneByLogin(String currentUserLogin) throws NotFoundException {
         try {
-            return this.usersRepository.findByUsername(currentUserLogin);
+            return this.usersRepository.findByUsername(currentUserLogin).map(Users::new);
         } catch (Exception e) {
             e.printStackTrace();
             throw new NotFoundException("findOneByLogin error");
