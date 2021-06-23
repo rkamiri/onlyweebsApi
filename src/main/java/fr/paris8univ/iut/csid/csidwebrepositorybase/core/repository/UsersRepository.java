@@ -24,8 +24,12 @@ public class UsersRepository {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public Optional<Users> findByUsername(String username) {
-        return this.usersDao.findByUsername(username).map(Users::new);
+    public Optional<UsersEntity> findById(long id) {
+        return this.usersDao.findById(id);
+    }
+
+    public Optional<UsersEntity> findByUsername(String username) {
+        return this.usersDao.findByUsername(username);
     }
 
     public UsersEntity findUserEntityByUsername(String username) {
