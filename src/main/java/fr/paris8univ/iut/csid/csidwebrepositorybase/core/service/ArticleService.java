@@ -20,6 +20,10 @@ public class ArticleService {
         return this.articleRepository.findAllArticles().stream().map(Article::new).collect(Collectors.toList());
     }
 
+    public List<Article> findFiveArticles() {
+        return this.articleRepository.findFiveArticles().stream().map(Article::new).collect(Collectors.toList());
+    }
+
     public Article getArticle(long id) {
         return this.articleRepository.getArticle(id);
     }

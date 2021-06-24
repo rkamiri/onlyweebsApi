@@ -29,4 +29,5 @@ public interface ArticleDao extends JpaRepository<ArticleEntity, Long> {
     Page<ArticleEntity> findAllByCompleteResearch(@Param("query") String query, @Param("category") Integer category, Pageable page);
 
     List<ArticleEntity> findTop5ByCategoryIdAndIdNot(Sort sort, long category, long articleId);
+    List<ArticleEntity> findTop5ByOrderByIdDesc();
 }
