@@ -1,6 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleResearch;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
@@ -10,7 +9,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -67,5 +65,12 @@ public class ArticleController {
         List<Article> content = this.articleService.getSimilarArticles(category, articleId);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteArticle(@PathVariable long id) {
+        if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
+            this.articleService.deleteArticle(id);
+        }
     }
 }

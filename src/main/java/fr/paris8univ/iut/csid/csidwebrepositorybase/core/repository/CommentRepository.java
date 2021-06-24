@@ -82,15 +82,4 @@ public class CommentRepository {
 
         }
     }
-
-  /*  public void deleteCommentAsAdmin(long userId, long entityId, int type) {
-        Users user = this.usersRepository.findById(userId).orElseThrow();
-        if (type==0) {
-            this.commentDao.deleteCommentEntityByAnimeEntityAndUsersEntity(this.animeDao.getOne(id), user);
-        } else if (type == 1){
-            this.commentDao.deleteCommentEntityByArticleEntityAndUsersEntity(this.articleDao.getOne(id), user);
-        } else {
-            this.commentDao.deleteCommentEntityByListsEntityAndUsersEntity(this.listsDao.getOne(id), user);
-        }
-    }*/
 }
