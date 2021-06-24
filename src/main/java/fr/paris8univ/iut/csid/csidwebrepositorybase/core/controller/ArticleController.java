@@ -25,10 +25,16 @@ public class ArticleController {
 
     @GetMapping
     public ResponseEntity<List<Article>> getArticles() {
-        CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
         List<Article> content = this.articleService.findAllArticles();
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
+        return ResponseEntity.status(200).contentType(contentType).body(content);
+    }
+
+    @GetMapping("/five")
+    public ResponseEntity<List<Article>> getFiveArticles() {
+        List<Article> content = this.articleService.findFiveArticles();
+        MediaType contentType = MediaType.valueOf("application/json");
+        return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("/{id}")

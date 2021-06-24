@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -87,5 +88,9 @@ public class ArticleRepository {
     public void deleteArticle(long id) {
         this.commentDao.deleteCommentEntitiesByArticleEntity(this.articleDao.getOne(id));
         this.articleDao.deleteById(id);
+    }
+
+    public List<ArticleEntity> findFiveArticles() {
+        return this.articleDao.findTop5ByOrderByIdDesc();
     }
 }
