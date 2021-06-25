@@ -11,4 +11,5 @@ import java.util.List;
 public interface ListsDao extends JpaRepository<ListsEntity, Long> {
     void deleteListsEntitiesByIsOwnedBy(Long isOwnedBy);
     List<ListsEntity> getListsEntitiesByIsOwnedBy(Long isOwnedBy);
+    long count();
 }
