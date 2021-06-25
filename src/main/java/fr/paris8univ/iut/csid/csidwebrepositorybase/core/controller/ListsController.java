@@ -113,6 +113,11 @@ public class ListsController {
         return this.listService.getFourImagesOfEachCustomListUser(UserController.getCurrentUserLogin());
     }
 
+    @GetMapping("/user/{id}/image/custom")
+    public List<List<String>> getFourImagesOfEachCustomListByUserId(@PathVariable long id) throws NotFoundException {
+        return this.listService.getFourImagesOfEachCustomListByUserId(id);
+    }
+
     @DeleteMapping("/user/{id}")
     public void deleteList(@PathVariable long id) {
         this.listService.deleteList(id);

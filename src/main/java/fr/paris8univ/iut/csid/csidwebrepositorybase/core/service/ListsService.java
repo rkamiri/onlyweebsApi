@@ -89,4 +89,8 @@ public class ListsService {
     public List<List<String>> getFourImagesOfEachDefaultListUser(String currentUserLogin) {
         return this.listsRepository.getFourImagesOfEachDefaultListUser(currentUserLogin);
     }
+
+    public List<List<String>> getFourImagesOfEachCustomListByUserId(long id) {
+        return this.listsRepository.getFourImagesOfEachCustomListByUserId(id);
+    }
 }

@@ -179,4 +179,8 @@ public class ListsRepository {
     public List<List<String>> getFourImagesOfEachDefaultListUser(String currentUserLogin) {
         return this.getFourImagesOfEachList(this.getMyDefaultLists(this.usersRepository.findUserEntityByUsername(currentUserLogin).getId()));
     }
+
+    public List<List<String>> getFourImagesOfEachCustomListByUserId(long id) {
+        return this.getFourImagesOfEachList(this.getMyCustomLists(id));
+    }
 }
