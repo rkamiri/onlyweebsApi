@@ -5,6 +5,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import javassist.NotFoundException;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -45,5 +46,9 @@ public class UsersService {
 
     public void deleteUser(UsersEntity usersEntity) throws NoUserFoundException {
         this.usersRepository.deleteUser(usersEntity);
+    }
+
+    public Users getUser(long id) {
+        return new Users(this.usersRepository.getUser(id));
     }
 }
