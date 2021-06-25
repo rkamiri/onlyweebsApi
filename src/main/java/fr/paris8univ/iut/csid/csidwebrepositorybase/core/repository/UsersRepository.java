@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
+import com.sun.el.stream.Stream;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
@@ -100,5 +101,9 @@ public class UsersRepository {
                 new Image(usersEntity.getImage()));
         this.updateCurrentUser(deletedUser);
         this.usersDao.getOne(deletedUser.getId()).setImage(newImage);
+    }
+
+    public UsersEntity getUser(long id) {
+        return this.usersDao.getOne(id);
     }
 }
