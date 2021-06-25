@@ -28,6 +28,11 @@ public class UserController {
         this.imageController = imageController;
     }
 
+    @GetMapping("/{id}")
+    public Users getUser(@PathVariable long id) {
+        return this.usersService.getUser(id);
+    }
+
     @GetMapping("/same-ip")
     public Boolean userHasSameIp(HttpServletRequest request) throws NotFoundException {
         return this.usersService.checkIpAddress(request.getRemoteAddr(), getCurrentUserLogin());
