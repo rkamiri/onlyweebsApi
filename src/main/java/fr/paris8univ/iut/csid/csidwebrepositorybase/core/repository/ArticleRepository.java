@@ -2,6 +2,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserController;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
 import javassist.NotFoundException;
@@ -10,10 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
-
 
 @Repository
 public class ArticleRepository {
@@ -21,13 +24,15 @@ public class ArticleRepository {
     private final ArticleDao articleDao;
     private final UsersRepository usersRepository;
     private final UploadRepository uploadRepository;
+    private final CommentDao commentDao;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public ArticleRepository(ArticleDao articleDao, UsersRepository usersRepository, UploadRepository uploadRepository) {
+    public ArticleRepository(ArticleDao articleDao, UsersRepository usersRepository, UploadRepository uploadRepository, CommentDao commentDao) {
         this.articleDao = articleDao;
         this.usersRepository = usersRepository;
         this.uploadRepository = uploadRepository;
+        this.commentDao = commentDao;
     }
 
     public List<ArticleEntity> findAllArticles() {
@@ -77,5 +82,15 @@ public class ArticleRepository {
 
     public List<ArticleEntity> getSimilarArticles(long category, long articleId) {
         return this.articleDao.findTop5ByCategoryIdAndIdNot(Sort.by(Sort.Direction.DESC, "id"), category, articleId);
+    }
+
+    @Transactional
+    public void deleteArticle(long id) {
+        this.commentDao.deleteCommentEntitiesByArticleEntity(this.articleDao.getOne(id));
+        this.articleDao.deleteById(id);
+    }
+
+    public List<ArticleEntity> findFiveArticles() {
+        return this.articleDao.findTop5ByOrderByIdDesc();
     }
 }

@@ -7,6 +7,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.CommentEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.CommentRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -20,13 +21,15 @@ public class CommentService {
     private final ArticleDao articleDao;
     private final AnimeDao animeDao;
     private final ListsDao listsDao;
+    private final UsersRepository usersRepository;
 
-    public CommentService(CommentRepository commentRepository, CommentDao commentDao, ArticleDao articleDao, AnimeDao animeDao, ListsDao listsDao) {
+    public CommentService(CommentRepository commentRepository, CommentDao commentDao, ArticleDao articleDao, AnimeDao animeDao, ListsDao listsDao, UsersRepository usersRepository) {
         this.commentRepository = commentRepository;
         this.commentDao = commentDao;
         this.articleDao = articleDao;
         this.animeDao = animeDao;
         this.listsDao = listsDao;
+        this.usersRepository = usersRepository;
     }
 
     public void putComment(Comment comment) throws NotFoundException {
@@ -50,7 +53,11 @@ public class CommentService {
         return commentList;
     }
 
-    public void deleteComment(String currentUserLogin, long animeId, int type) {
-        this.commentRepository.deleteComment(currentUserLogin, animeId, type);
+    public void deleteCommentAsUser(String currentUserLogin, long entityId, int type) {
+        this.commentRepository.deleteComment(this.usersRepository.findByUsername(currentUserLogin).orElseThrow(), entityId, type);
+    }
+
+    public void deleteCommentAsAdmin(long userId, long entityId, int type) {
+        this.commentRepository.deleteComment(this.usersRepository.findById(userId).orElseThrow(), entityId, type);
     }
 }

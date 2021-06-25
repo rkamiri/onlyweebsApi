@@ -7,6 +7,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -71,14 +72,13 @@ public class CommentRepository {
     }
 
     @Transactional
-    public void deleteComment(String currentUserLogin, long id, int type) {
-        UsersEntity user = this.usersRepository.findUserEntityByUsername(currentUserLogin);
+    public void deleteComment(UsersEntity owner, long id, int type) {
         if (type==0) {
-            this.commentDao.deleteCommentEntityByAnimeEntityAndUsersEntity(this.animeDao.getOne(id), user);
+            this.commentDao.deleteCommentEntityByAnimeEntityAndUsersEntity(this.animeDao.getOne(id), owner);
         } else if (type == 1){
-            this.commentDao.deleteCommentEntityByArticleEntityAndUsersEntity(this.articleDao.getOne(id), user);
+            this.commentDao.deleteCommentEntityByArticleEntityAndUsersEntity(this.articleDao.getOne(id), owner);
         } else {
-            this.commentDao.deleteCommentEntityByListsEntityAndUsersEntity(this.listsDao.getOne(id), user);
+            this.commentDao.deleteCommentEntityByListsEntityAndUsersEntity(this.listsDao.getOne(id), owner);
 
         }
     }
