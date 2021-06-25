@@ -55,14 +55,20 @@ public class AnimeRepository {
         return this.animeDao.findByTitleContainingAndPegiEntityNotLike(pageable, research, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
     }
 
-    public int getResearchCount(String research, String producer, String studio, String genre) {
-        List<Anime> animes = this.animeDao.findAllByCompleteResearchForCount(research, producer, studio, genre).stream().map(Anime::new).collect(Collectors.toList());
+    public int getResearchCount(String research) {
+        PegiEntity hentaiEntity = pegiDao.findOneById(HENTAI_PEGI_ID);
+        List<Anime> animes = this.animeDao.findByTitleContainingAndPegiEntityNotLike(research, hentaiEntity).stream().map(Anime::new).collect(Collectors.toList());
         return animes.size();
     }
 
-    public List<Anime> researchAnimesPagination(String research, String producer, String studio, String genre, int page) {
+    public int getResearchCount(Long producer, Long studio, Long genre) {
+        List<Anime> animes = this.animeDao.findAllByCompleteResearchForCount(producer, studio, genre).stream().map(Anime::new).collect(Collectors.toList());
+        return animes.size();
+    }
+
+    public List<Anime> researchAnimesPagination(Long producer, Long studio, Long genre, int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
-        return this.animeDao.findAllByCompleteResearch(research, producer, studio, genre, pageable).stream().map(Anime::new).collect(Collectors.toList());
+        return this.animeDao.findAllByCompleteResearch(producer, studio, genre, pageable).stream().map(Anime::new).collect(Collectors.toList());
     }
 
     public List<Anime> getLatestAnimes() {

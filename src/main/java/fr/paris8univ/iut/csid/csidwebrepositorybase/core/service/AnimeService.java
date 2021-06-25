@@ -51,16 +51,20 @@ public class AnimeService {
         return this.animeRepository.researchAnimes(research);
     }
 
-    /*public List<Anime> researchAnimesPagination(String research, int page) {
+    public List<Anime> researchAnimesPagination(String research, int page) {
         return this.animeRepository.researchAnimesPagination(research, page);
-    }*/
-
-    public int getResearchCount(String research, String producer, String studio, String genre) {
-        return this.animeRepository.getResearchCount(research, producer, studio, genre);
     }
 
-    public List<Anime> researchAnimesPagination(String research, String producer, String studio, String genre, int page) {
-        return this.animeRepository.researchAnimesPagination(research, producer, studio, genre, page);
+    public int getResearchCount(Long producer, Long studio, Long genre) {
+        return this.animeRepository.getResearchCount(producer, studio, genre);
+    }
+
+    public int getResearchCount(String research){
+        return this.animeRepository.getResearchCount(research);
+    }
+
+    public List<Anime> researchAnimesPagination(Long producer, Long studio, Long genre, int page) {
+        return this.animeRepository.researchAnimesPagination(producer, studio, genre, page);
     }
 
     public List<Studio> getAnimeStudios(Long idAnime) {

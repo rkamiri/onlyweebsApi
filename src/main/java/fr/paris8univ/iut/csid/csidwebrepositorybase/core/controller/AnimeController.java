@@ -57,17 +57,6 @@ public class AnimeController {
         return this.animeService.researchAnimes(research);
     }
 
-    /*@GetMapping("/research/{research}/pagination/{page}")
-    public List<Anime> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
-        return this.animeService.researchAnimesPagination(research, page);
-    }*/
-    }
-
-    @GetMapping("/research/{research}/count")
-    public int getResearchPageCount(@PathVariable(value = "research") String research) {
-        return this.animeService.getResearchCount(research);
-    }
-
     @GetMapping("/count")
     public int getPageCount() {
         return this.animeService.getCount();
@@ -93,13 +82,24 @@ public class AnimeController {
         return this.animeService.getLatestAnimes();
     }
 
-    @PostMapping("/research/{research}/pagination/{page}")
-    public List<Anime> researchAnimesPagination(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "research") String title, @PathVariable(value = "page") int page){
-        return this.animeService.researchAnimesPagination(title, animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre(), page);
+    @GetMapping("/research/{research}/pagination/{page}")
+    public List<Anime> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
+        return this.animeService.researchAnimesPagination(research, page);
     }
 
-    @PostMapping("/research/{research}/count")
-    public int getResearchPageCount(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "research") String research){
-        return this.animeService.getResearchCount(research, animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre());
+    @GetMapping("/research/{research}/count")
+    public int getResearchPageCount(@PathVariable(value = "research") String research) {
+        return this.animeService.getResearchCount(research);
     }
+
+    @PostMapping("/research/pagination/{page}")
+    public List<Anime> researchAdvancedAnimesPagination(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "page") int page){
+        return this.animeService.researchAnimesPagination(animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre(), page);
+    }
+
+    @PostMapping("/research/count")
+    public int getAdvancedResearchPageCount(@RequestBody AnimeResearch animeResearch){
+        return this.animeService.getResearchCount(animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre());
+    }
+
 }

@@ -1,37 +1,37 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
 public class AnimeResearch {
-    private String producer;
-    private String studio;
-    private String genre;
+    private Long producer;
+    private Long studio;
+    private Long genre;
 
-    public AnimeResearch(String producer, String studio, String genre) {
+    public AnimeResearch(Long producer, Long studio, Long genre) {
         this.producer = producer;
         this.studio = studio;
         this.genre = genre;
     }
 
-    public String getProducer() {
+    public Long getProducer() {
         return producer;
     }
 
-    public void setProducer(String producer) {
+    public void setProducer(Long producer) {
         this.producer = producer;
     }
 
-    public String getStudio() {
+    public Long getStudio() {
         return studio;
     }
 
-    public void setStudio(String studio) {
+    public void setStudio(Long studio) {
         this.studio = studio;
     }
 
-    public String getGenre() {
+    public Long getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Long genre) {
         this.genre = genre;
     }
 }
