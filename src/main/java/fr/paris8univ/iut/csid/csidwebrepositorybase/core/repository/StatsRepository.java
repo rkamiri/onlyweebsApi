@@ -3,6 +3,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.IsListedInEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -53,7 +54,7 @@ public class StatsRepository {
         List<AnimeStats> animeStatsList = new ArrayList<>();
         for (AnimeEntity animeEntity : this.animeDao.findAll()) {
             if (this.listedInDao.findTopByAnimeId(animeEntity.getId()).isPresent()) {
-                animeStatsList.add(new AnimeStats(animeEntity.getId(), this.listedInDao.countByAnimeId(animeEntity.getId())));
+                animeStatsList.add(new AnimeStats(new Anime(animeEntity), this.listedInDao.countByAnimeId(animeEntity.getId())));
             }
         }
         Collections.sort(animeStatsList, (anime1, anime2) -> {

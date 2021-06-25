@@ -1,16 +1,16 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
 public class AnimeStats {
-    private long animeId;
+    private Anime anime;
     private long numberOfTimesListed;
 
-    public AnimeStats(long animeId, long numberOfTimesListed) {
-        this.animeId = animeId;
+    public AnimeStats(Anime anime, long numberOfTimesListed) {
+        this.anime = anime;
         this.numberOfTimesListed = numberOfTimesListed;
     }
 
-    public long getAnimeId() {
-        return animeId;
+    public Anime getAnime() {
+        return anime;
     }
 
     public long getNumberOfTimesListed() {
