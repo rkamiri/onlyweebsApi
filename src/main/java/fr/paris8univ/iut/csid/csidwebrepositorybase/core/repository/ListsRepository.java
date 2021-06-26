@@ -59,7 +59,7 @@ public class ListsRepository {
         List<IsListedInEntity> x = this.listedInDao.findAll();
         for (IsListedInEntity s : x) {
             if (s.getListId().equals(listId)) {
-                al.add(this.animeRepository.findOneAnime(s.getAnime_id()).map(Anime::new));
+                al.add(this.animeRepository.findOneAnime(s.getAnimeId()).map(Anime::new));
             }
         }
         return al;
@@ -70,7 +70,7 @@ public class ListsRepository {
         List<IsListedInEntity> x = this.listedInDao.findAll();
         for (IsListedInEntity s : x) {
             if (s.getListId().equals(listId)) {
-                animeEntities.add(this.animeDao.getOne(s.getAnime_id()));
+                animeEntities.add(this.animeDao.getOne(s.getAnimeId()));
             }
         }
         return animeEntities;
@@ -90,7 +90,7 @@ public class ListsRepository {
         if (this.animeRepository.findOneAnime(animeId).isPresent() && this.findListById(listId).isPresent()) {
             boolean isInList = false;
             for (IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
-                if (isListedInEntity.getListId().equals(listId) && isListedInEntity.getAnime_id().equals(animeId)) {
+                if (isListedInEntity.getListId().equals(listId) && isListedInEntity.getAnimeId().equals(animeId)) {
                     isInList = true;
                     break;
                 }
@@ -104,7 +104,7 @@ public class ListsRepository {
     public void deleteAnimeInList(Long anime_id, Long list_id) {
         if (this.animeRepository.findOneAnime(anime_id).isPresent() && this.findListById(list_id).isPresent()) {
             List<IsListedInEntity> ilel = this.listedInDao.findAll();
-            ilel.removeIf(e -> !e.getAnime_id().equals(anime_id) || !e.getListId().equals(list_id));
+            ilel.removeIf(e -> !e.getAnimeId().equals(anime_id) || !e.getListId().equals(list_id));
             this.listedInDao.delete(ilel.get(0));
         }
     }

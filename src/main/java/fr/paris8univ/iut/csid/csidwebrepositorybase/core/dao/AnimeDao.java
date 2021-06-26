@@ -24,4 +24,5 @@ public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
 
     List<AnimeEntity> findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc(String date, PegiEntity pegiEntity);
 
+    long count();
 }
