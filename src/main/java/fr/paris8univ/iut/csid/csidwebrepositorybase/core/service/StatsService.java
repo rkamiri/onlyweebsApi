@@ -1,6 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStats;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AverageStats;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GeneralStats;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.StatsRepository;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class StatsService {
         );
     }
 
-    public double getNumberOfCommentsByUser() {
-        return this.statsRepository.numberOfCommentsByUser();
+    public AverageStats getAverageStatsByUser() {
+        return this.statsRepository.averageStatsByUser();
     }
 
     public List<AnimeStats> getAnimesAndListedNum() {

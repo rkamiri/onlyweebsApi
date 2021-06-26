@@ -1,6 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStats;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AverageStats;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GeneralStats;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.StatsService;
 import org.springframework.http.MediaType;
@@ -28,9 +29,9 @@ public class StatsController {
         return ResponseEntity.status(200).contentType(contentType).body(stats);
     }
 
-    @GetMapping("/comments-by-user")
-    public ResponseEntity<Double> getNumberOfCommentsByUser() {
-        Double commentsByUser = this.statsService.getNumberOfCommentsByUser();
+    @GetMapping("/average")
+    public ResponseEntity<AverageStats> getNumberOfCommentsByUser() {
+        AverageStats commentsByUser = this.statsService.getAverageStatsByUser();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(commentsByUser);
     }

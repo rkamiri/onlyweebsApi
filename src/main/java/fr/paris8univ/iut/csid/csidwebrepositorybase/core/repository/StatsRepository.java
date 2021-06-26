@@ -1,18 +1,18 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.IsListedInEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStats;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AverageStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -23,14 +23,17 @@ public class StatsRepository {
     private final AnimeDao animeDao;
     private final CommentDao commentDao;
     private final UsersDao usersDao;
+    private final RatingDao ratingDao;
+    private final NumberFormat format = new DecimalFormat("#.###");
 
     @Autowired
-    public StatsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeDao animeDao, CommentDao commentDao, UsersDao usersDao) {
+    public StatsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeDao animeDao, CommentDao commentDao, UsersDao usersDao, RatingDao ratingDao) {
         this.listsDao = listsDao;
         this.listedInDao = listedInDao;
         this.animeDao = animeDao;
         this.commentDao = commentDao;
         this.usersDao = usersDao;
+        this.ratingDao = ratingDao;
     }
 
     public long getNumberOfAnimes() {
@@ -49,13 +52,42 @@ public class StatsRepository {
         return this.usersDao.count();
     }
 
-    public double numberOfCommentsByUser() {
-        NumberFormat format = new DecimalFormat("#.###");
+    public long getNumberOfRatings() {
+        return this.ratingDao.count();
+    }
+
+    public List<AnimeEntity> findAnimeEntityListOfList(ListsEntity listsEntity) {
+        List<AnimeEntity> animeEntities = new ArrayList<>();
+        List<IsListedInEntity> x = this.listedInDao.findAll();
+        for (IsListedInEntity s : x) {
+            if (s.getListId().equals(listsEntity.getId())) {
+                animeEntities.add(this.animeDao.getOne(s.getAnimeId()));
+            }
+        }
+        return animeEntities;
+    }
+
+    public long getNumberOfAnimesInDefaultList(String whichDefaultList) {
+        long numberOfAnimesInDefaultList = 0;
+        List<ListsEntity> defaultLists = this.listsDao.findByName(whichDefaultList);
+        for (ListsEntity listsEntity : defaultLists) {
+            numberOfAnimesInDefaultList += this.findAnimeEntityListOfList(listsEntity).size();
+        }
+        return numberOfAnimesInDefaultList;
+    }
+
+    public AverageStats averageStatsByUser() {
+        AverageStats averageStats = new AverageStats();
         long nbUsers = this.getNumberOfUsers();
-        if (nbUsers > 0)
-            return Double.parseDouble(format.format((double) this.getNumberOfComments() / (double) nbUsers));
-        else
-            return 0.0;
+        if (nbUsers > 0) {
+            averageStats.setCommentsByUser((double) this.getNumberOfComments() / (double) nbUsers);
+            averageStats.setListsByUser((double) this.getNumberOfLists() / (double) nbUsers);
+            averageStats.setRatingByUser((double) this.getNumberOfRatings() / (double) nbUsers);
+            averageStats.setWatchedByUser((double) this.getNumberOfAnimesInDefaultList("Watched") / (double) nbUsers);
+            averageStats.setWatchingByUser((double) this.getNumberOfAnimesInDefaultList("Currently watching") / (double) nbUsers);
+            averageStats.setPlanToWatchByUser((double) this.getNumberOfAnimesInDefaultList("Plan to watch") / (double) nbUsers);
+            return averageStats;
+        } else return new AverageStats(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     }
 
     public List<AnimeStats> getAnimesAndNumberOfTimesItWasListed() {
