@@ -1,16 +1,19 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.IsListedInEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class StatsRepository {
@@ -47,19 +50,22 @@ public class StatsRepository {
     }
 
     public double numberOfCommentsByUser() {
-        return this.getNumberOfComments() / this.getNumberOfUsers();
+        NumberFormat format = new DecimalFormat("#.###");
+        long nbUsers = this.getNumberOfUsers();
+        if (nbUsers > 0)
+            return Double.parseDouble(format.format((double) this.getNumberOfComments() / (double) nbUsers));
+        else
+            return 0.0;
     }
 
     public List<AnimeStats> getAnimesAndNumberOfTimesItWasListed() {
         List<AnimeStats> animeStatsList = new ArrayList<>();
-        for (AnimeEntity animeEntity : this.animeDao.findAll()) {
-            if (this.listedInDao.findTopByAnimeId(animeEntity.getId()).isPresent()) {
-                animeStatsList.add(new AnimeStats(new Anime(animeEntity), this.listedInDao.countByAnimeId(animeEntity.getId())));
-            }
+        List<IsListedInEntity> isListedInEntityList = this.listedInDao.findAll();
+        List<Long> animeIds = new ArrayList<>(new HashSet<>(isListedInEntityList.stream().map(isListedInEntity -> isListedInEntity.getAnimeId()).collect(Collectors.toList())));
+        for (Long animeId : animeIds) {
+            animeStatsList.add(new AnimeStats(new Anime(this.animeDao.getOne(animeId)), this.listedInDao.countByAnimeId(animeId)));
         }
-        Collections.sort(animeStatsList, (anime1, anime2) -> {
-            return (int) (anime2.getNumberOfTimesListed() - anime1.getNumberOfTimesListed());
-        });
+        Collections.sort(animeStatsList, (anime1, anime2) -> (int) (anime2.getNumberOfTimesListed() - anime1.getNumberOfTimesListed()));
         return animeStatsList;
     }
 }
