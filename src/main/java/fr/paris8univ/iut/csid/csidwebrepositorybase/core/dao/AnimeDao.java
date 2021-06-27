@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
@@ -36,8 +34,7 @@ public interface AnimeDao extends JpaRepository<AnimeEntity, Long> {
             nativeQuery = true)
     List<AnimeEntity> findAllByCompleteResearchForCount(@Param("producer") Long producer, @Param("studio") Long studio, @Param("genre") Long genre);
     Page<AnimeEntity> findByTitleContainingAndPegiEntityNotLike(Pageable page, String researchInternationalTitle, PegiEntity hentaiEntity);
-
     List<AnimeEntity> findTop15ByAiringIsContainingAndPegiEntityNotLikeOrderByAiringDesc(String date, PegiEntity pegiEntity);
-
+    long count();
     List<AnimeEntity> findByTitleContainingAndPegiEntityNotLike(String research, PegiEntity hentaiEntity);
 }

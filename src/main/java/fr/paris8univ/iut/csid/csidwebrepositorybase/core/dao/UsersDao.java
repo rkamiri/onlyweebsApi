@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface UsersDao extends JpaRepository<UsersEntity, Long> {
     Optional<UsersEntity> findByUsername(String username);
+    long count();
 }

@@ -15,13 +15,13 @@ public class IsListedInEntity {
     private Long listId;
 
     @Column(name = "anime_id", nullable = false)
-    private Long anime_id;
+    private Long animeId;
 
     public IsListedInEntity() {}
 
     public IsListedInEntity(Long listId, Long animeId) {
         this.listId = listId;
-        this.anime_id = animeId;
+        this.animeId = animeId;
     }
 
     public Long getId() {
@@ -32,15 +32,15 @@ public class IsListedInEntity {
         return listId;
     }
 
-    public Long getAnime_id() {
-        return anime_id;
+    public Long getAnimeId() {
+        return animeId;
     }
 
     public void setListId(Long list_id) {
         this.listId = list_id;
     }
 
-    public void setAnime_id(Long anime_id) {
-        this.anime_id = anime_id;
+    public void setAnimeId(Long animeId) {
+        this.animeId = animeId;
     }
 }
