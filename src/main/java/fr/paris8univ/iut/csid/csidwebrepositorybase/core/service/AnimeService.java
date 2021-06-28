@@ -55,8 +55,16 @@ public class AnimeService {
         return this.animeRepository.researchAnimesPagination(research, page);
     }
 
-    public int getResearchCount(String research) {
+    public int getResearchCount(Long producer, Long studio, Long genre) {
+        return this.animeRepository.getResearchCount(producer, studio, genre);
+    }
+
+    public int getResearchCount(String research){
         return this.animeRepository.getResearchCount(research);
+    }
+
+    public List<Anime> researchAnimesPagination(Long producer, Long studio, Long genre, int page) {
+        return this.animeRepository.researchAnimesPagination(producer, studio, genre, page);
     }
 
     public List<Studio> getAnimeStudios(Long idAnime) {

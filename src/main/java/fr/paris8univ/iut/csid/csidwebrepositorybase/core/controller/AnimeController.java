@@ -1,6 +1,8 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeResearch;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Genre;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Producer;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
@@ -55,16 +57,6 @@ public class AnimeController {
         return this.animeService.researchAnimes(research);
     }
 
-    @GetMapping("/research/{research}/pagination/{page}")
-    public List<Anime> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
-        return this.animeService.researchAnimesPagination(research, page);
-    }
-
-    @GetMapping("/research/{research}/count")
-    public int getResearchPageCount(@PathVariable(value = "research") String research) {
-        return this.animeService.getResearchCount(research);
-    }
-
     @GetMapping("/count")
     public int getPageCount() {
         return this.animeService.getCount();
@@ -89,4 +81,25 @@ public class AnimeController {
     public List<Anime> getLatestAnimes() {
         return this.animeService.getLatestAnimes();
     }
+
+    @GetMapping("/research/{research}/pagination/{page}")
+    public List<Anime> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
+        return this.animeService.researchAnimesPagination(research, page);
+    }
+
+    @GetMapping("/research/{research}/count")
+    public int getResearchPageCount(@PathVariable(value = "research") String research) {
+        return this.animeService.getResearchCount(research);
+    }
+
+    @PostMapping("/research/pagination/{page}")
+    public List<Anime> researchAdvancedAnimesPagination(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "page") int page){
+        return this.animeService.researchAnimesPagination(animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre(), page);
+    }
+
+    @PostMapping("/research/count")
+    public int getAdvancedResearchPageCount(@RequestBody AnimeResearch animeResearch){
+        return this.animeService.getResearchCount(animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre());
+    }
+
 }

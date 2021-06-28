@@ -61,6 +61,16 @@ public class AnimeRepository {
         return animes.size();
     }
 
+    public int getResearchCount(Long producer, Long studio, Long genre) {
+        List<Anime> animes = this.animeDao.findAllByCompleteResearchForCount(producer, studio, genre).stream().map(Anime::new).collect(Collectors.toList());
+        return animes.size();
+    }
+
+    public List<Anime> researchAnimesPagination(Long producer, Long studio, Long genre, int page) {
+        Pageable pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
+        return this.animeDao.findAllByCompleteResearch(producer, studio, genre, pageable).stream().map(Anime::new).collect(Collectors.toList());
+    }
+
     public List<Anime> getLatestAnimes() {
         LocalDate now = LocalDate.now();
         String temporary;
