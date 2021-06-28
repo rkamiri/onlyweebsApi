@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +44,14 @@ public class ImageController {
     @GetMapping("/image/{id}")
     public Image getImage(@PathVariable(value = "id") Long imageId) {
         return imageService.findById(imageId);
+    }
+
+    @GetMapping("/logo")
+    public ResponseEntity<byte[]> getLogo() throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get("src/main/resources/ow-smol-text.webp"));
+        CacheControl cacheControl = CacheControl.maxAge(3600000, TimeUnit.SECONDS).mustRevalidate();
+        MediaType contentType = MediaType.valueOf("image/webp");
+        return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(bytes);
     }
 
     @GetMapping("/{id}")
