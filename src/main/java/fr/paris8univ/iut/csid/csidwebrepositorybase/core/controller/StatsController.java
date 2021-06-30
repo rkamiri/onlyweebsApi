@@ -26,20 +26,31 @@ public class StatsController {
     public ResponseEntity<GeneralStats> getGeneralStats() {
         GeneralStats stats = this.statsService.getGeneralStats();
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).body(stats);
+        if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
+            return ResponseEntity.status(200).contentType(contentType).body(stats);
+        }
+        return ResponseEntity.status(401).contentType(contentType).body(stats);
+
     }
 
     @GetMapping("/average")
     public ResponseEntity<AverageStats> getNumberOfCommentsByUser() {
-        AverageStats commentsByUser = this.statsService.getAverageStatsByUser();
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).body(commentsByUser);
+        AverageStats commentsByUser = new AverageStats();
+        if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
+            commentsByUser = this.statsService.getAverageStatsByUser();
+            return ResponseEntity.status(200).contentType(contentType).body(commentsByUser);
+        }
+        return ResponseEntity.status(401).contentType(contentType).body(commentsByUser);
     }
 
     @GetMapping("/animes-listed")
     public ResponseEntity<List<AnimeStats>> getAnimesAndListedNum() {
         List<AnimeStats> animeStatsList = this.statsService.getAnimesAndListedNum();
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).body(animeStatsList);
+        if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
+            return ResponseEntity.status(200).contentType(contentType).body(animeStatsList);
+        }
+        return ResponseEntity.status(401).contentType(contentType).body(animeStatsList);
     }
 }
