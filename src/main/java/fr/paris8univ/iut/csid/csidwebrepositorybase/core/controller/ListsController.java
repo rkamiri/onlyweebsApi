@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedIn;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
@@ -53,7 +53,7 @@ public class ListsController {
     }
 
     @GetMapping("/{id}/content")
-    public List<Anime> getAnimesInList(@PathVariable(value = "id") Long listId) throws NoAnimeException {
+    public List<AnimeDto> getAnimesInList(@PathVariable(value = "id") Long listId) throws NoAnimeException {
         return this.listService.findAnimeOfList(listId);
     }
 

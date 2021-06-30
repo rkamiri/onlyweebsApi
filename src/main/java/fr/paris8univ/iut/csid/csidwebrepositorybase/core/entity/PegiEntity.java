@@ -1,9 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import lombok.Data;
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "pegi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -23,22 +24,5 @@ public class PegiEntity {
     }
 
     public PegiEntity() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return pegi;
-    }
-
-    public void setName(String name) {
-        this.pegi = name;
     }
 }

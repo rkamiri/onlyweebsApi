@@ -1,10 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
-import com.sun.el.stream.Stream;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ImageDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -16,12 +15,12 @@ import java.util.Optional;
 public class UsersRepository {
 
     private final UsersDao usersDao;
-    private final AuthDao authDao;
+    private final AuthoritiesRepository authoritiesRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UsersRepository(UsersDao usersDao, AuthDao authDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UsersRepository(UsersDao usersDao, AuthoritiesRepository authoritiesRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.usersDao = usersDao;
-        this.authDao = authDao;
+        this.authoritiesRepository = authoritiesRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -41,12 +40,12 @@ public class UsersRepository {
         UsersEntity current = this.usersDao.findById(updatedUser.getId()).orElseThrow(NoUserFoundException::new);
 
         if (updatedUser.getUsername() != null || !Objects.equals(updatedUser.getUsername(), current.getUsername())) {
-            AuthEntity currAuthDao = this.authDao.findById(current.getUsername()).orElseThrow();
-            this.authDao.delete(currAuthDao);
+            AuthoritiesEntity currAuthDao = this.authoritiesRepository.findById(current.getUsername()).orElseThrow();
+            this.authoritiesRepository.delete(currAuthDao);
             currAuthDao.setUsername(updatedUser.getUsername());
             current.setUsername(updatedUser.getUsername());
             this.usersDao.save(current);
-            this.authDao.save(currAuthDao);
+            this.authoritiesRepository.save(currAuthDao);
         }
         if (updatedUser.getEmail() != null || !Objects.equals(updatedUser.getEmail(), current.getEmail())) {
             current.setEmail(updatedUser.getEmail());
@@ -98,7 +97,7 @@ public class UsersRepository {
                 "S",
                 "Supprimé",
                 "Supprimé",
-                new Image(usersEntity.getImage()));
+                new ImageDto(usersEntity.getImage()));
         this.updateCurrentUser(deletedUser);
         this.usersDao.getOne(deletedUser.getId()).setImage(newImage);
     }

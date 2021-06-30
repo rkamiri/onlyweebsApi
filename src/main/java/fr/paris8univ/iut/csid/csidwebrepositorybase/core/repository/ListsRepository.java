@@ -1,11 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.AnimeRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.IsListedInDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ListsDao;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,19 +23,17 @@ public class ListsRepository {
 
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
-    private final AnimeDao animeDao;
-    private final CommentDao commentDao;
     private final AnimeRepository animeRepository;
+    private final CommentRepository commentRepository;
     private final UsersRepository usersRepository;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeDao animeDao, CommentDao commentDao, AnimeRepository animeRepository, UsersRepository usersRepository) {
+    public ListsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository, CommentRepository commentRepository, UsersRepository usersRepository) {
         this.listsDao = listsDao;
         this.listedInDao = listedInDao;
-        this.animeDao = animeDao;
-        this.commentDao = commentDao;
         this.animeRepository = animeRepository;
+        this.commentRepository = commentRepository;
         this.usersRepository = usersRepository;
     }
 
@@ -54,12 +52,12 @@ public class ListsRepository {
         return ilel.stream().map(Lists::new).collect(Collectors.toList()).get(0);
     }
 
-    public List<Optional<Anime>> findAnimeOfList(Long listId) {
-        List<Optional<Anime>> al = new ArrayList<>();
+    public List<Optional<AnimeDto>> findAnimeOfList(Long listId) {
+        List<Optional<AnimeDto>> al = new ArrayList<>();
         List<IsListedInEntity> x = this.listedInDao.findAll();
         for (IsListedInEntity s : x) {
             if (s.getListId().equals(listId)) {
-                al.add(this.animeRepository.findOneAnime(s.getAnimeId()).map(Anime::new));
+                al.add(this.animeRepository.findOneById(s.getAnimeId()).map(AnimeDto::new));
             }
         }
         return al;
@@ -70,7 +68,7 @@ public class ListsRepository {
         List<IsListedInEntity> x = this.listedInDao.findAll();
         for (IsListedInEntity s : x) {
             if (s.getListId().equals(listId)) {
-                animeEntities.add(this.animeDao.getOne(s.getAnimeId()));
+                animeEntities.add(this.animeRepository.getOne(s.getAnimeId()));
             }
         }
         return animeEntities;
@@ -87,7 +85,7 @@ public class ListsRepository {
     }
 
     public void putAnimeInList(Long animeId, Long listId) {
-        if (this.animeRepository.findOneAnime(animeId).isPresent() && this.findListById(listId).isPresent()) {
+        if (this.animeRepository.findOneById(animeId).isPresent() && this.findListById(listId).isPresent()) {
             boolean isInList = false;
             for (IsListedInEntity isListedInEntity : this.listedInDao.findAll()) {
                 if (isListedInEntity.getListId().equals(listId) && isListedInEntity.getAnimeId().equals(animeId)) {
@@ -102,7 +100,7 @@ public class ListsRepository {
     }
 
     public void deleteAnimeInList(Long anime_id, Long list_id) {
-        if (this.animeRepository.findOneAnime(anime_id).isPresent() && this.findListById(list_id).isPresent()) {
+        if (this.animeRepository.findOneById(anime_id).isPresent() && this.findListById(list_id).isPresent()) {
             List<IsListedInEntity> ilel = this.listedInDao.findAll();
             ilel.removeIf(e -> !e.getAnimeId().equals(anime_id) || !e.getListId().equals(list_id));
             this.listedInDao.delete(ilel.get(0));
@@ -168,7 +166,7 @@ public class ListsRepository {
     @Transactional
     public void deleteList(long id) {
         this.listedInDao.deleteIsListedInEntitiesByListId(id);
-        this.commentDao.deleteCommentEntitiesByListsEntity(this.listsDao.getOne(id));
+        this.commentRepository.deleteCommentEntitiesByListsEntity(this.listsDao.getOne(id));
         this.listsDao.deleteById(id);
     }
 

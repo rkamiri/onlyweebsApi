@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommentDao extends JpaRepository<CommentEntity, AnimeCommentId> {
+public interface CommentRepository extends JpaRepository<CommentEntity, AnimeCommentId> {
     void deleteCommentEntitiesByListsEntity(ListsEntity listsEntity);
     void deleteCommentEntitiesByArticleEntity(ArticleEntity articleEntity);
     void deleteCommentEntityByAnimeEntityAndUsersEntity(AnimeEntity animeEntity, UsersEntity usersEntity);

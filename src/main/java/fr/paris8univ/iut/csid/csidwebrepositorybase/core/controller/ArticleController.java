@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Article;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleResearch;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
 import javassist.NotFoundException;
@@ -24,51 +24,51 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Article>> getArticles() {
-        List<Article> content = this.articleService.findAllArticles();
+    public ResponseEntity<List<ArticleDto>> getArticles() {
+        List<ArticleDto> content = this.articleService.findAllArticles();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("/five")
-    public ResponseEntity<List<Article>> getFiveArticles() {
-        List<Article> content = this.articleService.findFiveArticles();
+    public ResponseEntity<List<ArticleDto>> getFiveArticles() {
+        List<ArticleDto> content = this.articleService.findFiveArticles();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("/{id}")
-    public Article getArticle(@PathVariable long id) {
+    public ArticleDto getArticle(@PathVariable long id) {
         return this.articleService.getArticle(id);
     }
 
     @PostMapping
-    public Long postArticle(@RequestBody Article article) throws NotFoundException {
+    public Long postArticle(@RequestBody ArticleDto articleDto) throws NotFoundException {
         if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
-            return this.articleService.postArticle(article);
+            return this.articleService.postArticle(articleDto);
         } else {
             return null;
         }
     }
 
     @GetMapping("/page/{page}")
-    public ResponseEntity<List<Article>> getArticlesByPage(@PathVariable int page) {
-        List<Article> content = this.articleService.getArticlesByPage(page);
+    public ResponseEntity<List<ArticleDto>> getArticlesByPage(@PathVariable int page) {
+        List<ArticleDto> content = this.articleService.getArticlesByPage(page);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @PostMapping("/research/page/{page}")
-    public ResponseEntity<List<Article>> getArticlesByCategoryId(@RequestBody ArticleResearch articleResearch, @PathVariable int page) {
-        List<Article> content = this.articleService.getArticlesByCategoryId(page, articleResearch.title, articleResearch.categoryId);
+    public ResponseEntity<List<ArticleDto>> getArticlesByCategoryId(@RequestBody ArticleResearch articleResearch, @PathVariable int page) {
+        List<ArticleDto> content = this.articleService.getArticlesByCategoryId(page, articleResearch.title, articleResearch.categoryId);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("similar/article_id/{articleId}/category/{category}")
-    public ResponseEntity<List<Article>> getSimilarArticles(@PathVariable long category, @PathVariable long articleId) {
+    public ResponseEntity<List<ArticleDto>> getSimilarArticles(@PathVariable long category, @PathVariable long articleId) {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        List<Article> content = this.articleService.getSimilarArticles(category, articleId);
+        List<ArticleDto> content = this.articleService.getSimilarArticles(category, articleId);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }

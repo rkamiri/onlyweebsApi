@@ -1,9 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "article_categories")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -31,30 +33,5 @@ public class ArticleCategoriesEntity {
     }
 
     public ArticleCategoriesEntity() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBgColor() {
-        return bgColor;
-    }
-
-    public void setBgColor(String bgColor) {
-        this.bgColor = bgColor;
     }
 }

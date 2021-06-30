@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Genre;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GenreDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class GenreController {
     }
 
     @GetMapping("/all")
-    public List<Genre> getGenres() {
+    public List<GenreDto> getGenres() {
         return this.genreService.findAll();
     }
 }

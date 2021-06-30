@@ -1,6 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ImageEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
 
 public class Users {
@@ -13,7 +12,7 @@ public class Users {
     private String gender;
     private String bio;
     private String ip;
-    private Image image;
+    private ImageDto imageDto;
 
     public Users() {}
 
@@ -27,10 +26,10 @@ public class Users {
         this.gender = usersEntity.getGender();
         this.bio = usersEntity.getBio();
         this.ip = usersEntity.getIp();
-        this.image = new Image(usersEntity.getImage());
+        this.imageDto = new ImageDto(usersEntity.getImage());
     }
 
-    public Users(Long id, String username, String password, String firstname, String lastname, String email, String gender, String bio, String ip, Image image) {
+    public Users(Long id, String username, String password, String firstname, String lastname, String email, String gender, String bio, String ip, ImageDto imageDto) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -40,7 +39,7 @@ public class Users {
         this.gender = gender;
         this.bio = bio;
         this.ip = ip;
-        this.image = image;
+        this.imageDto = imageDto;
     }
 
     public Long getId() {
@@ -79,7 +78,7 @@ public class Users {
         return ip;
     }
 
-    public Image getImage() {
-        return image;
+    public ImageDto getImage() {
+        return imageDto;
     }
 }

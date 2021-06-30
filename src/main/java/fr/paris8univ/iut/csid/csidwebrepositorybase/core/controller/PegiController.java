@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Pegi;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.PegiDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.PegiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class PegiController {
     }
 
     @GetMapping("/all")
-    public List<Pegi> getAllPegi() {
+    public List<PegiDto> getAllPegi() {
         return this.pegiService.findAll();
     }
 }

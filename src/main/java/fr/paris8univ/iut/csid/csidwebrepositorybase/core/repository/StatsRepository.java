@@ -4,7 +4,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.IsListedInEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStats;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AverageStats;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,28 +20,28 @@ public class StatsRepository {
 
     private final ListsDao listsDao;
     private final IsListedInDao listedInDao;
-    private final AnimeDao animeDao;
-    private final CommentDao commentDao;
+    private final AnimeRepository animeRepository;
+    private final CommentRepository commentRepository;
     private final UsersDao usersDao;
-    private final RatingDao ratingDao;
+    private final RatingRepository ratingRepository;
     private final NumberFormat format = new DecimalFormat("#.###");
 
     @Autowired
-    public StatsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeDao animeDao, CommentDao commentDao, UsersDao usersDao, RatingDao ratingDao) {
+    public StatsRepository(ListsDao listsDao, IsListedInDao listedInDao, AnimeRepository animeRepository, CommentRepository commentRepository, UsersDao usersDao, RatingRepository ratingRepository) {
         this.listsDao = listsDao;
         this.listedInDao = listedInDao;
-        this.animeDao = animeDao;
-        this.commentDao = commentDao;
+        this.animeRepository = animeRepository;
+        this.commentRepository = commentRepository;
         this.usersDao = usersDao;
-        this.ratingDao = ratingDao;
+        this.ratingRepository = ratingRepository;
     }
 
     public long getNumberOfAnimes() {
-        return this.animeDao.count();
+        return this.animeRepository.count();
     }
 
     public long getNumberOfComments() {
-        return this.commentDao.count();
+        return this.commentRepository.count();
     }
 
     public long getNumberOfLists() {
@@ -53,7 +53,7 @@ public class StatsRepository {
     }
 
     public long getNumberOfRatings() {
-        return this.ratingDao.count();
+        return this.ratingRepository.count();
     }
 
     public List<AnimeEntity> findAnimeEntityListOfList(ListsEntity listsEntity) {
@@ -61,7 +61,7 @@ public class StatsRepository {
         List<IsListedInEntity> x = this.listedInDao.findAll();
         for (IsListedInEntity s : x) {
             if (s.getListId().equals(listsEntity.getId())) {
-                animeEntities.add(this.animeDao.getOne(s.getAnimeId()));
+                animeEntities.add(this.animeRepository.getOne(s.getAnimeId()));
             }
         }
         return animeEntities;
@@ -95,7 +95,7 @@ public class StatsRepository {
         List<IsListedInEntity> isListedInEntityList = this.listedInDao.findAll();
         List<Long> animeIds = new ArrayList<>(new HashSet<>(isListedInEntityList.stream().map(isListedInEntity -> isListedInEntity.getAnimeId()).collect(Collectors.toList())));
         for (Long animeId : animeIds) {
-            animeStatsList.add(new AnimeStats(new Anime(this.animeDao.getOne(animeId)), this.listedInDao.countByAnimeId(animeId)));
+            animeStatsList.add(new AnimeStats(new AnimeDto(this.animeRepository.getOne(animeId)), this.listedInDao.countByAnimeId(animeId)));
         }
         Collections.sort(animeStatsList, (anime1, anime2) -> (int) (anime2.getNumberOfTimesListed() - anime1.getNumberOfTimesListed()));
         return animeStatsList;

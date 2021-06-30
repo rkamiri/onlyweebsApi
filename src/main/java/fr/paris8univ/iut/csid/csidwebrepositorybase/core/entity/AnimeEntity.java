@@ -1,9 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import lombok.Data;
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "anime")
 public class AnimeEntity {
@@ -50,41 +50,5 @@ public class AnimeEntity {
         this.airing = airing;
         this.aired = aired;
         this.pegiEntity = pegiEntity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getTitleEnglish() {
-        return titleEnglish;
-    }
-
-    public String getSynopsis() {
-        return synopsis;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public Long getEpisodes() {
-        return episodes;
-    }
-
-    public String getAiring() {
-        return airing;
-    }
-
-    public boolean isAired() {
-        return aired;
-    }
-
-    public PegiEntity getPegiEntity() {
-        return pegiEntity;
     }
 }

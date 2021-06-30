@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Comment;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.CommentDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.CommentService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +20,23 @@ public class CommentController {
     }
 
     @GetMapping("/anime/{id}")
-    public List<Comment> getCommentsForAnime(@PathVariable(value = "id") long animeId) {
+    public List<CommentDto> getCommentsForAnime(@PathVariable(value = "id") long animeId) {
         return this.commentService.getComments(animeId, 0);
     }
 
     @GetMapping("/article/{id}")
-    public List<Comment> getCommentsForArticle(@PathVariable(value = "id") long articleId) {
+    public List<CommentDto> getCommentsForArticle(@PathVariable(value = "id") long articleId) {
         return this.commentService.getComments(articleId, 1);
     }
 
     @GetMapping("/list/{id}")
-    public List<Comment> getCommentsForList(@PathVariable(value = "id") long listId) {
+    public List<CommentDto> getCommentsForList(@PathVariable(value = "id") long listId) {
         return this.commentService.getComments(listId, 2);
     }
 
     @PutMapping
-    public void putComment(@RequestBody Comment comment) throws NotFoundException {
-        this.commentService.putComment(comment);
+    public void putComment(@RequestBody CommentDto commentDto) throws NotFoundException {
+        this.commentService.putComment(commentDto);
     }
 
     @DeleteMapping("/anime/{animeId}/user/{userId}")

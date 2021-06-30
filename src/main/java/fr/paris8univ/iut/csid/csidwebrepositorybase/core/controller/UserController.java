@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ImageDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
@@ -86,7 +86,7 @@ public class UserController {
     }
 
     @GetMapping("/pp")
-    public Image getUserProfilePicture() throws NotFoundException {
+    public ImageDto getUserProfilePicture() throws NotFoundException {
         return imageController.getImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
     }
 

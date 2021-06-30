@@ -30,12 +30,12 @@ public class RatingController {
     }
 
     @GetMapping("/user/{id}")
-    public Long getCurrentUserRatingForASelectAnime(@PathVariable(value = "id")Long animeid) throws NotFoundException {
-        return this.ratingService.getCurrentUserRatingForASelectAnime(UserController.getCurrentUserLogin(), animeid);
+    public Long getCurrentUserRatingForASelectAnime(@PathVariable(value = "id")Long animeId) throws NotFoundException {
+        return this.ratingService.getUserRatingForAnAnime(UserController.getCurrentUserLogin(), animeId);
     }
 
     @GetMapping("/{id}")
-    public double getAnimeGlobalRating(@PathVariable(value = "id")Long animeid) {
-        return this.ratingService.getAnimeGlobalRating(animeid);
+    public double getAnimeGlobalRating(@PathVariable(value = "id")Long animeId) {
+        return this.ratingService.getAnimeGlobalRating(animeId);
     }
 }

@@ -1,7 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "article")
 public class ArticleEntity {
@@ -41,45 +44,6 @@ public class ArticleEntity {
         this.category = category;
     }
 
-    public ArticleEntity() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public UsersEntity getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(UsersEntity author) {
-        this.author = author;
-    }
-
-    public ImageEntity getCover() {
-        return cover;
-    }
-
-    public ArticleCategoriesEntity getCategory() {
-        return category;
+    public ArticleEntity() {
     }
 }

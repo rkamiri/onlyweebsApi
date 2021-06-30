@@ -4,8 +4,10 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.CommentEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
+import lombok.Data;
 
-public class Comment {
+@Data
+public class CommentDto {
 
     private Long id;
     private Users user;
@@ -15,10 +17,10 @@ public class Comment {
     private ArticleEntity articleEntity;
     private ListsEntity listsEntity;
 
-    public Comment() {
+    public CommentDto() {
     }
 
-    public Comment(CommentEntity commentEntity) {
+    public CommentDto(CommentEntity commentEntity) {
         this.id = commentEntity.getId();
         this.user = new Users(commentEntity.getUsersEntity());
         this.body = commentEntity.getBody();
@@ -26,38 +28,5 @@ public class Comment {
         this.animeEntity = commentEntity.getAnimeEntity();
         this.articleEntity = commentEntity.getArticleEntity();
         this.listsEntity = commentEntity.getListsEntity();
-
-    }
-
-    public ArticleEntity getArticleEntity() {
-        return articleEntity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public AnimeEntity getAnimeEntity() {
-        return animeEntity;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public ListsEntity getListsEntity() {
-        return listsEntity;
-    }
-
-    public void setListsEntity(ListsEntity listsEntity) {
-        this.listsEntity = listsEntity;
     }
 }

@@ -1,9 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
+import lombok.Data;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Data
 @Embeddable
 public class AnimeCommentId implements Serializable {
     private Long user_id;
@@ -15,22 +17,6 @@ public class AnimeCommentId implements Serializable {
     public AnimeCommentId(Long userId, Long animeId) {
         this.user_id = userId;
         this.anime_id = animeId;
-    }
-
-    public Long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
-    }
-
-    public Long getAnime_id() {
-        return anime_id;
-    }
-
-    public void setAnime_id(Long anime_id) {
-        this.anime_id = anime_id;
     }
 
     @Override

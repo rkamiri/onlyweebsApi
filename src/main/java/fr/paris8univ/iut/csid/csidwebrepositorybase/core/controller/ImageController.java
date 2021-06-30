@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Image;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ImageDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
@@ -42,7 +42,7 @@ public class ImageController {
     }
 
     @GetMapping("/image/{id}")
-    public Image getImage(@PathVariable(value = "id") Long imageId) {
+    public ImageDto getImage(@PathVariable(value = "id") Long imageId) {
         return imageService.findById(imageId);
     }
 
@@ -57,8 +57,8 @@ public class ImageController {
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getImageContent(@PathVariable(value = "id") Long imageId) {
         CacheControl cacheControl = CacheControl.maxAge(3600000, TimeUnit.SECONDS).mustRevalidate();
-        Image image = this.imageService.findById(imageId);
-        byte[] content = image.getContent();
+        ImageDto imageDto = this.imageService.findById(imageId);
+        byte[] content = imageDto.getContent();
         MediaType contentType = MediaType.valueOf("image/jpg");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }

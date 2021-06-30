@@ -2,7 +2,7 @@ package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ListsRepository;
 import org.springframework.stereotype.Service;
@@ -37,13 +37,13 @@ public class ListsService {
         return this.listsRepository.findListById(id).orElseThrow(NoListException::new);
     }
 
-    public List<Anime> findAnimeOfList(Long listId) throws NoAnimeException {
-        List<Anime> realAnimeList = new ArrayList<>();
-        List<Optional<Anime>> al = this.listsRepository.findAnimeOfList(listId);
-        for (Optional<Anime> fakeAnime : al) {
-            realAnimeList.add(fakeAnime.orElseThrow(NoAnimeException::new));
+    public List<AnimeDto> findAnimeOfList(Long listId) throws NoAnimeException {
+        List<AnimeDto> realAnimeDtoList = new ArrayList<>();
+        List<Optional<AnimeDto>> al = this.listsRepository.findAnimeOfList(listId);
+        for (Optional<AnimeDto> fakeAnime : al) {
+            realAnimeDtoList.add(fakeAnime.orElseThrow(NoAnimeException::new));
         }
-        return realAnimeList;
+        return realAnimeDtoList;
     }
 
     public void createList(Lists list, String currentUserLogin) {

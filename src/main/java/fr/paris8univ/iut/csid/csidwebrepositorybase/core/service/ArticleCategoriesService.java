@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleCategoriesDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleCategories;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleCategoriesRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleCategoriesDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleCategoriesService {
 
-    private final ArticleCategoriesDao articleCategoriesDao;
+    private final ArticleCategoriesRepository articleCategoriesRepository;
 
-    public ArticleCategoriesService(ArticleCategoriesDao articleCategoriesDao) {
-        this.articleCategoriesDao = articleCategoriesDao;
+    public ArticleCategoriesService(ArticleCategoriesRepository articleCategoriesRepository) {
+        this.articleCategoriesRepository = articleCategoriesRepository;
     }
 
-    public List<ArticleCategories> findAll(){
-        return this.articleCategoriesDao.findAll().stream().map(ArticleCategories::new).collect(Collectors.toList());
+    public List<ArticleCategoriesDto> findAll(){
+        return this.articleCategoriesRepository.findAll().stream().map(ArticleCategoriesDto::new).collect(Collectors.toList());
     }
 }

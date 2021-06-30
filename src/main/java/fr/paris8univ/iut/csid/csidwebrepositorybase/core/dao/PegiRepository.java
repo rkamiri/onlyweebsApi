@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PegiDao extends JpaRepository<PegiEntity, Long> {
+public interface PegiRepository extends JpaRepository<PegiEntity, Long> {
     PegiEntity findOneById(Long hentaiPegiId);
 }

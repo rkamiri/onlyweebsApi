@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Producer;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ProducerDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class ProducerController {
     }
 
     @GetMapping("/all")
-    public List<Producer> getProducer() {
+    public List<ProducerDto> getProducer() {
         return this.producerService.findAll();
     }
 }

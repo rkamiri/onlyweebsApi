@@ -1,10 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Anime;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeResearch;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Genre;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Producer;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeResearchDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GenreDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ProducerDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
@@ -29,37 +28,37 @@ public class AnimeController {
     }
 
     @GetMapping(value = "/pagination/{page}")
-    public ResponseEntity<List<Anime>> getAnimes(@PathVariable(value = "page") int page) {
+    public ResponseEntity<List<AnimeDto>> getAnimes(@PathVariable(value = "page") int page) {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        List<Anime> content = this.animeService.getAnimes(page);
+        List<AnimeDto> content = this.animeService.getAllAnimes(page);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Anime>> getAllAnimes() {
+    public ResponseEntity<List<AnimeDto>> getAllAnimes() {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        List<Anime> content = this.animeService.getAllAnimes();
+        List<AnimeDto> content = this.animeService.getAllAnimes();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Anime> getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
+    public ResponseEntity<AnimeDto> getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        Anime content = this.animeService.getOneAnime(idAnime);
+        AnimeDto content = this.animeService.getAnime(idAnime);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/research/{research}")
-    public List<Anime> researchAnimes(@PathVariable(value = "research") String research) {
+    public List<AnimeDto> researchAnimes(@PathVariable(value = "research") String research) {
         return this.animeService.researchAnimes(research);
     }
 
     @GetMapping("/count")
     public int getPageCount() {
-        return this.animeService.getCount();
+        return this.animeService.getNumberOfAnimes();
     }
 
     @GetMapping("{id}/studios")
@@ -68,22 +67,22 @@ public class AnimeController {
     }
 
     @GetMapping("{id}/producers")
-    public List<Producer> getAnimeProducers(@PathVariable(value = "id") Long idAnime) {
+    public List<ProducerDto> getAnimeProducers(@PathVariable(value = "id") Long idAnime) {
         return this.animeService.getAnimeProducers(idAnime);
     }
 
     @GetMapping("{id}/genres")
-    public List<Genre> getAnimeGenres(@PathVariable(value = "id") Long idAnime) {
+    public List<GenreDto> getAnimeGenres(@PathVariable(value = "id") Long idAnime) {
         return this.animeService.getAnimeGenres(idAnime);
     }
 
     @GetMapping("/latest")
-    public List<Anime> getLatestAnimes() {
+    public List<AnimeDto> getLatestAnimes() {
         return this.animeService.getLatestAnimes();
     }
 
     @GetMapping("/research/{research}/pagination/{page}")
-    public List<Anime> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
+    public List<AnimeDto> researchAnimesPagination(@PathVariable(value = "research") String research, @PathVariable(value = "page") int page) {
         return this.animeService.researchAnimesPagination(research, page);
     }
 
@@ -93,13 +92,13 @@ public class AnimeController {
     }
 
     @PostMapping("/research/pagination/{page}")
-    public List<Anime> researchAdvancedAnimesPagination(@RequestBody AnimeResearch animeResearch, @PathVariable(value = "page") int page){
-        return this.animeService.researchAnimesPagination(animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre(), page);
+    public List<AnimeDto> researchAdvancedAnimesPagination(@RequestBody AnimeResearchDto animeResearchDto, @PathVariable(value = "page") int page){
+        return this.animeService.researchAnimesPagination(animeResearchDto.getProducer(), animeResearchDto.getStudio(), animeResearchDto.getGenre(), page);
     }
 
     @PostMapping("/research/count")
-    public int getAdvancedResearchPageCount(@RequestBody AnimeResearch animeResearch){
-        return this.animeService.getResearchCount(animeResearch.getProducer(), animeResearch.getStudio(), animeResearch.getGenre());
+    public int getAdvancedResearchPageCount(@RequestBody AnimeResearchDto animeResearchDto){
+        return this.animeService.getResearchCount(animeResearchDto.getProducer(), animeResearchDto.getStudio(), animeResearchDto.getGenre());
     }
 
 }

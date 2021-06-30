@@ -1,9 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import lombok.Data;
 import javax.persistence.*;
 
+@Data
 @Entity
 @JsonIgnoreProperties({"animeEntity", "articleEntity"})
 @Table(name = "comment")
@@ -42,57 +43,5 @@ public class CommentEntity {
         this.usersEntity = usersEntity;
         this.body = body;
         this.date = date;
-    }
-
-    public ArticleEntity getArticleEntity() {
-        return articleEntity;
-    }
-
-    public void setAnimeEntity(AnimeEntity animeEntity) {
-        this.animeEntity = animeEntity;
-    }
-
-    public void setArticleEntity(ArticleEntity articleEntity) {
-        this.articleEntity = articleEntity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UsersEntity getUsersEntity() {
-        return usersEntity;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public AnimeEntity getAnimeEntity() {
-        return animeEntity;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setUsersEntity(UsersEntity usersEntity) {
-        this.usersEntity = usersEntity;
-    }
-
-    public ListsEntity getListsEntity() {
-        return listsEntity;
-    }
-
-    public void setListsEntity(ListsEntity listsEntity) {
-        this.listsEntity = listsEntity;
     }
 }

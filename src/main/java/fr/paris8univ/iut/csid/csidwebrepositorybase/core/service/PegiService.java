@@ -1,8 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.PegiDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.PegiEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Pegi;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.PegiRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.PegiDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +10,13 @@ import java.util.stream.Collectors;
 @Service
 public class PegiService {
 
-    private final PegiDao pegiDao;
+    private final PegiRepository pegiRepository;
 
-    public PegiService(PegiDao pegiDao) {
-        this.pegiDao = pegiDao;
+    public PegiService(PegiRepository pegiRepository) {
+        this.pegiRepository = pegiRepository;
     }
 
-    public List<Pegi> findAll(){
-        return this.pegiDao.findAll().stream().map(Pegi::new).collect(Collectors.toList());
+    public List<PegiDto> findAll(){
+        return this.pegiRepository.findAll().stream().map(PegiDto::new).collect(Collectors.toList());
     }
 }

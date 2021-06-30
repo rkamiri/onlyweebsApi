@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AuthEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AuthoritiesEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
@@ -16,18 +16,18 @@ public class RegisterRepository {
 
     private final UsersDao usersDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final AuthDao authDao;
+    private final AuthoritiesRepository authoritiesRepository;
     private final ListsDao listsDao;
-    private final ImageDao imageDao;
+    private final ImageRepository imageRepository;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public RegisterRepository(UsersDao usersDao, BCryptPasswordEncoder bCryptPasswordEncoder, AuthDao authDao, ListsDao listsDao, ImageDao imageDao) {
+    public RegisterRepository(UsersDao usersDao, BCryptPasswordEncoder bCryptPasswordEncoder, AuthoritiesRepository authoritiesRepository, ListsDao listsDao, ImageRepository imageRepository) {
         this.usersDao = usersDao;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.authDao = authDao;
+        this.authoritiesRepository = authoritiesRepository;
         this.listsDao = listsDao;
-        this.imageDao = imageDao;
+        this.imageRepository = imageRepository;
     }
 
     public void createUser(Users user, String ipAddress) {
@@ -54,13 +54,13 @@ public class RegisterRepository {
                         user.getGender(),
                         "No bio yet.",
                         bCryptPasswordEncoder.encode(ipAddress),
-                        this.imageDao.getOne(defaultImageId)
+                        this.imageRepository.getOne(defaultImageId)
                 )
         );
         UsersEntity usersEntity = usersDao.findByUsername(user.getUsername()).orElseGet(UsersEntity::new);
         this.listsDao.save(new ListsEntity("Watched", dtf.format(now), "All the animes you watched", usersEntity, 1));
         this.listsDao.save(new ListsEntity("Currently watching", dtf.format(now), "All the animes your are currently watching", usersEntity, 1));
         this.listsDao.save(new ListsEntity("Plan to watch", dtf.format(now), "All the animes your are planning to watch", usersEntity, 1));
-        this.authDao.save(new AuthEntity(user.getUsername(), "ROLE_USER"));
+        this.authoritiesRepository.save(new AuthoritiesEntity(user.getUsername(), "ROLE_USER"));
     }
 }
