@@ -1,10 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeResearchDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GenreDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ProducerDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.*;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.StudioDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +59,7 @@ public class AnimeController {
     }
 
     @GetMapping("{id}/studios")
-    public List<Studio> getAnimeStudios(@PathVariable(value = "id") Long idAnime) {
+    public List<StudioDto> getAnimeStudios(@PathVariable(value = "id") Long idAnime) {
         return this.animeService.getAnimeStudios(idAnime);
     }
 

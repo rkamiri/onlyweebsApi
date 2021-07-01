@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleCategoriesRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ArticleCategoriesRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleCategoriesDto;
 import org.springframework.stereotype.Service;
 

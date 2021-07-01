@@ -1,8 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedIn;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Lists;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedInDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ListsDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
@@ -30,25 +31,25 @@ public class ListsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Lists>> getLists() {
+    public ResponseEntity<List<ListsDto>> getLists() {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
-        List<Lists> content = this.listService.getLists();
+        List<ListsDto> content = this.listService.getLists();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).cacheControl(cacheControl).body(content);
     }
 
     @GetMapping("/user/default/{id}")
-    public List<Lists> getMyDefaultLists(@PathVariable long id) {
+    public List<ListsDto> getMyDefaultLists(@PathVariable long id) {
         return this.listService.getMyDefaultLists(id);
     }
 
     @GetMapping("/user/custom/{id}")
-    public List<Lists> getMyCustomLists(@PathVariable long id) {
+    public List<ListsDto> getMyCustomLists(@PathVariable long id) {
         return this.listService.getMyCustomLists(id);
     }
 
     @GetMapping("/{id}")
-    public Lists getOneList(@PathVariable(value = "id") Long listId) throws NoListException {
+    public ListsDto getOneList(@PathVariable(value = "id") Long listId) throws NoListException {
         return this.listService.getOneById(listId);
     }
 
@@ -58,14 +59,14 @@ public class ListsController {
     }
 
     @PostMapping
-    public ResponseEntity<Lists> createList(@RequestBody Lists list) throws URISyntaxException, NotFoundException {
+    public ResponseEntity<ListsDto> createList(@RequestBody ListsDto list) throws URISyntaxException, NotFoundException, NoUserFoundException {
         listService.createList(list, UserController.getCurrentUserLogin());
         URI location = new URI("/create-list/" + list.getName().replaceAll(" ", "_").toLowerCase());
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping
-    public ResponseEntity<Lists> putAnimeInList(@RequestBody IsListedIn ili) throws URISyntaxException {
+    public ResponseEntity<ListsDto> putAnimeInList(@RequestBody IsListedInDto ili) throws URISyntaxException {
         listService.putAnimeInList(ili.getAnime_id(), ili.getList_id());
         URI location = new URI("/put-in-list/" + ili.getAnime_id() + "_" + ili.getList_id());
         return ResponseEntity.created(location).build();
@@ -77,44 +78,44 @@ public class ListsController {
     }
 
     @GetMapping("/getlastlist")
-    public Lists getNewestList() {
+    public ListsDto getNewestList() {
         return this.listService.getNewestList();
     }
 
     @GetMapping("/{user_id}/{list_name}")
-    public Lists findListByNameAndUserId(@PathVariable String list_name, @PathVariable long user_id) {
+    public ListsDto findListByNameAndUserId(@PathVariable String list_name, @PathVariable long user_id) {
         return this.listService.findListByNameAndUserId(list_name, user_id);
     }
 
     @GetMapping("/custom")
-    public ResponseEntity<List<Lists>> getCustomLists() {
-        List<Lists> content = this.listService.getCustomLists();
+    public ResponseEntity<List<ListsDto>> getCustomLists() {
+        List<ListsDto> content = this.listService.getCustomLists();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }
 
     @GetMapping("/spotify/image")
-    public List<List<String>> getFourImagesOfEachListAll() {
+    public List<List<String>> getFourImagesOfEachListAll() throws NoAnimeException {
         return this.listService.getFourImagesOfEachListAll();
     }
 
     @GetMapping("/spotify/image/custom")
-    public List<List<String>> getFourImagesOfEachCustomList() {
+    public List<List<String>> getFourImagesOfEachCustomList() throws NoAnimeException {
         return this.listService.getFourImagesOfEachCustomList();
     }
 
     @GetMapping("/user/image/default")
-    public List<List<String>> getFourImagesOfEachDefaultListUser() throws NotFoundException {
+    public List<List<String>> getFourImagesOfEachDefaultListUser() throws NotFoundException, NoAnimeException, NoUserFoundException {
         return this.listService.getFourImagesOfEachDefaultListUser(UserController.getCurrentUserLogin());
     }
 
     @GetMapping("/user/image/custom")
-    public List<List<String>> getFourImagesOfEachCustomListUser() throws NotFoundException {
+    public List<List<String>> getFourImagesOfEachCustomListUser() throws NotFoundException, NoAnimeException, NoUserFoundException {
         return this.listService.getFourImagesOfEachCustomListUser(UserController.getCurrentUserLogin());
     }
 
     @GetMapping("/user/{id}/image/custom")
-    public List<List<String>> getFourImagesOfEachCustomListByUserId(@PathVariable long id) throws NotFoundException {
+    public List<List<String>> getFourImagesOfEachCustomListByUserId(@PathVariable long id) throws NotFoundException, NoAnimeException {
         return this.listService.getFourImagesOfEachCustomListByUserId(id);
     }
 

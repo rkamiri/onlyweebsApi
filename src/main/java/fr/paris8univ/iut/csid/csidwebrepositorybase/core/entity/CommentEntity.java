@@ -17,7 +17,7 @@ public class CommentEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UsersEntity usersEntity;
+    private UserEntity userEntity;
 
     @Column(name = "body")
     private String body;
@@ -39,8 +39,8 @@ public class CommentEntity {
 
     public CommentEntity() { }
 
-    public CommentEntity(UsersEntity usersEntity, String body, String date) {
-        this.usersEntity = usersEntity;
+    public CommentEntity(UserEntity userEntity, String body, String date) {
+        this.userEntity = userEntity;
         this.body = body;
         this.date = date;
     }

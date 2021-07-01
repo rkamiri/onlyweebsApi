@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ProducerRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ProducerRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ProducerDto;
 import org.springframework.stereotype.Service;
 import java.util.List;

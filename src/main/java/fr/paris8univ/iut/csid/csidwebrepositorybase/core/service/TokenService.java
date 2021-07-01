@@ -1,10 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.TokenDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.TokenRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.TokenEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UpdatePassword;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UserEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UpdatePasswordDto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,31 +13,31 @@ import java.util.Date;
 @Service
 public class TokenService {
 
-    private final TokenDao tokenDao;
-    private final UsersDao usersDao;
+    private final TokenRepository tokenRepository;
+    private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public TokenService(TokenDao tokenDao, UsersDao usersDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.tokenDao = tokenDao;
-        this.usersDao = usersDao;
+    public TokenService(TokenRepository tokenRepository, UsersRepository usersRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.tokenRepository = tokenRepository;
+        this.usersRepository = usersRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public TokenEntity createToken(UsersEntity user) {
+    public TokenEntity createToken(UserEntity user) {
         TokenEntity tokenEntity = new TokenEntity(user);
-        this.tokenDao.save(tokenEntity);
+        this.tokenRepository.save(tokenEntity);
         return tokenEntity;
     }
   
-    public boolean putPassword(UpdatePassword newPassword) {
+    public boolean putPassword(UpdatePasswordDto newPassword) {
         TokenEntity tokenEntity;
         try {
-            tokenEntity = this.tokenDao.findTokenEntityByToken(newPassword.getToken());
+            tokenEntity = this.tokenRepository.findTokenEntityByToken(newPassword.getToken());
             if (tokenEntity.getExpirationDate().after(new Date())) {
-                UsersEntity usersEntity = tokenEntity.getUsersEntity();
-                usersEntity.setPassword(this.bCryptPasswordEncoder.encode(newPassword.getNewPassword()));
-                this.usersDao.save(usersEntity);
-                this.tokenDao.delete(tokenEntity);
+                UserEntity userEntity = tokenEntity.getUsersEntity();
+                userEntity.setPassword(this.bCryptPasswordEncoder.encode(newPassword.getNewPassword()));
+                this.usersRepository.save(userEntity);
+                this.tokenRepository.delete(tokenEntity);
             }
         } catch (Exception ignored) {
             return false;

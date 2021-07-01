@@ -1,10 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.RatingRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Rating;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingId;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.RatingRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +22,12 @@ public class RatingService {
         this.usersRepository = usersRepository;
     }
 
-    public List<Rating> getRatings() {
-        return this.ratingRepository.findAll().stream().map(Rating::new).collect(Collectors.toList());
+    public List<RatingDto> getRatings() {
+        return this.ratingRepository.findAll().stream().map(RatingDto::new).collect(Collectors.toList());
     }
 
-    public void putARating(Rating rating) {
-        this.ratingRepository.save(new RatingEntity(rating.getUserId(), rating.getAnimeId(), rating.getRate()));
+    public void putARating(RatingDto ratingDto) {
+        this.ratingRepository.save(new RatingEntity(ratingDto.getUserId(), ratingDto.getAnimeId(), ratingDto.getRate()));
     }
 
     public double getAnimeGlobalRating(Long animeId) {
@@ -48,9 +48,9 @@ public class RatingService {
         }
     }
 
-    public Optional<Rating> getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeId) {
+    public Optional<RatingDto> getCurrentUserRatingForASelectAnime(String currentUserLogin, Long animeId) {
         if (usersRepository.findByUsername(currentUserLogin).isPresent()) {
-            return this.ratingRepository.findById(new RatingId(usersRepository.findByUsername(currentUserLogin).get().getId(), animeId)).map(Rating::new);
+            return this.ratingRepository.findById(new RatingId(usersRepository.findByUsername(currentUserLogin).get().getId(), animeId)).map(RatingDto::new);
         } else {
             return Optional.empty();
         }

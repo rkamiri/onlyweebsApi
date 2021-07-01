@@ -1,7 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "islistedin")
 public class IsListedInEntity {
@@ -17,30 +20,11 @@ public class IsListedInEntity {
     @Column(name = "anime_id", nullable = false)
     private Long animeId;
 
-    public IsListedInEntity() {}
+    public IsListedInEntity() {
+    }
 
     public IsListedInEntity(Long listId, Long animeId) {
         this.listId = listId;
-        this.animeId = animeId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getListId() {
-        return listId;
-    }
-
-    public Long getAnimeId() {
-        return animeId;
-    }
-
-    public void setListId(Long list_id) {
-        this.listId = list_id;
-    }
-
-    public void setAnimeId(Long animeId) {
         this.animeId = animeId;
     }
 }

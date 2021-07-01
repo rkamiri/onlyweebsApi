@@ -1,7 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "studio")
 public class StudioEntity {
@@ -20,22 +23,5 @@ public class StudioEntity {
     }
 
     public StudioEntity() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

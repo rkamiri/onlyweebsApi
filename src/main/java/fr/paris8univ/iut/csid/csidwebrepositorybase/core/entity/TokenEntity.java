@@ -23,12 +23,12 @@ public class TokenEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UsersEntity usersEntity;
+    private UserEntity userEntity;
 
-    public TokenEntity(UsersEntity usersEntity) {
+    public TokenEntity(UserEntity userEntity) {
         this.token = generateRandomAlphanumericString();
         this.expirationDate = new Date(Calendar.getInstance().getTimeInMillis() + (30 * 60 * 1000));
-        this.usersEntity = usersEntity;
+        this.userEntity = userEntity;
     }
 
     public TokenEntity() {
@@ -70,11 +70,11 @@ public class TokenEntity {
         this.expirationDate = expirationDate;
     }
 
-    public UsersEntity getUsersEntity() {
-        return usersEntity;
+    public UserEntity getUsersEntity() {
+        return userEntity;
     }
 
-    public void setUsersEntity(UsersEntity usersEntity) {
-        this.usersEntity = usersEntity;
+    public void setUsersEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }

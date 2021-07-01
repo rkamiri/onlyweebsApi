@@ -1,7 +1,8 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleResearch;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleResearchDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ArticleService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public Long postArticle(@RequestBody ArticleDto articleDto) throws NotFoundException {
+    public Long postArticle(@RequestBody ArticleDto articleDto) throws NotFoundException, NoUserFoundException {
         if (UserController.getCurrentUserRole().equals("{ \"auth\": \"ROLE_ADMIN\" }")) {
             return this.articleService.postArticle(articleDto);
         } else {
@@ -59,8 +60,8 @@ public class ArticleController {
     }
 
     @PostMapping("/research/page/{page}")
-    public ResponseEntity<List<ArticleDto>> getArticlesByCategoryId(@RequestBody ArticleResearch articleResearch, @PathVariable int page) {
-        List<ArticleDto> content = this.articleService.getArticlesByCategoryId(page, articleResearch.title, articleResearch.categoryId);
+    public ResponseEntity<List<ArticleDto>> getArticlesByCategoryId(@RequestBody ArticleResearchDto articleResearchDto, @PathVariable int page) {
+        List<ArticleDto> content = this.articleService.getArticlesByCategoryId(page, articleResearchDto.title, articleResearchDto.categoryId);
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(content);
     }

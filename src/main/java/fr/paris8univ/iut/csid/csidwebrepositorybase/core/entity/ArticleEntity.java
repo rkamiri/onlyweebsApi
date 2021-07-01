@@ -25,7 +25,7 @@ public class ArticleEntity {
 
     @OneToOne()
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    private UsersEntity author;
+    private UserEntity author;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cover_id", referencedColumnName = "id")
@@ -35,7 +35,7 @@ public class ArticleEntity {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private ArticleCategoriesEntity category;
 
-    public ArticleEntity(String title, String body, String created_at, UsersEntity author, ImageEntity cover, ArticleCategoriesEntity category) {
+    public ArticleEntity(String title, String body, String created_at, UserEntity author, ImageEntity cover, ArticleCategoriesEntity category) {
         this.title = title;
         this.body = body;
         this.created_at = created_at;

@@ -1,7 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "has_studio")
 public class HasStudioEntity {
@@ -24,30 +27,5 @@ public class HasStudioEntity {
     }
 
     public HasStudioEntity() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getIdAnime() {
-        return idAnime;
-    }
-
-    public void setIdAnime(Long idAnime) {
-        this.idAnime = idAnime;
-    }
-
-    public Long getIdStudio() {
-        return idStudio;
-    }
-
-    public void setIdStudio(Long idStudio) {
-        this.idStudio = idStudio;
     }
 }

@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.StudioDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.StudioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class StudioController {
     }
 
     @GetMapping("/all")
-    public List<Studio> getStudios() {
+    public List<StudioDto> getStudios() {
         return this.studioService.findAll();
     }
 }

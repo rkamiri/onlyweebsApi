@@ -1,5 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.CommentDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.CommentService;
 import javassist.NotFoundException;
@@ -35,7 +36,7 @@ public class CommentController {
     }
 
     @PutMapping
-    public void putComment(@RequestBody CommentDto commentDto) throws NotFoundException {
+    public void putComment(@RequestBody CommentDto commentDto) throws NotFoundException, NoUserFoundException {
         this.commentService.putComment(commentDto);
     }
 

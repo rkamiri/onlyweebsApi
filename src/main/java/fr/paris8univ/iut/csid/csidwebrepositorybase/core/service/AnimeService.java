@@ -1,11 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.*;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GenreDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ProducerDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.StudioDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,23 +19,23 @@ import java.util.stream.Collectors;
 @Service
 public class AnimeService {
     private final AnimeRepository animeRepository;
-    private final HasStudioDao hasStudioDao;
-    private final HasGenreDao hasGenreDao;
-    private final HasProducerDao hasProducerDao;
+    private final HasStudioRepository hasStudioRepository;
+    private final HasGenreRepository hasGenreRepository;
+    private final HasProducerRepository hasProducerRepository;
     private final GenreRepository genreRepository;
     private final ProducerRepository producerRepository;
-    private final StudioDao studioDao;
+    private final StudioRepository studioRepository;
     private final PegiRepository pegiRepository;
     private static final Long HENTAI_PEGI_ID = 6L;
 
-    public AnimeService(AnimeRepository animeRepository, HasStudioDao hasStudioDao, HasGenreDao hasGenreDao, HasProducerDao hasProducerDao, GenreRepository genreRepository, ProducerRepository producerRepository, StudioDao studioDao, PegiRepository pegiRepository) {
+    public AnimeService(AnimeRepository animeRepository, HasStudioRepository hasStudioRepository, HasGenreRepository hasGenreRepository, HasProducerRepository hasProducerRepository, GenreRepository genreRepository, ProducerRepository producerRepository, StudioRepository studioRepository, PegiRepository pegiRepository) {
         this.animeRepository = animeRepository;
-        this.hasStudioDao = hasStudioDao;
-        this.hasGenreDao = hasGenreDao;
-        this.hasProducerDao = hasProducerDao;
+        this.hasStudioRepository = hasStudioRepository;
+        this.hasGenreRepository = hasGenreRepository;
+        this.hasProducerRepository = hasProducerRepository;
         this.genreRepository = genreRepository;
         this.producerRepository = producerRepository;
-        this.studioDao = studioDao;
+        this.studioRepository = studioRepository;
         this.pegiRepository = pegiRepository;
     }
 
@@ -81,17 +81,17 @@ public class AnimeService {
         return this.animeRepository.findAllByCompleteResearch(producer, studio, genre, pageable).stream().map(AnimeDto::new).collect(Collectors.toList());
     }
 
-    public List<Studio> getAnimeStudios(Long idAnime) {
-        List<HasStudioEntity> hasStudioEntity = hasStudioDao.findAllByIdAnime(idAnime);
+    public List<StudioDto> getAnimeStudios(Long idAnime) {
+        List<HasStudioEntity> hasStudioEntity = hasStudioRepository.findAllByIdAnime(idAnime);
         List<StudioEntity> studioEntities = new ArrayList<>();
         for (HasStudioEntity entity : hasStudioEntity) {
-            studioEntities.add(studioDao.findById(entity.getIdStudio()).orElseThrow());
+            studioEntities.add(studioRepository.findById(entity.getIdStudio()).orElseThrow());
         }
-        return studioEntities.stream().map(Studio::new).collect(Collectors.toList());
+        return studioEntities.stream().map(StudioDto::new).collect(Collectors.toList());
     }
 
     public List<ProducerDto> getAnimeProducers(Long idAnime) {
-        List<HasProducerEntity> hasProducerEntity = hasProducerDao.findAllByIdAnime(idAnime);
+        List<HasProducerEntity> hasProducerEntity = hasProducerRepository.findAllByIdAnime(idAnime);
         List<ProducerEntity> producerEntities = new ArrayList<>();
         for (HasProducerEntity entity : hasProducerEntity) {
             producerEntities.add(producerRepository.findById(entity.getIdProducer()).orElseThrow());
@@ -100,7 +100,7 @@ public class AnimeService {
     }
 
     public List<GenreDto> getAnimeGenres(Long idAnime) {
-        List<HasGenreEntity> hasGenreEntities = hasGenreDao.findAllByIdAnime(idAnime);
+        List<HasGenreEntity> hasGenreEntities = hasGenreRepository.findAllByIdAnime(idAnime);
         List<GenreEntity> genreEntities = new ArrayList<>();
         for (HasGenreEntity entity : hasGenreEntities) {
             genreEntities.add(genreRepository.findById(entity.getIdGenre()).orElseThrow());

@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UsersDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class RegisterController {
     }
 
     @PostMapping
-    public ResponseEntity<Users> createOneRepository(@RequestBody Users user, HttpServletRequest request) throws URISyntaxException {
+    public ResponseEntity<UsersDto> createOneRepository(@RequestBody UsersDto user, HttpServletRequest request) throws URISyntaxException {
         registerService.createUser(user, request.getRemoteAddr());
         URI location = new URI("/register/" + user.getFirstname());
         return ResponseEntity.created(location).build();

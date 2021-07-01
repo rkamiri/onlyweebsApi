@@ -1,9 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ImageRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.UsersDao;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ImageRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ImageEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UserEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ImageDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,22 +19,22 @@ import java.io.IOException;
 public class ImageService {
 
     private final ImageRepository imageRepository;
-    private final UsersDao usersDao;
+    private final UsersRepository usersRepository;
 
-    public ImageService(ImageRepository imageRepository, UsersDao usersDao) {
+    public ImageService(ImageRepository imageRepository, UsersRepository usersRepository) {
         this.imageRepository = imageRepository;
-        this.usersDao = usersDao;
+        this.usersRepository = usersRepository;
     }
 
     public void saveImage(MultipartFile serverFile, Long userid) throws IOException {
-        UsersEntity user = this.usersDao.getOne(userid);
+        UserEntity user = this.usersRepository.getOne(userid);
         ImageEntity imageEntity = user.getImage();
         if (!(imageEntity.getId() != 1 && imageEntity.getId() != 2 && imageEntity.getId() != 3))
             imageEntity = new ImageEntity();
         imageEntity.setContent(scale(serverFile.getBytes(), 150, 150));
         imageEntity.setName(serverFile.getOriginalFilename());
         user.setImage(imageEntity);
-        this.usersDao.save(user);
+        this.usersRepository.save(user);
     }
 
     public void saveArticleImage(MultipartFile serverFile) throws IOException {

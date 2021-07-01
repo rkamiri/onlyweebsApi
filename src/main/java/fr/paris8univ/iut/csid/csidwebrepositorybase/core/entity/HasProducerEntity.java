@@ -1,7 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "has_producer")
 public class HasProducerEntity {
@@ -24,30 +27,5 @@ public class HasProducerEntity {
     }
 
     public HasProducerEntity() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getIdAnime() {
-        return idAnime;
-    }
-
-    public void setIdAnime(Long idAnime) {
-        this.idAnime = idAnime;
-    }
-
-    public Long getIdProducer() {
-        return idProducer;
-    }
-
-    public void setIdProducer(Long idProducer) {
-        this.idProducer = idProducer;
     }
 }

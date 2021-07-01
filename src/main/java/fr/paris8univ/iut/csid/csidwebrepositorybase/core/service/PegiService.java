@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.PegiRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.PegiRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.PegiDto;
 import org.springframework.stereotype.Service;
 

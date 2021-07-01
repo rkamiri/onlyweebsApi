@@ -10,7 +10,7 @@ import lombok.Data;
 public class CommentDto {
 
     private Long id;
-    private Users user;
+    private UsersDto user;
     private String body;
     private String date;
     private AnimeEntity animeEntity;
@@ -22,7 +22,7 @@ public class CommentDto {
 
     public CommentDto(CommentEntity commentEntity) {
         this.id = commentEntity.getId();
-        this.user = new Users(commentEntity.getUsersEntity());
+        this.user = new UsersDto(commentEntity.getUserEntity());
         this.body = commentEntity.getBody();
         this.date = commentEntity.getDate();
         this.animeEntity = commentEntity.getAnimeEntity();

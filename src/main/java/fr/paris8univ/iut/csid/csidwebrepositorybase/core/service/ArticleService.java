@@ -1,12 +1,13 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserController;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ArticleRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.CommentRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.ImageRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ArticleRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.CommentRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ImageRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleDto;
 import javassist.NotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,15 +23,15 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleService {
 
-    private final ArticleRepository articleRepository;
     private final UsersRepository usersRepository;
+    private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final ImageRepository imageRepository;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public ArticleService(ArticleRepository articleRepository, UsersRepository usersRepository, CommentRepository commentRepository, ImageRepository imageRepository) {
-        this.articleRepository = articleRepository;
+    public ArticleService(UsersRepository usersRepository, ArticleRepository articleRepository, CommentRepository commentRepository, ImageRepository imageRepository) {
         this.usersRepository = usersRepository;
+        this.articleRepository = articleRepository;
         this.commentRepository = commentRepository;
         this.imageRepository = imageRepository;
     }
@@ -47,14 +48,14 @@ public class ArticleService {
         return this.articleRepository.findTop5ByOrderByIdDesc().stream().map(ArticleDto::new).collect(Collectors.toList());
     }
 
-    public Long postArticle(ArticleDto articleDto) throws NotFoundException {
+    public Long postArticle(ArticleDto articleDto) throws NotFoundException, NoUserFoundException {
         LocalDateTime now = LocalDateTime.now();
         this.articleRepository.save(
                 new ArticleEntity(
                         articleDto.getTitle(),
                         articleDto.getBody(),
                         dtf.format(now),
-                        this.usersRepository.findUserEntityByUsername(UserController.getCurrentUserLogin()),
+                        this.usersRepository.findByUsername(UserController.getCurrentUserLogin()).orElseThrow(NoUserFoundException::new),
                         this.imageRepository.findFirstByOrderByIdDesc(),
                         articleDto.getCategory()
                 ));

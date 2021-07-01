@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.StudioDao;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Studio;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.StudioRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.StudioDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 @Service
 public class StudioService {
 
-    private final StudioDao studioDao;
+    private final StudioRepository studioRepository;
 
-    public StudioService(StudioDao studioDao) {
-        this.studioDao = studioDao;
+    public StudioService(StudioRepository studioRepository) {
+        this.studioRepository = studioRepository;
     }
 
-    public List<Studio> findAll(){
-        return this.studioDao.findAll().stream().map(Studio::new).collect(Collectors.toList());
+    public List<StudioDto> findAll(){
+        return this.studioRepository.findAll().stream().map(StudioDto::new).collect(Collectors.toList());
     }
 }

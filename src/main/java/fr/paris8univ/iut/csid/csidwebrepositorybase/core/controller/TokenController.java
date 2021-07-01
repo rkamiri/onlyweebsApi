@@ -1,9 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.TokenEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UsersEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UserEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoHtmlFileException;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UpdatePassword;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UpdatePasswordDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.MailService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.TokenService;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
@@ -32,13 +32,13 @@ public class TokenController {
 
     @GetMapping("/change-password")
     public void sendMail() throws MessagingException, IOException, URISyntaxException, NoHtmlFileException, NotFoundException {
-        UsersEntity user = this.usersService.findUserEntityByUsername(UserController.getCurrentUserLogin());
+        UserEntity user = this.usersService.findUserEntityByUsername(UserController.getCurrentUserLogin());
         TokenEntity token = this.tokenService.createToken(user);
         this.mailService.sendEmail(user.getEmail(), token.getToken());
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<Boolean> putPassword(@RequestBody UpdatePassword newPassword) {
+    public ResponseEntity<Boolean> putPassword(@RequestBody UpdatePasswordDto newPassword) {
         if (!this.tokenService.putPassword(newPassword))
             return ResponseEntity.status(401).body(false);
         else return ResponseEntity.ok(true);

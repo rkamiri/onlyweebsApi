@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ImageDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Users;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UsersDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import javassist.NotFoundException;
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Users getUser(@PathVariable long id) {
+    public UsersDto getUser(@PathVariable long id) {
         return this.usersService.getUser(id);
     }
 
@@ -44,10 +44,10 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public Optional<Users> getCurrentUser() throws NotFoundException {
+    public Optional<UsersDto> getCurrentUser() throws NotFoundException {
         try {
             if (!getCurrentUserLogin().equals("anonymousUser")) {
-                return this.usersService.findOneByLogin(getCurrentUserLogin());
+                return this.usersService.findUserByLogin(getCurrentUserLogin());
             } else {
                 return Optional.empty();
             }
@@ -81,7 +81,7 @@ public class UserController {
 
 
     @PutMapping("/update")
-    public Users updateCurrentUser(@RequestBody Users updatedUser) throws NoUserFoundException {
+    public UsersDto updateCurrentUser(@RequestBody UsersDto updatedUser) throws NoUserFoundException {
         return this.usersService.updateCurrentUser(updatedUser);
     }
 

@@ -1,8 +1,8 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStats;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AverageStats;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GeneralStats;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStatsDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AverageStatsDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GeneralStatsDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.StatsService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,23 +23,23 @@ public class StatsController {
     }
 
     @GetMapping("/general")
-    public ResponseEntity<GeneralStats> getGeneralStats() {
-        GeneralStats stats = this.statsService.getGeneralStats();
+    public ResponseEntity<GeneralStatsDto> getGeneralStats() {
+        GeneralStatsDto stats = this.statsService.getGeneralStats();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(stats);
     }
 
     @GetMapping("/average")
-    public ResponseEntity<AverageStats> getNumberOfCommentsByUser() {
-        AverageStats commentsByUser = this.statsService.getAverageStatsByUser();
+    public ResponseEntity<AverageStatsDto> getNumberOfCommentsByUser() {
+        AverageStatsDto commentsByUser = this.statsService.getAverageStatsByUser();
         MediaType contentType = MediaType.valueOf("application/json");
         return ResponseEntity.status(200).contentType(contentType).body(commentsByUser);
     }
 
     @GetMapping("/animes-listed")
-    public ResponseEntity<List<AnimeStats>> getAnimesAndListedNum() {
-        List<AnimeStats> animeStatsList = this.statsService.getAnimesAndListedNum();
+    public ResponseEntity<List<AnimeStatsDto>> getAnimesAndListedNum() {
+        List<AnimeStatsDto> animeStatsDtoList = this.statsService.getAnimesAndListedNum();
         MediaType contentType = MediaType.valueOf("application/json");
-        return ResponseEntity.status(200).contentType(contentType).body(animeStatsList);
+        return ResponseEntity.status(200).contentType(contentType).body(animeStatsDtoList);
     }
 }

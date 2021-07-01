@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.dao.GenreRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.GenreRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GenreDto;
 import org.springframework.stereotype.Service;
 

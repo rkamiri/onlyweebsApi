@@ -1,6 +1,6 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.Rating;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.RatingService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,14 @@ public class RatingController {
     }
 
     @GetMapping
-    public List<Rating> getRatings() {
+    public List<RatingDto> getRatings() {
         return this.ratingService.getRatings();
     }
 
     @PutMapping
-    public Long putARating(@RequestBody Rating rating) {
-        this.ratingService.putARating(rating);
-        return rating.getRate();
+    public Long putARating(@RequestBody RatingDto ratingDto) {
+        this.ratingService.putARating(ratingDto);
+        return ratingDto.getRate();
     }
 
     @GetMapping("/user/{id}")
