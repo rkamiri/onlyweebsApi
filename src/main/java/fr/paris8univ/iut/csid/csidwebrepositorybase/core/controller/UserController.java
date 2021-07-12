@@ -1,6 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ImageDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UsersDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +26,11 @@ public class UserController {
     public UserController(UsersService usersService, ImageController imageController) {
         this.usersService = usersService;
         this.imageController = imageController;
+    }
+
+    @GetMapping
+    public List<UsersDto> getUsers() {
+        return this.usersService.getUsers();
     }
 
     @GetMapping("/{id}")
@@ -83,11 +88,6 @@ public class UserController {
     @PutMapping("/update")
     public UsersDto updateCurrentUser(@RequestBody UsersDto updatedUser) throws NoUserFoundException {
         return this.usersService.updateCurrentUser(updatedUser);
-    }
-
-    @GetMapping("/pp")
-    public ImageDto getUserProfilePicture() throws NotFoundException {
-        return imageController.getImage(this.usersService.findUserEntityByUsername(getCurrentUserLogin()).getImage().getId());
     }
 
     @DeleteMapping("/delete")

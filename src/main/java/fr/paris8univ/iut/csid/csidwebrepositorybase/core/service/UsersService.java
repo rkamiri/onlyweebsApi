@@ -12,8 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersService {
@@ -107,5 +109,9 @@ public class UsersService {
                 new ImageDto(userEntity.getImage()));
         this.updateCurrentUser(deletedUser);
         this.usersRepository.getOne(deletedUser.getId()).setImage(newImage);
+    }
+
+    public List<UsersDto> getUsers() {
+        return this.usersRepository.findAll().stream().map(UsersDto::new).collect(Collectors.toList());
     }
 }

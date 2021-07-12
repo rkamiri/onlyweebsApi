@@ -41,11 +41,6 @@ public class ImageController {
         this.imageService.saveArticleImage(file);
     }
 
-    @GetMapping("/image/{id}")
-    public ImageDto getImage(@PathVariable(value = "id") Long imageId) {
-        return imageService.findById(imageId);
-    }
-
     @GetMapping("/logo")
     public ResponseEntity<byte[]> getLogo() throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get("src/main/resources/ow-smol-text.webp"));
