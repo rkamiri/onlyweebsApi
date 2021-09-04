@@ -33,6 +33,11 @@ public class UserController {
         return this.usersService.getUsers();
     }
 
+    @GetMapping("/active")
+    public List<UsersDto> getActiveUsers() {
+        return this.usersService.getActiveUsers();
+    }
+
     @GetMapping("/{id}")
     public UsersDto getUser(@PathVariable long id) {
         return this.usersService.getUser(id);
@@ -81,7 +86,7 @@ public class UserController {
     public static String getCurrentUserRole() {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         role = (role.substring(0, role.length() - 1)).substring(1);
-        return "{ \"auth\": \""+ role + "\" }";
+        return "{ \"auth\": \"" + role + "\" }";
     }
 
 

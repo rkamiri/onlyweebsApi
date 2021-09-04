@@ -114,4 +114,8 @@ public class UsersService {
     public List<UsersDto> getUsers() {
         return this.usersRepository.findAll().stream().map(UsersDto::new).collect(Collectors.toList());
     }
+
+    public List<UsersDto> getActiveUsers() {
+        return this.usersRepository.findUsersNotDeletedAndNotBanned().stream().map(UsersDto::new).collect(Collectors.toList());
+    }
 }
