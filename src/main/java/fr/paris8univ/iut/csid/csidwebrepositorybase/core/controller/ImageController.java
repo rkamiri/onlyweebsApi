@@ -38,6 +38,7 @@ public class ImageController {
     public void uploadArticleImage(MultipartHttpServletRequest request) throws IOException {
         Iterator<String> itr = request.getFileNames();
         MultipartFile file = request.getFile(itr.next());
+        assert file != null;
         this.imageService.saveArticleImage(file);
     }
 
