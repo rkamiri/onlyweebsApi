@@ -3,8 +3,8 @@
 
 import argparse
 import getpass
-import pymysql
 import io
+import pymysql
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser(
@@ -112,7 +112,8 @@ if __name__ == "__main__":
                     )
                     pegi_id = cursor.fetchone()[0]
                     try:
-                        cursor.execute("SELECT title FROM anime WHERE title LIKE \"{}\";".format(line[0].strip('\'"[] ')))
+                        cursor.execute(
+                            "SELECT title FROM anime WHERE title LIKE \"{}\";".format(line[0].strip('\'"[] ')))
                         title = cursor.fetchone()
                         if title is None:
                             cursor.execute(
@@ -168,7 +169,8 @@ if __name__ == "__main__":
                         )
                     for studio in line[5][1:-1].split(", "):
                         try:
-                            cursor.execute("SELECT name FROM studio WHERE name LIKE \"{}\";".format(studio.strip("\"'[] ")))
+                            cursor.execute(
+                                "SELECT name FROM studio WHERE name LIKE \"{}\";".format(studio.strip("\"'[] ")))
                             tmp = cursor.fetchone()
                             if tmp is None:
                                 cursor.execute(
@@ -192,7 +194,8 @@ if __name__ == "__main__":
                         )
                     for producer in line[6][1:-1].split(", "):
                         try:
-                            cursor.execute("SELECT name FROM producer WHERE name LIKE \"{}\";".format(producer.strip("\"'[] ")))
+                            cursor.execute(
+                                "SELECT name FROM producer WHERE name LIKE \"{}\";".format(producer.strip("\"'[] ")))
                             tmp = cursor.fetchone()
                             if tmp is None:
                                 cursor.execute(

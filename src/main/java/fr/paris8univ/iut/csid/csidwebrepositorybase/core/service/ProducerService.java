@@ -1,8 +1,9 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ProducerRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ProducerDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ProducerRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ public class ProducerService {
         this.producerRepository = producerRepository;
     }
 
-    public List<ProducerDto> findAll(){
+    public List<ProducerDto> findAll() {
         return this.producerRepository.findAll().stream().map(ProducerDto::new).collect(Collectors.toList());
     }
 }

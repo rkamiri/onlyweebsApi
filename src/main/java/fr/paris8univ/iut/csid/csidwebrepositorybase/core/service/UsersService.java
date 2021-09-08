@@ -1,13 +1,13 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AuthoritiesRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AuthoritiesEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ImageEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UserEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ImageDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UsersDto;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AuthoritiesRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,16 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "has_studio")
 public class HasStudioEntity {
@@ -27,5 +33,18 @@ public class HasStudioEntity {
     }
 
     public HasStudioEntity() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        HasStudioEntity that = (HasStudioEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

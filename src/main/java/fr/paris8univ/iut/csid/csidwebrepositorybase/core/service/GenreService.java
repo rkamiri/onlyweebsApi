@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.GenreRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GenreDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class GenreService {
         this.genreRepository = genreRepository;
     }
 
-    public List<GenreDto> findAll(){
+    public List<GenreDto> findAll() {
         return this.genreRepository.findAll().stream().map(GenreDto::new).collect(Collectors.toList());
     }
 }

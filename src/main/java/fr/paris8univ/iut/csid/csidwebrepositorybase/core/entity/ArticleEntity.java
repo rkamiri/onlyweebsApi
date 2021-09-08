@@ -1,10 +1,16 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "article")
 public class ArticleEntity {
@@ -33,6 +39,7 @@ public class ArticleEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ToString.Exclude
     private ArticleCategoriesEntity category;
 
     public ArticleEntity(String title, String body, String created_at, UserEntity author, ImageEntity cover, ArticleCategoriesEntity category) {
@@ -45,5 +52,18 @@ public class ArticleEntity {
     }
 
     public ArticleEntity() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        ArticleEntity that = (ArticleEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

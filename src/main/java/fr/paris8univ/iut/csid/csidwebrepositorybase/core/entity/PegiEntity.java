@@ -1,10 +1,17 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
-@Data
+import javax.persistence.*;
+import java.util.Objects;
+
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "pegi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -24,5 +31,18 @@ public class PegiEntity {
     }
 
     public PegiEntity() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PegiEntity that = (PegiEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

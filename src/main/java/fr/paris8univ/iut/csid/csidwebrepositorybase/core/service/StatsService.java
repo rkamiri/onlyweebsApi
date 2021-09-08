@@ -1,6 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AnimeEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.IsListedInEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
@@ -8,10 +7,10 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeStatsDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AverageStatsDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GeneralStatsDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -109,11 +108,11 @@ public class StatsService {
     public List<AnimeStatsDto> getAnimesAndNumberOfTimesItWasListed() {
         List<AnimeStatsDto> animeStatsDtoList = new ArrayList<>();
         List<IsListedInEntity> isListedInEntityList = this.listedInRepository.findAll();
-        List<Long> animeIds = new ArrayList<>(new HashSet<>(isListedInEntityList.stream().map(isListedInEntity -> isListedInEntity.getAnimeId()).collect(Collectors.toList())));
+        List<Long> animeIds = new ArrayList<>(new HashSet<>(isListedInEntityList.stream().map(IsListedInEntity::getAnimeId).collect(Collectors.toList())));
         for (Long animeId : animeIds) {
             animeStatsDtoList.add(new AnimeStatsDto(new AnimeDto(this.animeRepository.getOne(animeId)), this.listedInRepository.countByAnimeId(animeId)));
         }
-        Collections.sort(animeStatsDtoList, (anime1, anime2) -> (int) (anime2.getNumberOfTimesListed() - anime1.getNumberOfTimesListed()));
+        animeStatsDtoList.sort((anime1, anime2) -> (int) (anime2.getNumberOfTimesListed() - anime1.getNumberOfTimesListed()));
         return animeStatsDtoList;
     }
 }

@@ -1,9 +1,16 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
-import lombok.Data;
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
-@Data
+import javax.persistence.*;
+import java.util.Objects;
+
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "genre")
 public class GenreEntity {
@@ -22,5 +29,18 @@ public class GenreEntity {
     }
 
     public GenreEntity() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        GenreEntity that = (GenreEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

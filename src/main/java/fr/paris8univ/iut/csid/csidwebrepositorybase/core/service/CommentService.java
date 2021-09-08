@@ -1,10 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserController;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.CommentDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -70,12 +70,13 @@ public class CommentService {
     public List<CommentDto> getComments(long objectId, int type) {
         List<CommentEntity> commentEntities = new ArrayList<>();
         List<CommentDto> commentDtoList = new ArrayList<>();
-        if (type == 0) {
+        if (type == 0 && animeRepository.findById(objectId).isPresent()) {
             commentEntities = this.commentRepository.findCommentEntitiesByAnimeEntity(animeRepository.findById(objectId).get());
-        } else if (type == 1) {
+        } else if (type == 1 && articleRepository.findById(objectId).isPresent()) {
             commentEntities = this.commentRepository.findCommentEntitiesByArticleEntity(articleRepository.findById(objectId).get());
         } else {
-            commentEntities = this.commentRepository.findCommentEntitiesByListsEntity(listsRepository.findById(objectId).get());
+            if (listsRepository.findById(objectId).isPresent())
+                commentEntities = this.commentRepository.findCommentEntitiesByListsEntity(listsRepository.findById(objectId).get());
         }
         for (CommentEntity commentEntity : commentEntities) {
             commentDtoList.add(new CommentDto(commentEntity));
@@ -95,9 +96,9 @@ public class CommentService {
 
     @Transactional
     public void deleteComment(UserEntity owner, long id, int type) {
-        if (type==0) {
+        if (type == 0) {
             this.commentRepository.deleteCommentEntityByAnimeEntityAndUserEntity(this.animeRepository.getOne(id), owner);
-        } else if (type == 1){
+        } else if (type == 1) {
             this.commentRepository.deleteCommentEntityByArticleEntityAndUserEntity(this.articleRepository.getOne(id), owner);
         } else {
             this.commentRepository.deleteCommentEntityByListsEntityAndUserEntity(this.listsRepository.getOne(id), owner);

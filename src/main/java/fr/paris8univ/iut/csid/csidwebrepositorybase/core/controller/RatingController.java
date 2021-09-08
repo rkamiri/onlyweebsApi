@@ -5,6 +5,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.RatingService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -30,12 +31,12 @@ public class RatingController {
     }
 
     @GetMapping("/user/{id}")
-    public Long getCurrentUserRatingForASelectAnime(@PathVariable(value = "id")Long animeId) throws NotFoundException {
+    public Long getCurrentUserRatingForASelectAnime(@PathVariable(value = "id") Long animeId) throws NotFoundException {
         return this.ratingService.getUserRatingForAnAnime(UserController.getCurrentUserLogin(), animeId);
     }
 
     @GetMapping("/{id}")
-    public double getAnimeGlobalRating(@PathVariable(value = "id")Long animeId) {
+    public double getAnimeGlobalRating(@PathVariable(value = "id") Long animeId) {
         return this.ratingService.getAnimeGlobalRating(animeId);
     }
 }

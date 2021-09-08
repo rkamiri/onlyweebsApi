@@ -1,6 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.IsListedInEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
@@ -8,6 +7,7 @@ import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListExcepti
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ListsDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,9 +1,16 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity;
 
-import lombok.Data;
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
-@Data
+import javax.persistence.*;
+import java.util.Objects;
+
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "anime")
 public class AnimeEntity {
@@ -36,6 +43,7 @@ public class AnimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pegi_id")
+    @ToString.Exclude
     private PegiEntity pegiEntity;
 
     public AnimeEntity() {
@@ -50,5 +58,18 @@ public class AnimeEntity {
         this.airing = airing;
         this.aired = aired;
         this.pegiEntity = pegiEntity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        AnimeEntity that = (AnimeEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

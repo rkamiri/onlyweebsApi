@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.StudioRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.StudioDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.StudioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class StudioService {
         this.studioRepository = studioRepository;
     }
 
-    public List<StudioDto> findAll(){
+    public List<StudioDto> findAll() {
         return this.studioRepository.findAll().stream().map(StudioDto::new).collect(Collectors.toList());
     }
 }

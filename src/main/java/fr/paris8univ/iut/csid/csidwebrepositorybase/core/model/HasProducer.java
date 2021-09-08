@@ -1,4 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
+
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.HasProducerEntity;
 
 public class HasProducer {

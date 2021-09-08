@@ -17,7 +17,7 @@ public class TokenEntity {
     @Column(name = "token")
     private String token;
 
-    @Column(name = "expiration_date", columnDefinition="DATETIME")
+    @Column(name = "expiration_date", columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 

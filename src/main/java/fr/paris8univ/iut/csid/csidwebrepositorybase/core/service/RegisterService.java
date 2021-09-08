@@ -1,13 +1,13 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AuthoritiesRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ImageRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ListsRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.AuthoritiesEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ListsEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UserEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UsersDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.AuthoritiesRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ImageRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ListsRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 public class RegisterService {
+    final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthoritiesRepository authoritiesRepository;
     private final ListsRepository listsRepository;
     private final ImageRepository imageRepository;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public RegisterService(UsersRepository usersRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthoritiesRepository authoritiesRepository, ListsRepository listsRepository, ImageRepository imageRepository) {
         this.usersRepository = usersRepository;

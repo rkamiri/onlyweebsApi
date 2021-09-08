@@ -1,9 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.*;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.StudioDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.AnimeService;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -41,7 +39,7 @@ public class AnimeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AnimeDto> getOneAnime(@PathVariable(value = "id") Long idAnime) throws NoAnimeException {
+    public ResponseEntity<AnimeDto> getOneAnime(@PathVariable(value = "id") Long idAnime) {
         CacheControl cacheControl = CacheControl.maxAge(1800, TimeUnit.SECONDS).mustRevalidate();
         AnimeDto content = this.animeService.getAnime(idAnime);
         MediaType contentType = MediaType.valueOf("application/json");
@@ -89,12 +87,12 @@ public class AnimeController {
     }
 
     @PostMapping("/research/pagination/{page}")
-    public List<AnimeDto> researchAdvancedAnimesPagination(@RequestBody AnimeResearchDto animeResearchDto, @PathVariable(value = "page") int page){
+    public List<AnimeDto> researchAdvancedAnimesPagination(@RequestBody AnimeResearchDto animeResearchDto, @PathVariable(value = "page") int page) {
         return this.animeService.researchAnimesPagination(animeResearchDto.getProducer(), animeResearchDto.getStudio(), animeResearchDto.getGenre(), page);
     }
 
     @PostMapping("/research/count")
-    public int getAdvancedResearchPageCount(@RequestBody AnimeResearchDto animeResearchDto){
+    public int getAdvancedResearchPageCount(@RequestBody AnimeResearchDto animeResearchDto) {
         return this.animeService.getResearchCount(animeResearchDto.getProducer(), animeResearchDto.getStudio(), animeResearchDto.getGenre());
     }
 

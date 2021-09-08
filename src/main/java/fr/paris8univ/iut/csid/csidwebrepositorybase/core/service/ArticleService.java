@@ -1,13 +1,13 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller.UserController;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ArticleRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.CommentRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ImageRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.ArticleEntity;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleDto;
 import javassist.NotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

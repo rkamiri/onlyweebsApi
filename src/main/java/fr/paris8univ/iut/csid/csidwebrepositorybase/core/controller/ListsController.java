@@ -1,12 +1,12 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.IsListedInDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ListsDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.ListsService;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoAnimeException;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoListException;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
@@ -115,7 +115,7 @@ public class ListsController {
     }
 
     @GetMapping("/user/{id}/image/custom")
-    public List<List<String>> getFourImagesOfEachCustomListByUserId(@PathVariable long id) throws NotFoundException, NoAnimeException {
+    public List<List<String>> getFourImagesOfEachCustomListByUserId(@PathVariable long id) throws NoAnimeException {
         return this.listService.getFourImagesOfEachCustomListByUserId(id);
     }
 

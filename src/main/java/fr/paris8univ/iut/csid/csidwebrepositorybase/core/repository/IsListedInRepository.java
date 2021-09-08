@@ -8,7 +8,10 @@ import java.util.Optional;
 
 public interface IsListedInRepository extends JpaRepository<IsListedInEntity, Long> {
     void deleteIsListedInEntitiesByListId(long listId);
+
     Optional<IsListedInEntity> findTopByAnimeId(long animeId);
+
     List<IsListedInEntity> getByListId(Long listId);
+
     long countByAnimeId(long animeId);
 }

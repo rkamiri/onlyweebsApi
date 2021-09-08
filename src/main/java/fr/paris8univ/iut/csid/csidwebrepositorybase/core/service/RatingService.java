@@ -1,10 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.RatingRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.RatingEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.RatingId;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.RatingRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class RatingService {
 
-    private final RatingRepository ratingRepository;
     public final UsersRepository usersRepository;
+    private final RatingRepository ratingRepository;
 
     public RatingService(RatingRepository ratingRepository, UsersRepository usersRepository) {
         this.ratingRepository = ratingRepository;

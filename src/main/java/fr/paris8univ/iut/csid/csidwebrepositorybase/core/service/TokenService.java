@@ -1,10 +1,10 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.TokenRepository;
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.TokenEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.UserEntity;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UpdatePasswordDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.TokenRepository;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.UsersRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class TokenService {
         this.tokenRepository.save(tokenEntity);
         return tokenEntity;
     }
-  
+
     public boolean putPassword(UpdatePasswordDto newPassword) {
         TokenEntity tokenEntity;
         try {

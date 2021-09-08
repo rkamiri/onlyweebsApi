@@ -11,14 +11,24 @@ import java.util.Optional;
 @Repository
 public interface ListsRepository extends JpaRepository<ListsEntity, Long> {
     List<ListsEntity> getListsEntitiesByIsOwnedBy(UserEntity isOwnedBy);
+
     List<ListsEntity> getListsEntitiesByIsOwnedByAndIsDefault(UserEntity isOwnedBy, int isDefault);
+
     List<ListsEntity> findByIsDefault(int isDefault);
+
     List<ListsEntity> findByName(String name);
+
     Optional<ListsEntity> findListById(long listId);
+
     ListsEntity getListById(long listId);
+
     ListsEntity findFirstByOrderByIdDesc();
+
     ListsEntity findOneByNameAndIsOwnedBy(String name, UserEntity isOwnedBy);
-    void deleteListsEntitiesByIsOwnedBy(long isOwnedBy);
+
+    void deleteListsEntitiesByIsOwnedBy(UserEntity isOwnedBy);
+
     int countByNameLike(String name);
+
     long count();
 }

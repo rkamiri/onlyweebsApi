@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.controller;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UsersDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.exception.NoUserFoundException;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.UsersDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.service.UsersService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,33 @@ import java.util.Optional;
 public class UserController {
 
     private final UsersService usersService;
-    private final ImageController imageController;
 
     @Autowired
     public UserController(UsersService usersService, ImageController imageController) {
         this.usersService = usersService;
-        this.imageController = imageController;
+    }
+
+    public static String getCurrentUserLogin() throws NotFoundException {
+        try {
+            org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
+            Authentication authentication = securityContext.getAuthentication();
+            String login = null;
+            if (authentication != null)
+                if (authentication.getPrincipal() instanceof UserDetails)
+                    login = ((UserDetails) authentication.getPrincipal()).getUsername();
+                else if (authentication.getPrincipal() instanceof String)
+                    login = (String) authentication.getPrincipal();
+            return login;
+        } catch (Exception e) {
+            throw new NotFoundException("getCurrentUserLogin error");
+        }
+    }
+
+    @GetMapping(value = "/role")
+    public static String getCurrentUserRole() {
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        role = (role.substring(0, role.length() - 1)).substring(1);
+        return "{ \"auth\": \"" + role + "\" }";
     }
 
     @GetMapping
@@ -65,30 +86,6 @@ public class UserController {
             throw new NotFoundException("getCurrentUser error");
         }
     }
-
-    public static String getCurrentUserLogin() throws NotFoundException {
-        try {
-            org.springframework.security.core.context.SecurityContext securityContext = SecurityContextHolder.getContext();
-            Authentication authentication = securityContext.getAuthentication();
-            String login = null;
-            if (authentication != null)
-                if (authentication.getPrincipal() instanceof UserDetails)
-                    login = ((UserDetails) authentication.getPrincipal()).getUsername();
-                else if (authentication.getPrincipal() instanceof String)
-                    login = (String) authentication.getPrincipal();
-            return login;
-        } catch (Exception e) {
-            throw new NotFoundException("getCurrentUserLogin error");
-        }
-    }
-
-    @GetMapping(value = "/role")
-    public static String getCurrentUserRole() {
-        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        role = (role.substring(0, role.length() - 1)).substring(1);
-        return "{ \"auth\": \"" + role + "\" }";
-    }
-
 
     @PutMapping("/update")
     public UsersDto updateCurrentUser(@RequestBody UsersDto updatedUser) throws NoUserFoundException {

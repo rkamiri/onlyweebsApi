@@ -1,11 +1,16 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Embeddable
 public class AnimeCommentId implements Serializable {
     private Long user_id;

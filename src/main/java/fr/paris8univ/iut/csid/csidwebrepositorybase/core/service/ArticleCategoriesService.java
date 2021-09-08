@@ -1,7 +1,7 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ArticleCategoriesRepository;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ArticleCategoriesDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.ArticleCategoriesRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class ArticleCategoriesService {
         this.articleCategoriesRepository = articleCategoriesRepository;
     }
 
-    public List<ArticleCategoriesDto> findAll(){
+    public List<ArticleCategoriesDto> findAll() {
         return this.articleCategoriesRepository.findAll().stream().map(ArticleCategoriesDto::new).collect(Collectors.toList());
     }
 }

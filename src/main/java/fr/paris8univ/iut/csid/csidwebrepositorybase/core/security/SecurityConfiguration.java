@@ -1,4 +1,5 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.security;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,9 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .logout().permitAll().invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) -> {
-            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-        })
+                .logout().permitAll().invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) -> httpServletResponse.setStatus(HttpServletResponse.SC_OK))
                 .and()
                 .addFilter(new CustomerAuthenticationFilter(authenticationManager(), objectMapper))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);

@@ -1,11 +1,11 @@
 package fr.paris8univ.iut.csid.csidwebrepositorybase.core.service;
 
-import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.entity.*;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.AnimeDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.GenreDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.ProducerDto;
 import fr.paris8univ.iut.csid.csidwebrepositorybase.core.model.StudioDto;
+import fr.paris8univ.iut.csid.csidwebrepositorybase.core.repository.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AnimeService {
+    private static final Long HENTAI_PEGI_ID = 6L;
     private final AnimeRepository animeRepository;
     private final HasStudioRepository hasStudioRepository;
     private final HasGenreRepository hasGenreRepository;
@@ -26,7 +27,6 @@ public class AnimeService {
     private final ProducerRepository producerRepository;
     private final StudioRepository studioRepository;
     private final PegiRepository pegiRepository;
-    private static final Long HENTAI_PEGI_ID = 6L;
 
     public AnimeService(AnimeRepository animeRepository, HasStudioRepository hasStudioRepository, HasGenreRepository hasGenreRepository, HasProducerRepository hasProducerRepository, GenreRepository genreRepository, ProducerRepository producerRepository, StudioRepository studioRepository, PegiRepository pegiRepository) {
         this.animeRepository = animeRepository;
@@ -66,14 +66,14 @@ public class AnimeService {
     }
 
     public int getResearchCount(Long producer, Long studio, Long genre) {
-        List<AnimeDto> animeDtos = this.animeRepository.findAllByCompleteResearchForCount(producer, studio, genre).stream().map(AnimeDto::new).collect(Collectors.toList());
-        return animeDtos.size();
+        List<AnimeDto> animeDtoList = this.animeRepository.findAllByCompleteResearchForCount(producer, studio, genre).stream().map(AnimeDto::new).collect(Collectors.toList());
+        return animeDtoList.size();
     }
 
-    public int getResearchCount(String research){
+    public int getResearchCount(String research) {
         PegiEntity hentaiEntity = pegiRepository.findOneById(HENTAI_PEGI_ID);
-        List<AnimeDto> animeDtos = this.animeRepository.findByTitleContainingAndPegiEntityNotLike(research, hentaiEntity).stream().map(AnimeDto::new).collect(Collectors.toList());
-        return animeDtos.size();
+        List<AnimeDto> animeDtoList = this.animeRepository.findByTitleContainingAndPegiEntityNotLike(research, hentaiEntity).stream().map(AnimeDto::new).collect(Collectors.toList());
+        return animeDtoList.size();
     }
 
     public List<AnimeDto> researchAnimesPagination(Long producer, Long studio, Long genre, int page) {
